@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 export class AuthService {
   authToken: string;
   user: Object;
-  apiHost: String = 'localhost';
+  apiHost: String = '';
   apiProtocol: String = 'http';
   apiPORT = 3000;
 
@@ -62,6 +62,9 @@ export class AuthService {
   }
 
   protected buildAdminUrl(type: String) {
+    if(this.apiHost.length === 0) {
+      return `/api/admin/${type}`;
+    }
     return `${this.apiProtocol}://${this.apiHost}:${this.apiPORT}/api/admin/${type}`;
   }
 
