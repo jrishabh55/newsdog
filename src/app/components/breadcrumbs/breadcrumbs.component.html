@@ -1,5 +1,5 @@
 <!--Breadcrumb-->
-<ol class="breadcrumb">
+<ol class="breadcrumb" *ngIf="authService.loggedIn()">
   <li class="breadcrumb-item active">
     <a [routerLink]="['/dashboard']">Dashboard</a>
     <span [routerLink]="['/dashboard']">/ Dashboard -> (UNDER CONSTRUCTION)</span>

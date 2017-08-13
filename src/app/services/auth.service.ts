@@ -9,9 +9,13 @@ export class AuthService {
   user: Object;
   apiHost: String = 'localhost';
   apiProtocol: String = 'http';
-  apiPORT = 3012;
+  apiPORT = 3000;
 
   constructor(private http: Http) {
+  }
+
+  loggedIn() {
+    return tokenNotExpired('id_token');
   }
 
   registerUser(user) {
@@ -34,10 +38,6 @@ export class AuthService {
     headers.append('Content-Type', 'application/json');
     return this.http.post(this.buildAdminUrl('login'), user, {headers: headers})
       .map(res => res.json());
-  }
-
-  loggedIn() {
-    return tokenNotExpired('id_token');
   }
 
   logout() {

@@ -7,7 +7,6 @@ const NewsSchema = new Schema({
   title: {type: String, required: true, lowercase: true},
   desc: {type: String, required: true},
   author: {type: String, required: true, lowercase: true},
-  created_at: {type: Date, default: Date.now()},
   hidden: {type: Boolean, default: false},
   thumbnail: {
     url1: {type: String, required: true},
@@ -18,9 +17,10 @@ const NewsSchema = new Schema({
   time: {type: Number, required: true, default: 1000},
   category: {type: Number, required: true},
   meta: {
-    votes: Number,
-    favs: Number
+    votes: {type: Number, default: 0},
+    favs: {type: Number, default: 0},
   },
+  created_at: {type: Date, default: Date.now()},
 });
 
 autoIncrement.initialize(connection);

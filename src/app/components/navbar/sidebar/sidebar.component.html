@@ -1,9 +1,21 @@
 <div class="sidebar">
   <nav class="sidebar-nav">
     <ul class="nav">
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']">
+      <li class="nav-item" *ngIf="authService.loggedIn()">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['']">
           <i class="icon-speedometer"></i> Dashboard
+          <span class="badge badge-info">NEW</span>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="authService.loggedIn()">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['/news']">
+          <i class="icon-speedometer"></i> News
+          <span class="badge badge-info">NEW</span>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="authService.loggedIn()">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['/users/register']">
+          <i class="icon-speedometer"></i> Register
           <span class="badge badge-info">NEW</span>
         </a>
       </li>

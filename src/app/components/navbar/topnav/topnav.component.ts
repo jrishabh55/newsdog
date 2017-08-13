@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 export class TopnavComponent implements OnInit {
 
   constructor(private flash: FlashMessagesService,
-              private authService: AuthService,
+              public authService: AuthService,
               private router: Router) {
   }
 

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {Router, ActivatedRoute, NavigationEnd} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'jnex-breadcrumbs',
@@ -8,9 +9,10 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 })
 export class BreadcrumbsComponent implements OnInit {
 
-  breadcrumbs: Array <Object> ;
+  breadcrumbs: Array<Object>;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(public authService: AuthService) {
+  }
 
   ngOnInit(): void {
     // this.router.events.filter(event => event instanceof NavigationEnd).subscribe(event => {

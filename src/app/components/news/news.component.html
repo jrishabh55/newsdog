@@ -1,3 +1,83 @@
-<p>
-  news works!
-</p>
+<div class="card">
+  <div class="card-header">
+    <i class="icon-note"></i>
+    Create News
+  </div>
+  <div class="card-block">
+    <form id="newsForm" (submit)="createNews(newsForm.value)" [formGroup]="newsForm">
+
+      <fieldset class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon col-md-3">Title</span>
+          <input class="form-control" name="title" placeholder="News Title" formControlName="title" />
+          <span class="input-group-addon"><i class="fa fa-male"></i> </span>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon col-md-3">Author</span>
+          <input class="form-control" name="author" placeholder="Author" formControlName="author" />
+          <span class="input-group-addon"><i class="fa fa-male"></i> </span>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon col-md-3">Credits</span>
+          <input class="form-control" name="credits" placeholder="News Title" formControlName="credits" />
+          <span class="input-group-addon"><i class="fa fa-male"></i> </span>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon col-md-3">Category</span>
+          <select class="form-control" name="category" multiple>
+            <option *ngFor="let opt of categories" value="opt">{{ opt.name }}</option>
+          </select>
+          <span class="input-group-addon"><i class="fa fa-male"></i> </span>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon col-md-3">News Data</span>
+          <textarea class="form-control" name="desc" formControlName="desc" ></textarea>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon col-md-3">Time</span>
+          <input type="text" name="time" class="form-control" formControlName="time" />
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon col-md-3">Thumbnail 1</span>
+          <input type="file" name="thumb1" class="form-control" formControlName="thumb1" />
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon col-md-3">Thumbnail 2</span>
+          <input type="file" name="thumb2" class="form-control" formControlName="thumb2" />
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon col-md-3">Thumbnail 3</span>
+          <input type="file" name="thumb3" class="form-control" formControlName="thumb3" />
+        </div>
+      </fieldset>
+
+    </form>
+    <div class="card-footer">
+      <button class="btn btn-primary pull-right" form="newsForm" type="submit" [disabled]="!newsForm.valid">Add News</button>
+    </div>
+  </div>
+</div>

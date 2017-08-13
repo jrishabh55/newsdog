@@ -13,7 +13,10 @@ export class LoginComponent implements OnInit {
 
   form: FormGroup;
 
-  loginError: Array<String> = [];
+  loginError = {
+    username: false,
+    password: false
+  };
 
   constructor(private flash: FlashMessagesService,
               private authService: AuthService,
@@ -47,8 +50,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.authService.loggedIn())
+    if (this.authService.loggedIn()) {
       this.router.navigate(['/']);
+    }
 
     this.form = new FormGroup({
       username: new FormControl('', Validators.compose([
