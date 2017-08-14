@@ -62,7 +62,7 @@ export class AuthService {
   }
 
   protected buildAdminUrl(type: String) {
-    if(this.apiHost.length === 0) {
+    if (this.apiHost.length === 0) {
       return `/api/admin/${type}`;
     }
     return `${this.apiProtocol}://${this.apiHost}:${this.apiPORT}/api/admin/${type}`;
