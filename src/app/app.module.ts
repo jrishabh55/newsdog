@@ -13,6 +13,7 @@ import {LoginComponent} from './components/users/login/login.component';
 import {RegistrationComponent} from './components/users/registration/registration.component';
 import {AuthGuard} from './guards/auth/auth.guard';
 import {AuthService} from './services/auth.service';
+import {DashboardService} from './services/dashboard.service';
 import {ProfileComponent} from './components/users/profile/profile.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {NAV_DROPDOWN_DIRECTIVES} from './directives/nav-dropdown.directive';
@@ -21,6 +22,7 @@ import {SidebarComponent} from './components/navbar/sidebar/sidebar.component';
 import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.component';
 import {NewsComponent} from './components/news/news.component';
 import {AsideMenuTogglerDirective} from './directives/aside-menu-toggler.directive';
+import {Contract} from './api/Contract';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,7 @@ import {AsideMenuTogglerDirective} from './directives/aside-menu-toggler.directi
     ReactiveFormsModule,
     FlashMessagesModule
   ],
-  providers: [AuthGuard, AuthService],
+  providers: [AuthGuard, AuthService, Contract, DashboardService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

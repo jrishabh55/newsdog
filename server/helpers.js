@@ -1,4 +1,4 @@
-const helpers = {
+let helpers = {
 	exists: (val) => !(val === null || val === undefined || val.trim() === ""),
 	api_error: (error, code = 401, data = null) => {
 		return {status: "error", error: error, code: code, data: data};

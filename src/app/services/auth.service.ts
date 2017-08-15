@@ -1,17 +1,15 @@
-import {Injectable} from '@angular/core';
-import {Headers, Http} from '@angular/http';
-import {tokenNotExpired} from 'angular2-jwt';
+import { Injectable } from '@angular/core';
+import { Headers, Http } from '@angular/http';
+import { tokenNotExpired } from 'angular2-jwt';
+import { Contract as API } from '../api/Contract';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class AuthService {
   authToken: string;
   user: Object;
-  apiHost: String = '';
-  apiProtocol: String = 'http';
-  apiPORT = 3000;
 
-  constructor(private http: Http) {
+  constructor(private api: API) {
   }
 
   loggedIn() {
@@ -21,8 +19,7 @@ export class AuthService {
   registerUser(user) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post(this.buildAdminUrl('register'), user, {headers: headers})
-      .map(res => res.json());
+    return this.api.post(this.buildAdminUrl('register'), user, { headers: headers });
   }
 
   storeUserData(data) {
@@ -36,8 +33,7 @@ export class AuthService {
   loginUser(user) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post(this.buildAdminUrl('login'), user, {headers: headers})
-      .map(res => res.json());
+    return this.api.post(this.buildAdminUrl('login'), user, { headers: headers });
   }
 
   logout() {
@@ -52,8 +48,7 @@ export class AuthService {
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
 
-    return this.http.get(this.buildAdminUrl('profile'), {headers: headers})
-      .map(res => res.json());
+    return this.api.get(this.buildAdminUrl('profile'), { headers: headers });
   }
 
   protected loadToken() {
@@ -61,11 +56,8 @@ export class AuthService {
     return this.authToken;
   }
 
-  protected buildAdminUrl(type: String) {
-    if (this.apiHost.length === 0) {
-      return `/api/admin/${type}`;
-    }
-    return `${this.apiProtocol}://${this.apiHost}:${this.apiPORT}/api/admin/${type}`;
+  protected buildAdminUrl(type: string): string {
+    return this.api.buildUrl(type);
   }
 
 }
