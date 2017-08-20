@@ -69,7 +69,7 @@ router.post("/login", (request, response) => {
 						created_at: user.created_at,
 					};
 
-					response.json(helpers.api_response({token: `JWT ${token}`, user: u}));
+					response.json(helpers.api_response({token: `Bearer ${token}`, user: u}));
 				} else {
 					response.json(helpers.api_error("Incorrect Password"));
 				}

@@ -6,7 +6,7 @@ const model = require("../../models/users");
 const News = require("../../models/news");
 const helpers = require("../../helpers");
 
-router.get("/", (request, response) => response.send("users get"));
+router.get("/", (request, response) => response.send("admins get"));
 
 
 router.post("/register", (request, response) => {

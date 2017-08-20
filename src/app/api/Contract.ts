@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
-import { Http, RequestOptionsArgs } from '@angular/http';
+import {Http, RequestOptionsArgs, Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
+import {Observable} from 'rxjs/Observable';
+import {ResponseObject} from './ResponseObject';
 
 @Injectable()
 export class Contract {
@@ -9,21 +11,58 @@ export class Contract {
   protocol: String = 'http';
   port = 80;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {
+  }
 
-  get(url: string, options: RequestOptionsArgs) {
+  get(url: string, options: RequestOptionsArgs): Observable<ResponseObject> {
+
+    if (options) {
+      if (options.headers) {
+        this.authHeader(options.headers);
+      }else {
+        options.headers = new Headers();
+        this.authHeader(options.headers);
+      }
+    }else {
+      options = {
+        headers: new Headers()
+      };
+      this.authHeader(options.headers);
+    }
+
     return this.http.get(url, options).map(res => res.json());
   }
 
-  post(url: string, body: any, options?: RequestOptionsArgs) {
+  post(url: string, body: any, options?: RequestOptionsArgs): Observable<ResponseObject> {
+
+    if (options) {
+      if (options.headers) {
+        this.authHeader(options.headers);
+      }else {
+        options.headers = new Headers();
+        this.authHeader(options.headers);
+      }
+    }else {
+      options = {
+        headers: new Headers()
+      };
+      this.authHeader(options.headers);
+    }
+
     return this.http.post(url, body, options).map(res => res.json());
+  }
+
+
+  private authHeader(headers: Headers) {
+    // headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    headers.append('Authorization', localStorage.getItem('id_token') || null);
   }
 
   buildUrl(url: string): string {
     if (this.host.length <= 1) {
       return `api/admin/${url}`;
     }
-    console.log(this.host.length);
     return `${this.protocol}://${this.host}:${this.port}/api/admin/${url}`;
   }
 }

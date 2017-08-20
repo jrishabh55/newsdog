@@ -44,18 +44,8 @@ export class AuthService {
 
   loadProfile() {
     const headers = new Headers();
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
-
     return this.api.get(this.buildAdminUrl('profile'), { headers: headers });
   }
-
-  protected loadToken() {
-    this.authToken = localStorage.getItem('id_token');
-    return this.authToken;
-  }
-
   protected buildAdminUrl(type: string): string {
     return this.api.buildUrl(type);
   }

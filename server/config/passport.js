@@ -8,11 +8,12 @@ const config = require("./config");
 
 module.exports = (passport) => {
 	let opts = {
-		jwtFromRequest: JwtExtract.fromAuthHeader(),
+		jwtFromRequest: JwtExtract.fromAuthHeaderAsBearerToken(),
 		secretOrKey: config.secret
 	};
 
 	passport.use(new JwtStrategy(opts, (payload, done) => {
+
 		Admin.byId(payload._doc._id, (err, user) => {
 			if (err) return done(err, false);
 			else if (user) return done(null, user);

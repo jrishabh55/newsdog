@@ -10,6 +10,8 @@ import {Router} from '@angular/router';
 })
 export class TopnavComponent implements OnInit {
 
+  show: Boolean = false;
+
   constructor(private flash: FlashMessagesService,
               public authService: AuthService,
               private router: Router) {
@@ -18,13 +20,18 @@ export class TopnavComponent implements OnInit {
   ngOnInit() {
   }
 
+  adminDrop(e) {
+    e.stopPropagation();
+    this.show = !this.show;
+  }
+
   userLogout() {
     this.authService.logout();
     this.flash.show('Logged Out', {
       classes: ['alert', 'alert-success'],
       timeout: 5000,
     });
-    this.router.navigate(['/users/login']);
+    this.router.navigate(['/admin/login']);
     return false;
   }
 }

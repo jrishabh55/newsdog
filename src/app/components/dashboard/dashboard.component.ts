@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
 import { DashboardService } from '../../services/dashboard.service';
 import {Contract as API} from '../../api/Contract';
 
@@ -13,10 +12,7 @@ export class DashboardComponent implements OnInit {
   data: Object;
   constructor(private api: API, private dashboardService: DashboardService) { }
   ngOnInit(): void {
-    this.data = this.dashboardService.getData();
-  }
 
-  buildUrl(url): String {
-    return ``;
+    this.data = this.dashboardService.getData();
   }
 }

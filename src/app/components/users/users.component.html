@@ -1,0 +1,42 @@
+<div class="card">
+  <div class="card-header">
+    <i class="icon-note"></i> List Users
+  </div>
+  <div class="card-block">
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Registered on</th>
+        <th>credits</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.registered }}</td>
+        <td>{{ user.credits }}</td>
+      </tr>
+      </tbody>
+      <tfoot></tfoot>
+    </table>
+    <ul class="pagination pull-right">
+      <li class="page-item"><a class="page-link" href="#">Prev</a>
+      </li>
+      <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+      <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="javascript:void(0)">Next</a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-footer">
+
+  </div>
+</div>

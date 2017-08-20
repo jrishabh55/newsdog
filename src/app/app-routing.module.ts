@@ -1,33 +1,47 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {NewsComponent} from './components/news/news.component';
-import {LoginComponent} from './components/users/login/login.component';
-import {RegistrationComponent} from './components/users/registration/registration.component';
-import {ProfileComponent} from './components/users/profile/profile.component';
+import {LoginComponent} from './components/admins/login/login.component';
+import {RegistrationComponent} from './components/admins/registration/registration.component';
+import {ProfileComponent} from './components/admins/profile/profile.component';
 import {AuthGuard} from './guards/auth/auth.guard';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {UsersComponent} from './components/users/users.component';
+import {NewsListComponent} from './components/news/news-list/news-list.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-  {path: 'dashboard', component: DashboardComponent, pathMatch: 'full', canActivate: [AuthGuard]},
+  {path: 'admin/login', component: LoginComponent, pathMatch: 'full'},
   {
-    path: 'news',
-    component: NewsComponent,
-    children: [],
-    canActivate: [AuthGuard]
-  },
-
-  {path: 'users/login', component: LoginComponent, pathMatch: 'full'},
-  {
-    path: 'users',
+    path: 'admin',
     children: [
-      {path: '', redirectTo: 'users/login', pathMatch: 'full'},
+      {path: '', redirectTo: 'admin/login', pathMatch: 'full'},
       {path: 'register', component: RegistrationComponent, pathMatch: 'full'},
       {path: 'profile', component: ProfileComponent, pathMatch: 'full'}
     ],
     canActivate: [AuthGuard]
-  }
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+    pathMatch: 'full'
+  },
+  {
+    path: 'news',
+    children: [
+      { path: '', component: NewsComponent, pathMatch: 'full' },
+      { path: 'list', component: NewsListComponent, pathMatch: 'full' }
+    ],
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
+    canActivate: [AuthGuard],
+    pathMatch: 'full'
 
+  }
 ];
 
 @NgModule({

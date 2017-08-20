@@ -15,6 +15,10 @@ CategorySchema.methods.findById = function (id) {
 	return this.model("Category").find({_id: id});
 };
 
+CategorySchema.statics.all = function (callback) {
+  return this.find({}, callback);
+};
+
 CategorySchema.methods.findByName = function (name) {
 	return this.model("Category").find({username: name});
 };
