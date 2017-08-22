@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Headers } from '@angular/http';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Contract as API } from '../api/Contract';
+import { ResponseObject } from '../api/ResponseObject';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -16,7 +18,7 @@ export class AuthService {
     return tokenNotExpired('id_token');
   }
 
-  registerUser(user) {
+  registerUser(user): Observable<ResponseObject> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.api.post(this.buildAdminUrl('register'), user, { headers: headers });
@@ -30,7 +32,7 @@ export class AuthService {
     localStorage.setItem('user', JSON.stringify(data.user));
   }
 
-  loginUser(user) {
+  loginUser(user): Observable<ResponseObject> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.api.post(this.buildAdminUrl('login'), user, { headers: headers });
@@ -42,10 +44,11 @@ export class AuthService {
     localStorage.clear();
   }
 
-  loadProfile() {
+  loadProfile(): Observable<ResponseObject> {
     const headers = new Headers();
     return this.api.get(this.buildAdminUrl('profile'), { headers: headers });
   }
+
   protected buildAdminUrl(type: string): string {
     return this.api.buildUrl(type);
   }

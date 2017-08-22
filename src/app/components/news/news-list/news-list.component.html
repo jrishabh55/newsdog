@@ -18,7 +18,11 @@
       </thead>
       <tbody>
       <tr *ngFor="let news of newses">
-        <td>{{ news.thumbnail.url1 }}</td>
+        <td>
+          <img class="avatar" src="{{ news.thumbnail.url1 }}" />
+          <img class="avatar" *ngIf="news.thumbnail.url2" src="{{ news.thumbnail.url2 }}" />
+          <img class="avatar" *ngIf="news.thumbnail.url3" src="{{ news.thumbnail.url3 }}" />
+        </td>
         <td>{{ news.title }}</td>
         <td>{{ news.category }}</td>
         <td>{{ news.author }}</td>

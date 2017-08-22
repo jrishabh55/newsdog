@@ -12,6 +12,6 @@ export interface News {
 export interface User {
   username: string;
   email: string;
-  registered: string;
+  created_at: string;
   credits: number;
 }

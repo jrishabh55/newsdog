@@ -15,21 +15,16 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.users = [
-      {username: 'rish', 'email': 'emails@email.com', 'credits': 120, registered: 'thud'},
-      {username: 'rish', 'email': 'emails@email.com', 'credits': 120, registered: 'thud'},
-      {username: 'rish', 'email': 'emails@email.com', 'credits': 120, registered: 'thud'},
-      {username: 'rish', 'email': 'emails@email.com', 'credits': 120, registered: 'thud'},
-      {username: 'rish', 'email': 'emails@email.com', 'credits': 120, registered: 'thud'},
-      {username: 'rish', 'email': 'emails@email.com', 'credits': 120, registered: 'thud'},
-      {username: 'rish', 'email': 'emails@email.com', 'credits': 120, registered: 'thud'},
-      {username: 'rish', 'email': 'emails@email.com', 'credits': 120, registered: 'thud'},
-      {username: 'rish', 'email': 'emails@email.com', 'credits': 120, registered: 'thud'},
-    ];
-    // const url = this.api.buildUrl('users');
-    // this.api.get(url, {}).subscribe(response => {
-    //   this.users = response.data.users;
-    // });
+
+    const url = this.api.buildUrl('users');
+    this.api.get(url).subscribe((response) => {
+      if (response.error) {
+        console.log(response.error);
+      } else {
+        this.users = response.data.users;
+      }
+    });
+
   }
 
 }

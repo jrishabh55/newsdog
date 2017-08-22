@@ -7,14 +7,14 @@ import {ResponseObject} from './ResponseObject';
 @Injectable()
 export class Contract {
 
-  host: String = '';
+  host: String = 'localhost';
   protocol: String = 'http';
   port = 80;
 
   constructor(private http: Http) {
   }
 
-  get(url: string, options: RequestOptionsArgs): Observable<ResponseObject> {
+  get(url: string, options?: RequestOptionsArgs): Observable<ResponseObject> {
 
     if (options) {
       if (options.headers) {
@@ -33,7 +33,7 @@ export class Contract {
     return this.http.get(url, options).map(res => res.json());
   }
 
-  post(url: string, body: any, options?: RequestOptionsArgs): Observable<ResponseObject> {
+  post(url: string, body: any = {}, options?: RequestOptionsArgs): Observable<ResponseObject> {
 
     if (options) {
       if (options.headers) {

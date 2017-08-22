@@ -34,8 +34,8 @@ NewsSchema.methods.findByCategory = function (category) {
 	return this.find({category: category});
 };
 
-NewsSchema.statics.all = function (callback) {
-	return this.find({hidden: false}, callback);
+NewsSchema.statics.all = function (callback, withHidden = false) {
+	return this.find({hidden: withHidden}, callback);
 };
 
 NewsSchema.statics.withHidden = function (callback) {
