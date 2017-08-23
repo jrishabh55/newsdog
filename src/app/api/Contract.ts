@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class Contract {
 
-  host: String = 'localhost';
+  host: String = '';
   protocol: String = 'http';
   port = 80;
 
