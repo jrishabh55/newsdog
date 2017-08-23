@@ -3,7 +3,7 @@
     <i class="icon-note"></i>News List
   </div>
   <div class="card-block">
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped" *ngIf="result === true; else loading">
       <thead>
       <tr>
         <th>Thumbnail</th>
@@ -34,5 +34,8 @@
       </tbody>
       <tfoot></tfoot>
     </table>
+    <ng-template #loading>
+      <p>Loading...</p>
+    </ng-template>
   </div>
 </div>

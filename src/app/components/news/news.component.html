@@ -43,7 +43,7 @@
       <fieldset class="form-group">
         <div class="input-group">
           <span class="input-group-addon col-md-3">News Data</span>
-          <textarea class="form-control" name="desc" formControlName="desc" ></textarea>
+          <jnex-tinymce [elementId]="'desc'" (onEditorKeyUp)="content()"></jnex-tinymce>
         </div>
       </fieldset>
 

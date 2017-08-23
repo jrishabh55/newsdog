@@ -24,9 +24,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginFormSubmit(user) {
-    console.log(user);
     this.authService.loginUser(user).subscribe(data => {
-      console.log(data);
 
       if (data.status === 'ok') {
 

@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "jengular"
+    "name": "jnex-jengular"
   },
   "apps": [
     {
@@ -22,6 +22,11 @@
         "scss/style.scss"
       ],
       "scripts": [
+        "../node_modules/tinymce/tinymce.js",
+        "../node_modules/tinymce/themes/modern/theme.js",
+        "../node_modules/tinymce/plugins/link/plugin.js",
+        "../node_modules/tinymce/plugins/paste/plugin.js",
+        "../node_modules/tinymce/plugins/table/plugin.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

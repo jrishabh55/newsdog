@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormControlName, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -24,6 +24,10 @@ export class NewsComponent implements OnInit {
   constructor() {
   }
 
+  content(): string {
+    return '';
+  }
+
   createNews(news) {
   }
 
@@ -45,10 +49,8 @@ export class NewsComponent implements OnInit {
       thumb1: new FormControl('', Validators.compose([
         Validators.required,
       ])),
-      thumb2: new FormControl('', Validators.compose([
-      ])),
-      thumb3: new FormControl('', Validators.compose([
-      ])),
+      thumb2: new FormControl('', Validators.compose([])),
+      thumb3: new FormControl('', Validators.compose([])),
       credits: new FormControl('1', Validators.compose([
         Validators.required,
         Validators.pattern('[0-1+]'),

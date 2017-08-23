@@ -25,6 +25,7 @@ import { AsideMenuTogglerDirective } from './directives/aside-menu-toggler.direc
 import { Contract } from './api/Contract';
 import { UsersComponent } from './components/users/users.component';
 import { NewsListComponent } from './components/news/news-list/news-list.component';
+import { TinymceComponent } from './components/tinymce/tinymce.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { NewsListComponent } from './components/news/news-list/news-list.compone
     AsideMenuTogglerDirective,
     UsersComponent,
     NewsListComponent,
+    TinymceComponent,
   ],
   imports: [
     BrowserModule,
