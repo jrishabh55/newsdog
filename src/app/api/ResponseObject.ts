@@ -1,8 +1,12 @@
-import {News, User} from '../Interfaces';
+import {Category, News, User} from '../Interfaces';
 
 interface Data {
   users?: Array<User>;
-  news?: Array<News>;
+  user?: Array<User>;
+  newses?: Array<News>;
+  news?: News;
+  categories?: Array<Category>;
+  category?: Category;
 }
 
 export interface ResponseObject {

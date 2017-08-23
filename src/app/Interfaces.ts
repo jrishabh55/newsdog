@@ -15,3 +15,9 @@ export interface User {
   created_at: string;
   credits: number;
 }
+
+
+export interface Category {
+  name: String;
+  id: Number;
+}

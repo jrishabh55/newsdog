@@ -1,13 +1,16 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormControlName, FormGroup, Validators} from '@angular/forms';
+import {Contract as API} from '../../api/Contract';
+import {Category} from '../../interfaces';
 
 @Component({
   selector: 'jnex-news',
   templateUrl: './news.component.html',
   styleUrls: ['./news.component.css']
 })
-export class NewsComponent implements OnInit {
+export class NewsComponent implements OnInit, OnDestroy {
 
+  result: Boolean = false;
   newsForm: FormGroup;
   categories: Array<Category> = [
     {name: 'test1', id: 1},
@@ -21,7 +24,7 @@ export class NewsComponent implements OnInit {
     {name: 'test9', id: 9},
   ];
 
-  constructor() {
+  constructor(private api: API) {
   }
 
   content(): string {
@@ -32,6 +35,16 @@ export class NewsComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    const url = this.api.buildUrl('/news/categories');
+    this.api.get(url).subscribe(response => {
+      this.categories = response.data.categories;
+    });
+
+    this.validation();
+  }
+
+  validation() {
     this.newsForm = new FormGroup({
       title: new FormControl('', Validators.compose([
         Validators.required,
@@ -62,11 +75,12 @@ export class NewsComponent implements OnInit {
       ])),
 
     });
+
+  }
+
+  ngOnDestroy() {
+    this.result = false;
   }
 
 }
 
-interface Category {
-  name: String;
-  id: Number;
-}

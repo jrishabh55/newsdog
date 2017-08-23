@@ -3,6 +3,7 @@ const router = express.Router();
 const model = require("../../models/admins");
 const News = require("../../models/news");
 const User = require("../../models/users");
+const Category = require("../../models/category");
 const helpers = require("../../helpers");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
@@ -50,10 +51,16 @@ router.get("/news", (request, response) => {
   });
 });
 
+router.get("/news/categories", (request, response) => {
+  Category.find({}, (err, data) => {
+    if (err) response.json(helpers.api_error(err));
+    else response.json(helpers.api_response({categories: data}));
+  });
+});
 router.get("/news/:category", (request, response) => {
   News.find({category_id: request.params.category || 0}, (err, data) => {
     if (err) response.json(helpers.api_error(err));
-    else response.json(helpers.api_response({news: data}));
+    else response.json(helpers.api_response({newses: data}));
   });
 });
 
