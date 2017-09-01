@@ -1,44 +1,48 @@
-<div class="card">
-  <div class="card-header">
-    <i class="icon-note"></i>News List
-  </div>
-  <div class="card-block">
-    <table class="table table-bordered table-striped" *ngIf="result === true; else loading">
-      <thead>
-      <tr>
-        <th>Thumbnail</th>
-        <th>Title</th>
-        <th>Category</th>
-        <th>Author</th>
-        <th>Description</th>
-        <th>Credits</th>
-        <th>Time</th>
-        <th>(Favs, Votes)</th>
-      </tr>
-      </thead>
-      <tbody *ngIf="newses && newses.length > 0; else noItems">
-      <tr *ngFor="let news of newses">
-        <td>
-          <img class="avatar" src="{{ news.thumbnail.url1 }}" />
-          <img class="avatar" *ngIf="news.thumbnail.url2" src="{{ news.thumbnail.url2 }}" />
-          <img class="avatar" *ngIf="news.thumbnail.url3" src="{{ news.thumbnail.url3 }}" />
-        </td>
-        <td>{{ news.title }}</td>
-        <td>{{ news.category }}</td>
-        <td>{{ news.author }}</td>
-        <td>{{ news.desc }}</td>
-        <td>{{ news.credits }}</td>
-        <td>{{ news.time }}</td>
-        <td>{{ news.meta.favs }}, {{ news.meta.votes }}</td>
-      </tr>
-      </tbody>
-      <tfoot></tfoot>
-    </table>
-    <ng-template #loading>
-      <p>Loading...</p>
-    </ng-template>
-    <ng-template #noItems>
-      <caption>No News Items</caption>
-    </ng-template>
+<div class="row animated fadeIn">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="icon-note"></i>News List
+      </div>
+      <div class="card-block">
+        <table class="table table-bordered table-striped" *ngIf="result === true; else loading">
+          <thead>
+          <tr>
+            <th>Thumbnail</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Author</th>
+            <th>Description</th>
+            <th>Credits</th>
+            <th>Time</th>
+            <th>(Favs, Votes)</th>
+          </tr>
+          </thead>
+          <tbody class="animated fadeIn" *ngIf="newses && newses.length > 0; else noItems">
+          <tr *ngFor="let news of newses">
+            <td>
+              <img class="avatar" src="{{ news.thumbnail.url1 }}" />
+              <img class="avatar" *ngIf="news.thumbnail.url2" src="{{ news.thumbnail.url2 }}" />
+              <img class="avatar" *ngIf="news.thumbnail.url3" src="{{ news.thumbnail.url3 }}" />
+            </td>
+            <td>{{ news.title }}</td>
+            <td>{{ news.category }}</td>
+            <td>{{ news.author }}</td>
+            <td>{{ news.desc }}</td>
+            <td>{{ news.credits }}</td>
+            <td>{{ news.time }}</td>
+            <td>{{ news.meta.favs }}, {{ news.meta.votes }}</td>
+          </tr>
+          </tbody>
+          <tfoot></tfoot>
+        </table>
+        <ng-template #loading>
+          <p>Loading...</p>
+        </ng-template>
+        <ng-template #noItems>
+          <caption>No News Items</caption>
+        </ng-template>
+      </div>
+    </div>
   </div>
 </div>

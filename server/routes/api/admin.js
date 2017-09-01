@@ -54,15 +54,14 @@ router.get("/news", (request, response) => {
 router.post("/news/add", (request, response) => {
   let params = request.body;
 
-  if (helpers.exists(
-      params.title ||
-      params.author ||
-      params.credits ||
-      params.category ||
-      params.desc ||
-      params.time ||
-      params.thumb1
-    )) {
+  if (
+      !helpers.exists(params.title) ||
+      !helpers.exists(params.desc) ||
+      !helpers.exists(params.author) ||
+      !helpers.exists(params.credits) ||
+      !helpers.exists(params.category) ||
+      !helpers.exists(params.time)
+  ) {
     return response.json(helpers.api_error("Invalid Parameters"));
   }
 
@@ -73,19 +72,17 @@ router.post("/news/add", (request, response) => {
     category: params.category,
     desc: params.desc,
     time: params.time,
-    thumbnail: {
-      url1: params.thumb1
-    },
+    'thumbnail.url1': params.thumb1
+    ,
   };
-
-  if (params.thumb2) {
-    data.thumbnail.url2 = params.thumb2;
+  if (params.thumb2 !== '') {
+    data['thumbnail.url2'] = params.thumb2;
   }
-  if (params.thumb3) {
-    data.thumbnail.url2 = params.thumb3;
+  if (params.thumb3 !== '') {
+    data['thumbnail.url2'] = params.thumb3;
   }
 
-  News.create(request.body, (err, data) => {
+  News.create(data, (err, data) => {
     if (err) response.json(helpers.api_error(err));
     else response.json(helpers.api_response({news: data}));
   });
@@ -101,7 +98,6 @@ router.get("/news/categories", (request, response) => {
 router.post("/news/category/add", (request, response) => {
   let params = request.body;
 
-  console.log(params);
   if(!helpers.exists(params.name)) {
     response.json(helpers.api_error('Invalid Parameters'));
     return;
