@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
           timeout: 5000
         });
 
-        this.router.navigate(['/admin/profile']);
+        this.router.navigate(['/dashboard']);
 
       } else {
         this.flash.show(data.error, {

@@ -9,9 +9,9 @@ const config = require("../config/config");
 //Admin login
 router.post("/admin/login", (request, response) => {
   let params = request.body;
-
-  if (!helpers.exists(params.username) && !helpers.exists(params.password)) {
+  if (!helpers.exists(params.username) || !helpers.exists(params.password)) {
     response.status(401).json(helpers.api_error("Invalid parameters"));
+    console.log('Invalid Parameters');
     return;
   }
   Admin.byUsername(params.username, (err, user) => {

@@ -16,7 +16,7 @@
         <th>(Favs, Votes)</th>
       </tr>
       </thead>
-      <tbody>
+      <tbody *ngIf="newses && newses.length > 0; else noItems">
       <tr *ngFor="let news of newses">
         <td>
           <img class="avatar" src="{{ news.thumbnail.url1 }}" />
@@ -36,6 +36,9 @@
     </table>
     <ng-template #loading>
       <p>Loading...</p>
+    </ng-template>
+    <ng-template #noItems>
+      <caption>No News Items</caption>
     </ng-template>
   </div>
 </div>

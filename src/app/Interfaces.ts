@@ -18,6 +18,6 @@ export interface User {
 
 
 export interface Category {
-  name: String;
-  id: Number;
+  name: string;
+  _id: number;
 }

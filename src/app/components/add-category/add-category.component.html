@@ -1,0 +1,51 @@
+<div class="row animated fadeIn">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-header">
+        <i class="icon-note"></i> Add Category
+      </div>
+      <div class="card-block">
+        <div class="alert alert-success" *ngIf="created === true">Category Added</div>
+        <div class="alert alert-danger" *ngIf="created === false">Category Added</div>
+        <form (submit)="create(form.value)" [formGroup]="form">
+          <fieldset class="form-group">
+            <label>Category Name</label>
+            <div class="input-group">
+            <span class="input-group-addon">
+              <i class="fa fa-male"></i>
+            </span>
+              <input class="form-control" type="text" name="name" placeholder="Category Name" formControlName="name"/>
+            </div>
+          </fieldset>
+          <div class="form-group">
+            <button class="btn btn-primary pull-right" name="submit" [disabled]="!form.valid">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-header">
+        <i class="icon icon-notebook"></i>Categories
+      </div>
+      <div class="card-block">
+        <table class="table table-striped table-bordered">
+          <thead>
+          <tr>
+            <th>#id</th>
+            <th>name</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let cat of categories">
+            <td>{{ cat._id }}</td>
+            <td>{{ cat.name }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

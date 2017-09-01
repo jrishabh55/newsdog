@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class Contract {
 
-  host: String = '';
+  host: String = 'localhost';
   protocol: String = 'http';
   port = 80;
 
@@ -19,11 +19,11 @@ export class Contract {
     if (options) {
       if (options.headers) {
         this.authHeader(options.headers);
-      }else {
+      } else {
         options.headers = new Headers();
         this.authHeader(options.headers);
       }
-    }else {
+    } else {
       options = {
         headers: new Headers()
       };
@@ -38,17 +38,16 @@ export class Contract {
     if (options) {
       if (options.headers) {
         this.authHeader(options.headers);
-      }else {
+      } else {
         options.headers = new Headers();
         this.authHeader(options.headers);
       }
-    }else {
+    } else {
       options = {
         headers: new Headers()
       };
       this.authHeader(options.headers);
     }
-
     return this.http.post(url, body, options).map(res => res.json());
   }
 

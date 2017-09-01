@@ -2,7 +2,7 @@
   <nav class="sidebar-nav">
     <ul class="nav" *ngIf="authService.loggedIn()">
       <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" [routerLink]="['']">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']">
           <i class="icon-speedometer"></i> Dashboard
           <span class="badge badge-info">NEW</span>
         </a>
@@ -10,11 +10,17 @@
       <li class="nav-item">
         <a class="nav-link" routerLinkActive="active" [routerLink]="['/news/list']">
           <i class="icon-speedometer"></i> News
-          <span class="badge badge-info">ADD NEW</span>
+          <span class="badge badge-info">NEW</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" [routerLink]="['/news']">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['/news/category']">
+          <i class="icon-speedometer"></i> Add Category
+          <span class="badge badge-info">NEW</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['/news/add']">
           <i class="icon-speedometer"></i> Add News
           <span class="badge badge-info">NEW</span>
         </a>

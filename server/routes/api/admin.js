@@ -47,18 +47,74 @@ router.post("/register", passport.authenticate("jwt", {session: false}), (reques
 router.get("/news", (request, response) => {
   News.all((err, data) => {
     if (err) response.json(helpers.api_error(err));
+    else response.json(helpers.api_response({newses: data}));
+  });
+});
+
+router.post("/news/add", (request, response) => {
+  let params = request.body;
+
+  if (helpers.exists(
+      params.title ||
+      params.author ||
+      params.credits ||
+      params.category ||
+      params.desc ||
+      params.time ||
+      params.thumb1
+    )) {
+    return response.json(helpers.api_error("Invalid Parameters"));
+  }
+
+  let data = {
+    title: params.title,
+    author: params.author,
+    credits: params.credits,
+    category: params.category,
+    desc: params.desc,
+    time: params.time,
+    thumbnail: {
+      url1: params.thumb1
+    },
+  };
+
+  if (params.thumb2) {
+    data.thumbnail.url2 = params.thumb2;
+  }
+  if (params.thumb3) {
+    data.thumbnail.url2 = params.thumb3;
+  }
+
+  News.create(request.body, (err, data) => {
+    if (err) response.json(helpers.api_error(err));
     else response.json(helpers.api_response({news: data}));
   });
 });
 
 router.get("/news/categories", (request, response) => {
-  Category.find({}, (err, data) => {
+  Category.all((err, data) => {
     if (err) response.json(helpers.api_error(err));
     else response.json(helpers.api_response({categories: data}));
   });
 });
+
+router.post("/news/category/add", (request, response) => {
+  let params = request.body;
+
+  console.log(params);
+  if(!helpers.exists(params.name)) {
+    response.json(helpers.api_error('Invalid Parameters'));
+    return;
+  }
+
+  Category.create({name: params.name}, (err, category) => {
+    if (err) response.json(helpers.api_error(err));
+    else response.json(helpers.api_response({category: category}));
+  });
+});
+
 router.get("/news/:category", (request, response) => {
-  News.find({category_id: request.params.category || 0}, (err, data) => {
+  News.find({category_id: request.body.category || 0}, (err, data) => {
     if (err) response.json(helpers.api_error(err));
     else response.json(helpers.api_response({newses: data}));
   });

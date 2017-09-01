@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 const connection = require("../connection");
 
 const CategorySchema = new Schema({
-	name: {type: Number, required: true},
-	meta: {type: String, required: true},
+	name: {type: String, required: true},
+	meta: {type: String, required: false},
 });
 
 autoIncrement.initialize(connection);

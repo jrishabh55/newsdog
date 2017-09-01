@@ -35,6 +35,7 @@ export class AuthService {
   loginUser(user): Observable<ResponseObject> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
+
     return this.api.post(this.buildAdminUrl('login'), user, { headers: headers });
   }
 

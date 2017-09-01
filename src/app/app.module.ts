@@ -26,6 +26,9 @@ import { Contract } from './api/Contract';
 import { UsersComponent } from './components/users/users.component';
 import { NewsListComponent } from './components/news/news-list/news-list.component';
 import { TinymceComponent } from './components/tinymce/tinymce.component';
+import { FileInputDirective } from './directives/file-input.directive';
+import { RequiredFileInputDirective } from './directives/required-file-input.directive';
+import { AddCategoryComponent } from './components/add-category/add-category.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +50,9 @@ import { TinymceComponent } from './components/tinymce/tinymce.component';
     UsersComponent,
     NewsListComponent,
     TinymceComponent,
+    FileInputDirective,
+    RequiredFileInputDirective,
+    AddCategoryComponent
   ],
   imports: [
     BrowserModule,

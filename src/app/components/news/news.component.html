@@ -33,7 +33,7 @@
       <fieldset class="form-group">
         <div class="input-group">
           <span class="input-group-addon col-md-3">Category</span>
-          <select class="form-control" name="category" multiple>
+          <select class="form-control" name="category">
             <option *ngFor="let opt of categories" value="opt">{{ opt.name }}</option>
           </select>
           <span class="input-group-addon"><i class="fa fa-male"></i> </span>
@@ -43,7 +43,7 @@
       <fieldset class="form-group">
         <div class="input-group">
           <span class="input-group-addon col-md-3">News Data</span>
-          <jnex-tinymce [elementId]="'desc'" (onEditorKeyUp)="content()"></jnex-tinymce>
+          <jnex-tinymce [elementId]="'desc'" (onEditorKeyUp)="content($event)"></jnex-tinymce>
         </div>
       </fieldset>
 

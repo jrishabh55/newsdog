@@ -19,7 +19,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "jnex",
       "styles": [
-        "scss/style.scss"
+        "scss/style.scss",
+        "styles.scss"
       ],
       "scripts": [
         "../node_modules/tinymce/tinymce.js",

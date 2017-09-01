@@ -8,6 +8,7 @@ import {AuthGuard} from './guards/auth/auth.guard';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {UsersComponent} from './components/users/users.component';
 import {NewsListComponent} from './components/news/news-list/news-list.component';
+import {AddCategoryComponent} from './components/add-category/add-category.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
@@ -30,8 +31,10 @@ const routes: Routes = [
   {
     path: 'news',
     children: [
-      { path: '', component: NewsComponent, pathMatch: 'full' },
-      { path: 'list', component: NewsListComponent, pathMatch: 'full' }
+      {path: '', redirectTo: 'news/add', pathMatch: 'full' },
+      { path: 'add', component: NewsComponent, pathMatch: 'full' },
+      { path: 'list', component: NewsListComponent, pathMatch: 'full' },
+      { path: 'category', component: AddCategoryComponent, pathMatch: 'full' }
     ],
     canActivate: [AuthGuard]
   },
