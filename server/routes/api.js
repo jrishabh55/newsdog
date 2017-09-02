@@ -143,7 +143,7 @@ router.post("/register", (request, response) => {
 
   params.ip = request.ip;
 
-  model.add(params, (err, user) => {
+  User.add(params, (err, user) => {
     if (err) {
       response.json(helpers.api_error(err.message));
     } else {

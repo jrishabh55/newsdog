@@ -1,10 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
 
-const model = require("../../models/users");
-const News = require("../../models/news");
-const Category = require("../../models/category");
 const helpers = require("../../helpers");
 
 router.get("/", (request, response) => response.send("admins get"));

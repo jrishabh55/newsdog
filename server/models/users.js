@@ -98,7 +98,8 @@ module.exports.add = function (params, callback) {
     reference: params.reference ? params.reference : null,
     token: randomString.generate(64),
     ip: params.ip,
-    credits: 0
+    credits: 0,
+    activated: true
   });
   user.save()
     .then((data) => {
