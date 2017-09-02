@@ -30,7 +30,7 @@ module.exports = (passport) => {
 		(username, token, done) => {
 			User.byUsernameAndToken(username, token, (err, user) => {
 				if (err) return done(err);
-				else if (user) return done(null, user);
+				else if (user && user.isActive()) return done(null, user);
 				else return done(null, false);
 			});
 		}

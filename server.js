@@ -28,6 +28,7 @@ require("./server/config/passport")(passport);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api", api);
+app.use("/api/**", (request, response) => response.status(404).send('Not Found'));
 
 app.get("**", (req, response) => {
 	response.sendFile(path.join(__dirname, "public", "index.html"));

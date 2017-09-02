@@ -22,6 +22,20 @@ UsersSchema.methods.verifyToken = function (token, callback) {
   callback(this.token !== token);
 };
 
+UsersSchema.methods.comparePass = function (password, callback) {
+  bcrypt.compare(password, this.password, (err, isMatch) => {
+      if (err) {
+        return callback(err, false);
+      }
+      return callback(undefined, isMatch);
+    }
+  );
+};
+
+UsersSchema.methods.isActive = function () {
+  return this.activated === true;
+};
+
 UsersSchema.statics.byId = function (id, callback) {
   return this.findOne({_id: id}, callback);
 };
@@ -36,14 +50,6 @@ UsersSchema.statics.byUsernameAndToken = function (username, token, callback) {
 
 UsersSchema.statics.byEmail = function (email, callback) {
   return this.findOne({email: email}, callback);
-};
-
-UsersSchema.methods.comparePass = (password, callback) => {
-  bcrypt.compare(password, this.password, (err, isMatch) => {
-      if (err) throw err;
-      return callback(undefined, isMatch);
-    }
-  );
 };
 
 UsersSchema.pre("validate", function (next) {
