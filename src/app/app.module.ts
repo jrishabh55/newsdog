@@ -29,6 +29,8 @@ import { TinymceComponent } from './components/tinymce/tinymce.component';
 import { FileInputDirective } from './directives/file-input.directive';
 import { RequiredFileInputDirective } from './directives/required-file-input.directive';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
+import { NewsEditComponent } from './components/news/news-edit/news-edit.component';
+import { ExcerptPipe } from './pipes/excerpt.pipe';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { AddCategoryComponent } from './components/add-category/add-category.com
     TinymceComponent,
     FileInputDirective,
     RequiredFileInputDirective,
-    AddCategoryComponent
+    AddCategoryComponent,
+    NewsEditComponent,
+    ExcerptPipe
   ],
   imports: [
     BrowserModule,

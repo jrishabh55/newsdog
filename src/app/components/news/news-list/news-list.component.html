@@ -16,6 +16,7 @@
             <th>Credits</th>
             <th>Time</th>
             <th>(Favs, Votes)</th>
+            <th>Meta</th>
           </tr>
           </thead>
           <tbody class="animated fadeIn" *ngIf="newses && newses.length > 0; else noItems">
@@ -28,10 +29,18 @@
             <td>{{ news.title }}</td>
             <td>{{ news.category }}</td>
             <td>{{ news.author }}</td>
-            <td>{{ news.desc }}</td>
+            <td>{{ news.desc | excerpt }}</td>
             <td>{{ news.credits }}</td>
             <td>{{ news.time }}</td>
             <td>{{ news.meta.favs }}, {{ news.meta.votes }}</td>
+            <td>
+              <a [routerLink]="['/news',news._id,'edit']" class="btn btn-primary">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a (click)="deleteNews(news._id)" class="btn btn-danger">
+                <i class="fa fa-remove"></i>
+              </a>
+            </td>
           </tr>
           </tbody>
           <tfoot></tfoot>

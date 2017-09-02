@@ -9,6 +9,7 @@ import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {UsersComponent} from './components/users/users.component';
 import {NewsListComponent} from './components/news/news-list/news-list.component';
 import {AddCategoryComponent} from './components/add-category/add-category.component';
+import {NewsEditComponent} from './components/news/news-edit/news-edit.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
@@ -33,6 +34,7 @@ const routes: Routes = [
     children: [
       {path: '', redirectTo: 'news/add', pathMatch: 'full' },
       { path: 'add', component: NewsComponent, pathMatch: 'full' },
+      { path: ':id/edit', component: NewsEditComponent, pathMatch: 'full' },
       { path: 'list', component: NewsListComponent, pathMatch: 'full' },
       { path: 'category', component: AddCategoryComponent, pathMatch: 'full' }
     ],

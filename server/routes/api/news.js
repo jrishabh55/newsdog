@@ -24,12 +24,12 @@ router.get("/read", (request, response) => {
 router.post("/read", (request, response) => {
 
   let params = request.body;
-  if (!helpers.exists(params.news_id)) {
+  if (!helpers.exists(params.category)) {
     response.json(helpers.api_error("Invalid Parameters."));
     return;
   }
 
-  model.findOne({_id: params.news_id}, (err, news) => {
+  model.findOne({_id: params.category}, (err, news) => {
     if (err) response.json(helpers.api_error("An Error occurred."));
     if (news) {
       const UserNews = require("../../models/user_news");

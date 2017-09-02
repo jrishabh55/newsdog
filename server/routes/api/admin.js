@@ -55,12 +55,12 @@ router.post("/news/add", (request, response) => {
   let params = request.body;
 
   if (
-      !helpers.exists(params.title) ||
-      !helpers.exists(params.desc) ||
-      !helpers.exists(params.author) ||
-      !helpers.exists(params.credits) ||
-      !helpers.exists(params.category) ||
-      !helpers.exists(params.time)
+    !helpers.exists(params.title) ||
+    !helpers.exists(params.desc) ||
+    !helpers.exists(params.author) ||
+    !helpers.exists(params.credits) ||
+    !helpers.exists(params.category) ||
+    !helpers.exists(params.time)
   ) {
     return response.json(helpers.api_error("Invalid Parameters"));
   }
@@ -88,6 +88,64 @@ router.post("/news/add", (request, response) => {
   });
 });
 
+router.get("/news/:id/view", (request, response) => {
+  const id = request.params.id;
+  News.byId(id, (err, news) => {
+
+    if(err) {
+      response.status(417).json(helpers.api_error("Something Went wrong. Please try again"), 471);
+      response.end();
+      console.error(err);
+      return;
+    }
+    if(news) {
+      response.json(helpers.api_response({news: news}));
+      response.end();
+    }else {
+      response.status(404).json(helpers.api_error('Item not found', 404));
+      response.end();
+    }
+  });
+});
+
+router.post("/news/:id/view", (request, response) => {
+  const params = request.body;
+  const news_id = request.params.id;
+
+  if (
+    !helpers.exists(params.title) ||
+    !helpers.exists(params.desc) ||
+    !helpers.exists(params.author) ||
+    !helpers.exists(params.credits) ||
+    !helpers.exists(params.category) ||
+    !helpers.exists(params.time)
+  ) {
+    return response.json(helpers.api_error("Invalid Parameters"));
+  }
+
+  let data = {
+    title: params.title,
+    author: params.author,
+    credits: params.credits,
+    category: params.category,
+    desc: params.desc,
+    time: params.time,
+    'thumbnail.url1': params.thumb1
+
+  };
+  if (params.thumb2 !== '') {
+    data['thumbnail.url2'] = params.thumb2;
+  }
+  if (params.thumb3 !== '') {
+    data['thumbnail.url2'] = params.thumb3;
+  }
+
+  News.update(news_id, data, (err, data) => {
+    if (err) response.json(helpers.api_error(err));
+    else response.json(helpers.api_response({news: data}));
+  });
+});
+
 router.get("/news/categories", (request, response) => {
   Category.all((err, data) => {
     if (err) response.json(helpers.api_error(err));
@@ -98,7 +156,7 @@ router.get("/news/categories", (request, response) => {
 router.post("/news/category/add", (request, response) => {
   let params = request.body;
 
-  if(!helpers.exists(params.name)) {
+  if (!helpers.exists(params.name)) {
     response.json(helpers.api_error('Invalid Parameters'));
     return;
   }

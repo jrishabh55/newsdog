@@ -1,4 +1,5 @@
 export interface News {
+  _id?: number;
   title: string;
   desc: string;
   author: string;
@@ -6,7 +7,7 @@ export interface News {
   credits: number;
   thumbnail: { url1: string, url2?: string, url3?: string };
   time: number;
-  category: string;
+  category: number;
   meta?: { votes: number, favs: number };
 }
 export interface User {

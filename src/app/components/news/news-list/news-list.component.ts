@@ -23,6 +23,11 @@ export class NewsListComponent implements OnInit, OnDestroy {
     });
   }
 
+  deleteNews(id: number) {
+    // TODO build delete api
+    console.log('to be built');
+  }
+
   ngOnDestroy() {
     this.result = false;
   }

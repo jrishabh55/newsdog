@@ -1,0 +1,94 @@
+<div class="row animated fadeIn">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="icon-note"></i>
+        Create News
+      </div>
+      <div class="card-block">
+        <div class="alert alert-success" *ngIf="created === true">News Update Sucessful</div>
+        <div class="alert alert-danger" *ngIf="created === false">{{ error }}</div>
+
+        <form id="newsForm" (submit)="updateNews(newsForm.value)" [formGroup]="newsForm">
+          <fieldset class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon col-sm-3">Title</span>
+              <input class="form-control" name="title"  placeholder="News Title" formControlName="title"/>
+              <span class="input-group-addon"><i class="fa fa-male"></i> </span>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon col-sm-3">Author</span>
+              <input class="form-control" name="author" placeholder="Author" formControlName="author"/>
+              <span class="input-group-addon"><i class="fa fa-male"></i> </span>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon col-sm-3">Credits</span>
+              <input class="form-control" name="credits" placeholder="News Title" formControlName="credits"/>
+              <span class="input-group-addon"><i class="fa fa-male"></i> </span>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon col-sm-3">Category</span>
+              <select class="form-control" name="category" (change)="selectCategory($event.target.value)">
+                <option *ngFor="let opt of categories" [value]="opt._id" [selected]="opt._id === category">{{ opt.name }}</option>
+              </select>
+              <span class="input-group-addon"><i class="fa fa-male"></i> </span>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon col-sm-3">News Data</span>
+              <jnex-tinymce [elementId]="'desc'" [data]="news === null ? '' : news.desc" (onEditorKeyUp)="content($event)"></jnex-tinymce>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon col-sm-3">Time</span>
+              <input type="text" name="time" class="form-control" formControlName="time"/>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon col-sm-3">Thumbnail 1</span>
+              <input type="text" placeholder="http://example.com/img.png" name="thumb1" class="form-control"
+                     formControlName="thumb1"/>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon col-sm-3">Thumbnail 2</span>
+              <input type="text" placeholder="http://example.com/img.png" name="thumb2" class="form-control"
+                     formControlName="thumb2"/>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon col-sm-3">Thumbnail 3</span>
+              <input type="text" placeholder="http://example.com/img.png" name="thumb3" class="form-control"
+                     formControlName="thumb3"/>
+            </div>
+          </fieldset>
+
+        </form>
+        <div class="card-footer">
+          <button class="btn btn-primary pull-right" form="newsForm" type="submit" [disabled]="!newsForm.valid">Add
+            News
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

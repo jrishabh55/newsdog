@@ -1,35 +1,40 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Contract as API} from '../../api/Contract';
-import {Category} from '../../interfaces';
+import {Contract as API} from '../../../api/Contract';
+import {Category, News} from '../../../interfaces';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'jnex-news',
-  templateUrl: './news.component.html',
-  styleUrls: ['./news.component.css']
+  selector: 'jnex-news-edit',
+  templateUrl: './news-edit.component.html',
+  styleUrls: ['./news-edit.component.scss']
 })
-export class NewsComponent implements OnInit, OnDestroy {
+export class NewsEditComponent implements OnInit, OnDestroy {
 
+  category: number = 1;
+  news: News = null;
+  newsUrl: string;
   result: Boolean = false;
   newsForm: FormGroup;
   categories: Array<Category>;
   created: Boolean = null;
   error: string;
 
-  constructor(private api: API) {
+  constructor(private api: API, private route: ActivatedRoute) {
   }
 
   selectCategory(id: Event) {
     this.newsForm.patchValue({category: id});
+
   }
 
   content(e: Event): void {
     this.newsForm.patchValue({'desc': e});
+    console.log(this.newsForm.errors, this.newsForm.controls);
   }
 
-  createNews(news) {
-    console.log(news.thumb1);
-    const url: string = this.api.buildUrl('news/add');
+  updateNews(news) {
+    const url: string = this.api.buildUrl(`news/${news._id}/view`);
     this.api.post(url, news).subscribe((response) => {
       if (response.status = 'ok') {
         this.created = true;
@@ -81,7 +86,32 @@ export class NewsComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    const url = this.api.buildUrl('/news/categories');
+
+    this.route.params.subscribe((params) => {
+      this.newsUrl = this.api.buildUrl(`news/${params.id}/view`);
+      this.api.get(this.newsUrl).subscribe(response => {
+        if (response.status = 'ok') {
+          this.news = response.data.news;
+          this.category = this.news.category;
+          this.newsForm.setValue({
+            title: this.news.title,
+            desc: this.news.desc,
+            author: this.news.author,
+            category: this.news.category,
+            time: this.news.time,
+            credits: this.news.credits,
+            thumb1: this.news.thumbnail.url1,
+            thumb2: this.news.thumbnail.url2 || '',
+            thumb3: this.news.thumbnail.url3 || '',
+          }, {onlySelf: true});
+        } else {
+          this.error = response.error;
+        }
+      });
+
+    });
+
+    const url = this.api.buildUrl('news/categories');
     this.api.get(url).subscribe(response => {
       this.categories = response.data.categories;
     });
@@ -94,5 +124,5 @@ export class NewsComponent implements OnInit, OnDestroy {
     this.created = null;
   }
 
-}
 
+}
