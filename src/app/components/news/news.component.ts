@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Contract as API} from '../../api/Contract';
-import {Category} from '../../interfaces';
+import {Category, Tag} from '../../interfaces';
 
 @Component({
   selector: 'jnex-news',
@@ -13,7 +13,7 @@ export class NewsComponent implements OnInit, OnDestroy {
   result: Boolean = false;
   newsForm: FormGroup;
   categories: Array<Category>;
-  tags: Array<any> = [];
+  tags: Array<Tag> = [];
   created: Boolean = null;
   error: string;
 
@@ -22,6 +22,11 @@ export class NewsComponent implements OnInit, OnDestroy {
 
   selectCategory(id: Event) {
     this.newsForm.patchValue({category: id});
+  }
+
+  selectTags(id: Event) {
+    console.log(id);
+    this.newsForm.patchValue({tags: id});
   }
 
   content(e: Event): void {
@@ -94,25 +99,23 @@ export class NewsComponent implements OnInit, OnDestroy {
         Validators.minLength(4)
       ])),
       category: new FormControl('0'),
-      tags: new FormControl()
+      tag: new FormControl('0')
 
     });
   }
 
 
   ngOnInit() {
-    const url = this.api.buildUrl('/news/categories');
-    this.api.get(url).subscribe(response => {
-      this.categories = response.data.categories;
-      this.categories.every((val: Category): boolean => {
-        this.tags.push({
-          value: val._id.toString(),
-          label: val.name.replace(' ', '_')
-        });
-        return true;
-      });
 
-      console.log(this.tags);
+    const url1 = this.api.buildUrl('/news/categories');
+
+    this.api.get(url1).subscribe(response => {
+      this.categories = response.data.categories;
+    });
+
+    const url2 = this.api.buildUrl('/news/tags');
+    this.api.get(url2).subscribe(response => {
+      this.tags = response.data.tags;
     });
 
 

@@ -21,4 +21,10 @@ export interface User {
 export interface Category {
   name: string;
   _id: number;
+  meta?: Object;
+}
+export interface Tag {
+  name: string;
+  _id: number;
+  meta?: Object;
 }

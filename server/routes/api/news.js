@@ -63,7 +63,7 @@ router.post("/read", (request, response) => {
   });
 });
 
-router.get('/categories', (request, response) => {
+router.get('/tags', (request, response) => {
   Category.all((err, data) => {
     if (err) {
       response.json(helpers.api_error("Something Went Wrong"));

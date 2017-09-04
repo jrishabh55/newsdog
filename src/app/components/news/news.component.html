@@ -47,7 +47,9 @@
           <fieldset class="form-group">
             <div class="input-group">
               <span class="input-group-addon col-sm-3">Tags</span>
-              <ng-select [options]="tags" [multiple]="true" formControlName="tags"></ng-select>
+              <select class="form-control" name="category" (change)="selectTags($event.target.value)" multiple>
+                <option *ngFor="let tag of tags" [value]="tag._id">{{ tag.name }}</option>
+              </select>
               <span class="input-group-addon"><i class="fa fa-male"></i></span>
             </div>
           </fieldset>

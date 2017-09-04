@@ -129,7 +129,7 @@ export class NewsEditComponent implements OnInit, OnDestroy {
 
     });
 
-    const url = this.api.buildUrl('news/categories');
+    const url = this.api.buildUrl('news/tags');
     this.api.get(url).subscribe(response => {
       this.categories = response.data.categories;
     });

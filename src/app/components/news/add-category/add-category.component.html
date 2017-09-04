@@ -6,7 +6,7 @@
       </div>
       <div class="card-block">
         <div class="alert alert-success" *ngIf="created === true">Category Added</div>
-        <div class="alert alert-danger" *ngIf="created === false">Category Added</div>
+        <div class="alert alert-danger" *ngIf="created === false">Failed</div>
         <form (submit)="create(form.value)" [formGroup]="form">
           <fieldset class="form-group">
             <label>Category Name</label>

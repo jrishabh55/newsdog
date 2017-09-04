@@ -28,10 +28,11 @@ import { NewsListComponent } from './components/news/news-list/news-list.compone
 import { TinymceComponent } from './components/tinymce/tinymce.component';
 import { FileInputDirective } from './directives/file-input.directive';
 import { RequiredFileInputDirective } from './directives/required-file-input.directive';
-import { AddCategoryComponent } from './components/add-category/add-category.component';
+import { AddCategoryComponent } from './components/news/add-category/add-category.component';
 import { NewsEditComponent } from './components/news/news-edit/news-edit.component';
 import { ExcerptPipe } from './pipes/excerpt.pipe';
 import {SelectModule} from 'angular2-select';
+import { TagComponent } from './components/news/tag/tag.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {SelectModule} from 'angular2-select';
     RequiredFileInputDirective,
     AddCategoryComponent,
     NewsEditComponent,
-    ExcerptPipe
+    ExcerptPipe,
+    TagComponent
   ],
   imports: [
     BrowserModule,

@@ -1,44 +1,45 @@
 import {Component, OnInit} from '@angular/core';
-import {Contract as API} from '../../api/Contract';
-import {Category} from '../../Interfaces';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Contract as API} from '../../../api/Contract';
+import {Tag} from '../../../Interfaces';
 
 @Component({
-  selector: 'jnex-add-category',
-  templateUrl: './add-category.component.html',
-  styleUrls: ['./add-category.component.scss']
+  selector: 'jnex-tag',
+  templateUrl: './tag.component.html',
+  styleUrls: ['./tag.component.scss']
 })
-export class AddCategoryComponent implements OnInit {
+export class TagComponent implements OnInit {
+
 
   public form: FormGroup;
 
-  public categories: Array<Category>;
+  public tags: Array<Tag> = [];
   public result: Boolean = null;
   public created: Boolean = null;
 
   public constructor(private api: API) {
   }
 
-  public create(category) {
-    const url = this.api.buildUrl('/news/category/add');
+  public create(tag) {
+    const url = this.api.buildUrl('/news/tag/add');
 
-    this.api.post(url, category).subscribe(response => {
+    this.api.post(url, tag).subscribe(response => {
       if (response.status === 'ok') {
         this.created = true;
-        this.categories.unshift(response.data.category);
+        this.tags.unshift(response.data.tag);
       } else {
         this.created = false;
       }
     });
   }
 
-  public deleteCategory(id: number) {
-    const url = this.api.buildUrl('news/category/delete');
+  public deleteTag(id: number) {
+    const url = this.api.buildUrl('news/tag/delete');
     this.api.post(url, {id: id}).subscribe(response => {
       if (response.status === 'ok') {
-        this.categories.every((val, index): boolean => {
+        this.tags.every((val, index): boolean => {
           if (val._id === id) {
-            this.categories.splice(index, 1);
+            this.tags.splice(index, 1);
             return false;
           }
           return true;
@@ -54,19 +55,19 @@ export class AddCategoryComponent implements OnInit {
   }
 
   public getCategories() {
-    const url: string = this.api.buildUrl('news/categories');
+    const url: string = this.api.buildUrl('news/tags');
     this.api.get(url).subscribe(response => {
       if (response.status = 'ok') {
         this.result = true;
-        this.categories = response.data.categories;
-        this.categories.sort(this.sort);
+        this.tags = response.data.tags;
+        this.tags.sort(this.sort);
       } else {
         this.result = false;
       }
     });
   }
 
-  public sort(a: Category, b: Category): number {
+  public sort(a: Tag, b: Tag): number {
     return b._id - a._id;
 
   }
