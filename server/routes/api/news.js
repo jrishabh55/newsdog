@@ -9,7 +9,25 @@ const Category = require('../../models/category');
 router.get("", (request, response) => {
   model.all((err, data) => {
     if (err) response.json(helpers.api_error(err));
-    else response.json(helpers.api_response(data));
+    else {
+
+      data = JSON.parse(JSON.stringify(data));
+
+      for (let i = 0; i < data.length; i++) {
+        data[i].style = 0;
+        if (helpers.exists(data[i].thumbnail.url1)) {
+          data[i].style++;
+        }
+        if (helpers.exists(data[i].thumbnail.url2)) {
+          data[i].style++;
+        }
+        if (helpers.exists(data[i].thumbnail.url3)) {
+          data[i].style++;
+        }
+      }
+
+      response.json(helpers.api_response(data));
+    }
   });
 });
 

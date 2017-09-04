@@ -34,6 +34,24 @@ export class NewsEditComponent implements OnInit, OnDestroy {
   }
 
   updateNews(news) {
+    if (news.thumb2 !== '') {
+      if (news.thumb3 === '') {
+        this.created = false;
+        this.error = 'Invalid Style. Please add the third image.';
+        window.scrollTo(0, 0);
+        return;
+      }
+    }
+
+    if (news.thumb3 !== '') {
+      if (news.thumb2 === '') {
+        this.created = false;
+        this.error = 'Invalid Style. Please add the third image.';
+        window.scrollTo(0, 0);
+        return;
+      }
+    }
+
     const url: string = this.api.buildUrl(`news/${news._id}/view`);
     this.api.post(url, news).subscribe((response) => {
       if (response.status = 'ok') {

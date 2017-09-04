@@ -16,10 +16,10 @@ export class AddCategoryComponent implements OnInit {
   public result: Boolean = null;
   public created: Boolean = null;
 
-  constructor(private api: API) {
+  public constructor(private api: API) {
   }
 
-  create(category) {
+  public create(category) {
     const url = this.api.buildUrl('/news/category/add');
 
     this.api.post(url, category).subscribe(response => {
@@ -28,12 +28,27 @@ export class AddCategoryComponent implements OnInit {
         this.categories.unshift(response.data.category);
       } else {
         this.created = false;
-        console.log(response);
       }
     });
   }
 
-  ngOnInit() {
+  public deleteCategory(id: number) {
+    const url = this.api.buildUrl('news/category/delete');
+    this.api.post(url, {id: id}).subscribe(response => {
+      if (response.status === 'ok') {
+        this.categories.every((val, index): boolean => {
+          if (val._id === id) {
+            this.categories.splice(index, 1);
+            return false;
+          }
+          return true;
+        });
+      } else {
+      }
+    });
+  }
+
+  public ngOnInit() {
     this.getCategories();
     this.validate();
   }

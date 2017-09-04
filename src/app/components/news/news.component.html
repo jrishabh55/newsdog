@@ -46,6 +46,14 @@
 
           <fieldset class="form-group">
             <div class="input-group">
+              <span class="input-group-addon col-sm-3">Tags</span>
+              <ng-select [options]="tags" [multiple]="true" formControlName="tags"></ng-select>
+              <span class="input-group-addon"><i class="fa fa-male"></i></span>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="input-group">
               <span class="input-group-addon col-sm-3">News Data</span>
               <jnex-tinymce [elementId]="'desc'" (onEditorKeyUp)="content($event)"></jnex-tinymce>
             </div>

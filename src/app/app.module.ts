@@ -31,6 +31,7 @@ import { RequiredFileInputDirective } from './directives/required-file-input.dir
 import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { NewsEditComponent } from './components/news/news-edit/news-edit.component';
 import { ExcerptPipe } from './pipes/excerpt.pipe';
+import {SelectModule} from 'angular2-select';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { ExcerptPipe } from './pipes/excerpt.pipe';
     HttpModule,
     FormsModule,
     ReactiveFormsModule,
-    FlashMessagesModule
+    FlashMessagesModule,
+    SelectModule
   ],
   providers: [AuthGuard, AuthService, Contract, DashboardService],
   bootstrap: [AppComponent]

@@ -9,7 +9,7 @@ const NewsSchema = new Schema({
   author: {type: String, required: true, lowercase: true},
   hidden: {type: Boolean, default: false},
   thumbnail: {
-    url1: {type: String, required: true},
+    url1: {type: String, required: false},
     url2: {type: String, required: false},
     url3: {type: String, required: false},
   },

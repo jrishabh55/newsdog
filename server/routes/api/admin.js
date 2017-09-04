@@ -153,6 +153,23 @@ router.get("/news/categories", (request, response) => {
   });
 });
 
+router.post("/news/category/delete", (request, response) => {
+  const params = request.body;
+
+  if(!helpers.exists(params.id)) {
+    response.json(helpers.api_error('Invalid parameters', 422));
+  }
+
+  Category.deleteOne({_id: params.id}, (err, data) => {
+    if(err) {
+      response.json(helpers.api_error(err));
+      response.end();
+    }
+    response.json(helpers.api_response("Deleted")).end();
+  });
+
+});
+
 router.post("/news/category/add", (request, response) => {
   let params = request.body;
 

@@ -36,12 +36,14 @@
           <tr>
             <th>#id</th>
             <th>name</th>
+            <th></th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let cat of categories">
             <td>{{ cat._id }}</td>
             <td>{{ cat.name }}</td>
+            <td><a href="javascript:void(0)" (click)="deleteCategory(cat._id)"><i class="icon fa fa-remove"></i></a></td>
           </tr>
           </tbody>
         </table>
