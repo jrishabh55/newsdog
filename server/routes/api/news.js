@@ -82,13 +82,14 @@ router.get('/categories/:id', (request, response) => {
     response.status(422).json(helpers.api_error("Invalid Parameters."), 422).end();
     return;
   }
-  News.byCategory(params.id, (err, data) => {
+
+  model.byCategory(params.id, (err, data) => {
     if (err) {
       response.json(helpers.api_error("Something Went Wrong"));
       response.end();
       return;
     }
-    response.json(helpers.api_response({categories: data}));
+    response.json(helpers.api_response({news: data}));
     response.end();
   });
 });
