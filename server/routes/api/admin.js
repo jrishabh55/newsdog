@@ -138,7 +138,7 @@ router.post("/news/:id/view", (request, response) => {
     data['thumbnail.url2'] = params.thumb2;
   }
   if (params.thumb3 !== '') {
-    data['thumbnail.url2'] = params.thumb3;
+    data['thumbnail.url3'] = params.thumb3;
   }
 
   News.update(news_id, data, (err, data) => {
