@@ -63,7 +63,7 @@ router.post("/read", (request, response) => {
   });
 });
 
-router.get('/tags', (request, response) => {
+router.get('/categories', (request, response) => {
   Category.all((err, data) => {
     if (err) {
       response.json(helpers.api_error("Something Went Wrong"));
@@ -71,6 +71,23 @@ router.get('/tags', (request, response) => {
       return;
     }
 
+    response.json(helpers.api_response({categories: data}));
+    response.end();
+  });
+});
+
+router.get('/categories/:id', (request, response) => {
+  const params = request.params;
+  if(!helpers.exists(params.id)) {
+    response.status(422).json(helpers.api_error("Invalid Parameters."), 422).end();
+    return;
+  }
+  News.byCategory(params.id, (err, data) => {
+    if (err) {
+      response.json(helpers.api_error("Something Went Wrong"));
+      response.end();
+      return;
+    }
     response.json(helpers.api_response({categories: data}));
     response.end();
   });
