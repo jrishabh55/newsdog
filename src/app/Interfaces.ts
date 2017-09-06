@@ -8,8 +8,10 @@ export interface News {
   thumbnail: { url1: string, url2?: string, url3?: string };
   time: number;
   category: number;
+  tags: Array<Tag>;
   meta?: { votes: number, favs: number };
 }
+
 export interface User {
   username: string;
   email: string;
@@ -17,12 +19,12 @@ export interface User {
   credits: number;
 }
 
-
 export interface Category {
   name: string;
   _id: number;
   meta?: Object;
 }
+
 export interface Tag {
   name: string;
   _id: number;

@@ -61,7 +61,8 @@ router.post("/news/add", (request, response) => {
     !helpers.exists(params.author) ||
     !helpers.exists(params.credits) ||
     !helpers.exists(params.category) ||
-    !helpers.exists(params.time)
+    !helpers.exists(params.time) ||
+    !helpers.exists(params.tags)
   ) {
     response.status(422).json(helpers.api_error('Invalid parameters', 422));
   }
@@ -71,6 +72,7 @@ router.post("/news/add", (request, response) => {
     author: params.author,
     credits: params.credits,
     category: params.category,
+    tags: params.tags,
     desc: params.desc,
     time: params.time,
     'thumbnail.url1': params.thumb1
@@ -80,7 +82,7 @@ router.post("/news/add", (request, response) => {
     data['thumbnail.url2'] = params.thumb2;
   }
   if (params.thumb3 !== '') {
-    data['thumbnail.url2'] = params.thumb3;
+    data['thumbnail.url3'] = params.thumb3;
   }
 
   News.create(data, (err, data) => {

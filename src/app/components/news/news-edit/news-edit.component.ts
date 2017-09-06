@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Contract as API} from '../../../api/Contract';
-import {Category, News} from '../../../interfaces';
+import {Category, News, Tag} from '../../../interfaces';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
@@ -19,6 +19,7 @@ export class NewsEditComponent implements OnInit, OnDestroy {
   categories: Array<Category>;
   created: Boolean = null;
   error: string;
+  tags: Array<Tag> = [];
 
   constructor(private api: API, private route: ActivatedRoute) {
   }
@@ -28,9 +29,23 @@ export class NewsEditComponent implements OnInit, OnDestroy {
 
   }
 
+  selectTags(options: Event) {
+    let tags = Array.apply(null, options).filter(option => option.selected);
+    tags = tags.map(tag => tag.value);
+    console.log(tags);
+    this.newsForm.patchValue({tags: tags});
+  }
+
   content(e: Event): void {
     this.newsForm.patchValue({'desc': e});
-    console.log(this.newsForm.errors, this.newsForm.controls);
+  }
+
+
+  uploadImage(file, callback) {
+    const fileRef = firebase.storage().ref().child('/test/' + file.name);
+    fileRef.put(file)
+      .then(callback)
+      .catch(error => console.log(error));
   }
 
   updateNews(news) {
@@ -52,15 +67,44 @@ export class NewsEditComponent implements OnInit, OnDestroy {
       }
     }
 
-    const url: string = this.api.buildUrl(`news/${news._id}/view`);
-    this.api.post(url, news).subscribe((response) => {
-      if (response.status = 'ok') {
-        this.created = true;
+    const upload = new Promise((resolve, reject) => {
+      if (news.thumb1 !== '') {
+        console.log('upload 1');
+        this.uploadImage(news.thumb1[0], (snap1) => {
+          console.log('upload complete');
+          news.thumb1 = snap1.downloadURL;
+          if (news.thumb2 !== '') {
+            console.log('upload 2');
+            this.uploadImage(news.thumb2[0], snap2 => {
+              console.log('upload complete');
+              news.thumb2 = snap2.downloadURL;
+              console.log('upload 3');
+              this.uploadImage(news.thumb3[0], snap3 => {
+                console.log('upload complete');
+                news.thumb3 = snap3.downloadURL;
+                resolve();
+              });
+            });
+          } else {
+            resolve();
+          }
+        });
       } else {
-        this.created = false;
-        this.error = response.error;
+        resolve();
       }
-      window.scrollTo(0, 0);
+    });
+
+    upload.then(() => {
+      const url: string = this.api.buildUrl(`news/${news._id}/view`);
+      this.api.post(url, news).subscribe((response) => {
+        if (response.status = 'ok') {
+          this.created = true;
+        } else {
+          this.created = false;
+          this.error = response.error;
+        }
+        window.scrollTo(0, 0);
+      });
     });
   }
 
@@ -80,13 +124,13 @@ export class NewsEditComponent implements OnInit, OnDestroy {
       ])),
       thumb1: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)'),
+        // Validators.pattern('https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)'),
       ])),
       thumb2: new FormControl('', Validators.compose([
-        Validators.pattern('https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)'),
+        // Validators.pattern('https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)'),
       ])),
       thumb3: new FormControl('', Validators.compose([
-        Validators.pattern('https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)'),
+        // Validators.pattern('https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)'),
       ])),
       credits: new FormControl('1', Validators.compose([
         Validators.required,
@@ -97,7 +141,8 @@ export class NewsEditComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(4)
       ])),
-      category: new FormControl('0')
+      category: new FormControl('0'),
+      tags: new FormControl(0)
 
     });
   }
@@ -116,6 +161,7 @@ export class NewsEditComponent implements OnInit, OnDestroy {
             desc: this.news.desc,
             author: this.news.author,
             category: this.news.category,
+            tags: this.news.tags,
             time: this.news.time,
             credits: this.news.credits,
             thumb1: this.news.thumbnail.url1,
@@ -133,6 +179,13 @@ export class NewsEditComponent implements OnInit, OnDestroy {
     this.api.get(url).subscribe(response => {
       this.categories = response.data.categories;
     });
+
+
+    const url2 = this.api.buildUrl('/news/tags');
+    this.api.get(url2).subscribe(response => {
+      this.tags = response.data.tags;
+    });
+
 
     this.validation();
   }

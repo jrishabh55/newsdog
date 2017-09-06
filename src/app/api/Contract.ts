@@ -18,16 +18,16 @@ export class Contract {
 
     if (options) {
       if (options.headers) {
-        this.authHeader(options.headers);
+        Contract.authHeader(options.headers);
       } else {
         options.headers = new Headers();
-        this.authHeader(options.headers);
+        Contract.authHeader(options.headers);
       }
     } else {
       options = {
         headers: new Headers()
       };
-      this.authHeader(options.headers);
+      Contract.authHeader(options.headers);
     }
 
     return this.http.get(url, options).map(res => res.json());
@@ -37,25 +37,78 @@ export class Contract {
 
     if (options) {
       if (options.headers) {
-        this.authHeader(options.headers);
+        Contract.authHeader(options.headers);
       } else {
         options.headers = new Headers();
-        this.authHeader(options.headers);
+        Contract.authHeader(options.headers);
       }
     } else {
       options = {
         headers: new Headers()
       };
-      this.authHeader(options.headers);
+      Contract.authHeader(options.headers);
     }
     return this.http.post(url, body, options).map(res => res.json());
   }
 
+  patch(url: string, body: any = {}, options?: RequestOptionsArgs): Observable<ResponseObject> {
 
-  private authHeader(headers: Headers) {
-    // headers.append('Content-Type', 'application/json');
+    if (options) {
+      if (options.headers) {
+        Contract.authHeader(options.headers);
+      } else {
+        options.headers = new Headers();
+        Contract.authHeader(options.headers);
+      }
+    } else {
+      options = {
+        headers: new Headers()
+      };
+      Contract.authHeader(options.headers);
+    }
+    return this.http.patch(url, body, options).map(res => res.json());
+  }
+
+  put(url: string, body: any = {}, options?: RequestOptionsArgs): Observable<ResponseObject> {
+
+    if (options) {
+      if (options.headers) {
+        Contract.authHeader(options.headers);
+      } else {
+        options.headers = new Headers();
+        Contract.authHeader(options.headers);
+      }
+    } else {
+      options = {
+        headers: new Headers()
+      };
+      Contract.authHeader(options.headers);
+    }
+    return this.http.put(url, body, options).map(res => res.json());
+  }
+
+  del(url: string, options?: RequestOptionsArgs): Observable<ResponseObject> {
+
+    if (options) {
+      if (options.headers) {
+        Contract.authHeader(options.headers);
+      } else {
+        options.headers = new Headers();
+        Contract.authHeader(options.headers);
+      }
+    } else {
+      options = {
+        headers: new Headers()
+      };
+      Contract.authHeader(options.headers);
+    }
+    return this.http.delete(url, options).map(res => res.json());
+  }
+
+
+  private static authHeader(headers: Headers) {
     headers.append('Accept', 'application/json');
-    headers.append('Authorization', localStorage.getItem('id_token') || null);
+    headers.append('Authorization', localStorage.getItem('id_token') || '');
   }
 
   buildUrl(url: string): string {

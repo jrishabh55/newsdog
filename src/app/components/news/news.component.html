@@ -47,7 +47,7 @@
           <fieldset class="form-group">
             <div class="input-group">
               <span class="input-group-addon col-sm-3">Tags</span>
-              <select class="form-control" name="category" (change)="selectTags($event.target.value)" multiple>
+              <select class="form-control" name="category" (change)="selectTags($event.target.options)" multiple>
                 <option *ngFor="let tag of tags" [value]="tag._id">{{ tag.name }}</option>
               </select>
               <span class="input-group-addon"><i class="fa fa-male"></i></span>
@@ -70,31 +70,28 @@
 
           <fieldset class="form-group">
             <div class="input-group">
-              <span class="input-group-addon col-sm-3">Thumbnail 1</span>
-              <input type="text" placeholder="http://example.com/img.png" name="thumb1" class="form-control"
-                     formControlName="thumb1"/>
-            </div>
-          </fieldset>
-
-          <fieldset class="form-group">
-            <div class="input-group">
-              <span class="input-group-addon col-sm-3">Thumbnail 2</span>
-              <input type="text" placeholder="http://example.com/img.png" name="thumb2" class="form-control"
-                     formControlName="thumb2"/>
+              <span class="input-group-addon col-sm-3">Thumbnail 3</span>
+              <input type="file" name="thumb1" class="form-control" formControlName="thumb1" accept="image/png, image/jpg, image/jpeg, image/gif"/>
             </div>
           </fieldset>
 
           <fieldset class="form-group">
             <div class="input-group">
               <span class="input-group-addon col-sm-3">Thumbnail 3</span>
-              <input type="text" placeholder="http://example.com/img.png" name="thumb3" class="form-control"
-                     formControlName="thumb3"/>
+              <input type="file" name="thumb2" class="form-control" formControlName="thumb2" accept="image/png, image/jpg, image/jpeg, image/gif"/>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon col-sm-3">Thumbnail 3</span>
+              <input type="file" name="thumb3" class="form-control" formControlName="thumb3" accept="image/png, image/jpg, image/jpeg, image/gif"/>
             </div>
           </fieldset>
 
         </form>
         <div class="card-footer">
-          <button class="btn btn-primary pull-right" form="newsForm" type="submit" [disabled]="!newsForm.valid">Add
+          <button class="btn btn-primary pull-right" form="newsForm" type="submit">Add
             News
           </button>
         </div>

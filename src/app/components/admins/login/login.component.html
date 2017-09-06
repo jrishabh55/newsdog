@@ -1,32 +1,37 @@
-<div class="card">
-  <div class="card-header">
-    <i class="icon-note"></i> Login
-  </div>
-  <div class="card-block">
-    <form (submit)="loginFormSubmit(form.value)" [formGroup]="form">
-      <fieldset class="form-group">
-        <label>Username</label>
-        <div class="input-group">
+<div class="row">
+  <div class="col-sm-4 col-sm-offset-4">
+    <div class="card animated fadeIn">
+      <div class="card-header">
+        <i class="icon-note"></i> Login
+      </div>
+      <div class="card-block">
+        <form (submit)="loginFormSubmit(form.value)" [formGroup]="form">
+          <fieldset class="form-group">
+            <label>Username</label>
+            <div class="input-group">
             <span class="input-group-addon">
               <i class="fa fa-male"></i>
             </span>
-          <input class="form-control" type="text" name="username" placeholder="Username" formControlName="username"/>
-        </div>
-        <small class="text-danger pull-right" *ngIf="loginError.username">{{ loginError.username}}</small>
-      </fieldset>
+              <input class="form-control" type="text" name="username" placeholder="Username" formControlName="username"/>
+            </div>
+            <small class="text-danger pull-right" *ngIf="loginError.username">{{ loginError.username}}</small>
+          </fieldset>
 
-      <fieldset class="from-group">
-        <label>Password</label>
-        <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-male"></i></span>
-          <input type="password" class="form-control" name="password" placeholder="password" formControlName="password" />
-        </div>
-        <small class="text-danger pull-right" *ngIf="loginError.password">{{ loginError.password}}</small>
-      </fieldset>
+          <fieldset class="from-group">
+            <label>Password</label>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-male"></i></span>
+              <input type="password" class="form-control" name="password" placeholder="password" formControlName="password" />
+            </div>
+            <small class="text-danger pull-right" *ngIf="loginError.password">{{ loginError.password}}</small>
+          </fieldset>
 
-      <div class="form-group">
-        <button class="btn btn-primary pull-right" name="submit" [disabled]="!form.valid">Submit</button>
+          <div class="form-group">
+            <button class="btn btn-primary pull-right" name="submit" [disabled]="!form.valid">Submit</button>
+          </div>
+        </form>
       </div>
-    </form>
-  </div>
+    </div></div>
+
 </div>
+
