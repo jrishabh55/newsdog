@@ -113,7 +113,7 @@ router.get("/news/:id/view", (request, response) => {
 
 router.post("/news/:id/view", (request, response) => {
   const params = request.body;
-  const news_id = request.params.id;
+  const news_id = request.params;
 
   if (
     !helpers.exists(params.title) ||
@@ -121,6 +121,7 @@ router.post("/news/:id/view", (request, response) => {
     !helpers.exists(params.author) ||
     !helpers.exists(params.credits) ||
     !helpers.exists(params.category) ||
+    !helpers.exists(params.tags) ||
     !helpers.exists(params.time)
   ) {
     response.status(422).json(helpers.api_error('Invalid parameters', 422));
@@ -132,9 +133,9 @@ router.post("/news/:id/view", (request, response) => {
     credits: params.credits,
     category: params.category,
     desc: params.desc,
+    tags: params.tags,
     time: params.time,
     'thumbnail.url1': params.thumb1
-
   };
   if (params.thumb2 !== '') {
     data['thumbnail.url2'] = params.thumb2;
@@ -143,9 +144,11 @@ router.post("/news/:id/view", (request, response) => {
     data['thumbnail.url3'] = params.thumb3;
   }
 
-  News.update(news_id, data, (err, data) => {
+  News.updateOne({_id: news_id},data, (err, d) => {
+    //TODO Fix Update
     if (err) response.json(helpers.api_error(err));
-    else response.json(helpers.api_response({news: data}));
+    else response.json(helpers.api_response({news: d}));
+    console.log(err,d);
   });
 });
 

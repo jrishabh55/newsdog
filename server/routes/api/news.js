@@ -75,7 +75,6 @@ router.get('/tags/:id', (request, response) => {
   response.json(helpers.api_response("To be built"));
 });
 
-
 router.get("/:page?", (request, response) => {
 
   const params = request.params;

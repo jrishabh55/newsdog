@@ -8,7 +8,7 @@ export interface News {
   thumbnail: { url1: string, url2?: string, url3?: string };
   time: number;
   category: number;
-  tags: Array<Tag>;
+  tags: Array<number>;
   meta?: { votes: number, favs: number };
 }
 

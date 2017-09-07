@@ -16,7 +16,7 @@ const NewsSchema = new Schema({
   credits: {type: Number, default: 0},
   time: {type: Number, required: true, default: 1000},
   category: {type: Number, required: true},
-  tags: {type: Array, required: true},
+  tags: {type: [Number], required: true},
   meta: {
     votes: {type: Number, default: 0},
     favs: {type: Number, default: 0},

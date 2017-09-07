@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Contract as API} from '../../../api/Contract';
 import {Category, News, Tag} from '../../../interfaces';
 import {ActivatedRoute} from '@angular/router';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'jnex-news-edit',
@@ -13,7 +14,6 @@ export class NewsEditComponent implements OnInit, OnDestroy {
 
   category: number = 1;
   news: News = null;
-  newsUrl: string;
   result: Boolean = false;
   newsForm: FormGroup;
   categories: Array<Category>;
@@ -22,6 +22,17 @@ export class NewsEditComponent implements OnInit, OnDestroy {
   tags: Array<Tag> = [];
 
   constructor(private api: API, private route: ActivatedRoute) {
+  }
+
+  checkSelectedTags(id) {
+    let rt: boolean = false;
+
+    this.news.tags.forEach((tag) => {
+      if (+tag === id) {
+        rt = true;
+      }
+    });
+    return rt;
   }
 
   selectCategory(id: Event) {
@@ -68,22 +79,24 @@ export class NewsEditComponent implements OnInit, OnDestroy {
     }
 
     const upload = new Promise((resolve, reject) => {
-      if (news.thumb1 !== '') {
+      if (news.thumb1 !== '' && typeof news.thumb1 !== 'string') {
         console.log('upload 1');
         this.uploadImage(news.thumb1[0], (snap1) => {
           console.log('upload complete');
           news.thumb1 = snap1.downloadURL;
-          if (news.thumb2 !== '') {
+          if (news.thumb2 !== '' && typeof news.thumb2 !== 'string') {
             console.log('upload 2');
             this.uploadImage(news.thumb2[0], snap2 => {
               console.log('upload complete');
               news.thumb2 = snap2.downloadURL;
               console.log('upload 3');
-              this.uploadImage(news.thumb3[0], snap3 => {
-                console.log('upload complete');
-                news.thumb3 = snap3.downloadURL;
-                resolve();
-              });
+              if (typeof news.thumb3 !== 'string') {
+                this.uploadImage(news.thumb3[0], snap3 => {
+                  console.log('upload complete');
+                  news.thumb3 = snap3.downloadURL;
+                  resolve();
+                });
+              }
             });
           } else {
             resolve();
@@ -95,7 +108,7 @@ export class NewsEditComponent implements OnInit, OnDestroy {
     });
 
     upload.then(() => {
-      const url: string = this.api.buildUrl(`news/${news._id}/view`);
+      const url: string = this.api.buildUrl(`news/${this.news._id}/view`);
       this.api.post(url, news).subscribe((response) => {
         if (response.status = 'ok') {
           this.created = true;
@@ -123,7 +136,6 @@ export class NewsEditComponent implements OnInit, OnDestroy {
         Validators.pattern('[0-9]+')
       ])),
       thumb1: new FormControl('', Validators.compose([
-        Validators.required,
         // Validators.pattern('https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)'),
       ])),
       thumb2: new FormControl('', Validators.compose([
@@ -151,8 +163,9 @@ export class NewsEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.route.params.subscribe((params) => {
-      this.newsUrl = this.api.buildUrl(`news/${params.id}/view`);
-      this.api.get(this.newsUrl).subscribe(response => {
+
+      const newsUrl = this.api.buildUrl(`news/${params.id}/view`);
+      this.api.get(newsUrl).subscribe(response => {
         if (response.status = 'ok') {
           this.news = response.data.news;
           this.category = this.news.category;
@@ -164,7 +177,7 @@ export class NewsEditComponent implements OnInit, OnDestroy {
             tags: this.news.tags,
             time: this.news.time,
             credits: this.news.credits,
-            thumb1: this.news.thumbnail.url1,
+            thumb1: this.news.thumbnail.url1 || '',
             thumb2: this.news.thumbnail.url2 || '',
             thumb3: this.news.thumbnail.url3 || '',
           }, {onlySelf: true});
@@ -175,7 +188,7 @@ export class NewsEditComponent implements OnInit, OnDestroy {
 
     });
 
-    const url = this.api.buildUrl('news/tags');
+    const url = this.api.buildUrl('news/categories');
     this.api.get(url).subscribe(response => {
       this.categories = response.data.categories;
     });

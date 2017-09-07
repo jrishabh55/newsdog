@@ -49,39 +49,39 @@ router.use("/admin", passport.authenticate('jwt', {session: false}), require("./
 //Users Login
 router.post('/login', (request, response) => {
   const params = request.body;
-  if((!helpers.exists(params.username) && !helpers.exists(params.email)) || !helpers.exists(params.password)) {
+  if ((!helpers.exists(params.username) && !helpers.exists(params.email)) || !helpers.exists(params.password)) {
     response.json(helpers.api_error("Invalid Parameters"));
     response.end();
     return;
   }
 
   const findBy = (err, user) => {
-    if(err) {
+    if (err) {
       console.log(err);
       response.json(helpers.api_error('Something Went Wrong.'));
       response.end();
       return;
     }
-    if(!user) {
+    if (!user) {
       response.json(helpers.api_error("No User find"));
       response.end();
       return;
     }
 
-    if(!user.isActive()) {
+    if (!user.isActive()) {
       response.json(helpers.api_error("User is not active"));
       response.end();
       return;
     }
 
     user.comparePass(params.password, (err, isMatch) => {
-      if(err) {
+      if (err) {
         console.error(err);
         response.json(helpers.api_error("Something bad happened"));
         response.end();
         return;
       }
-      if(isMatch) {
+      if (isMatch) {
 
         const u = {
           name: user.name,
@@ -92,9 +92,9 @@ router.post('/login', (request, response) => {
           credits: user.credits
         };
 
-        response.json(helpers.api_response({ user: u }));
+        response.json(helpers.api_response({user: u}));
         response.end();
-      }else {
+      } else {
         response.json(helpers.api_error('Invalid Password'));
         response.end();
       }
@@ -102,9 +102,9 @@ router.post('/login', (request, response) => {
 
   };
 
-  if(params.email){
+  if (params.email) {
     User.byEmail(params.email, findBy);
-  }else {
+  } else {
     User.byUsername(params.username, findBy);
   }
 
@@ -152,6 +152,29 @@ router.post("/register", (request, response) => {
   });
 });
 
-router.use("/users", passport.authenticate('token', { session: false }), require("./api/users"));
+router.get("/news/:id/view", (request, response) => {
+  const params = request.params;
+  if (!helpers.exists(params.id)) {
+    response.status(422).json(helpers.api_error("Invalid Parameters."), 422).end();
+    return;
+  }
+
+  const News = require("../models/news");
+
+  News.byId(params.id, (err, news) => {
+    if (err) {
+      response.status(422).json(helpers.api_error("Invalid Parameters."), 422).end();
+      return;
+    }
+    if(news)
+      response.json(helpers.api_response({ news: news })).end();
+    else
+      response.json(helpers.api_error("News not found")).end();
+  });
+
+});
+
+
+router.use("/users", passport.authenticate('token', {session: false}), require("./api/users"));
 
 module.exports = router;
