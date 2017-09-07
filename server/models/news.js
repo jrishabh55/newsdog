@@ -46,16 +46,16 @@ NewsSchema.statics.all = function (callback, withHidden = false) {
 NewsSchema.statics.byUserId = function (id, callback) {
   const UserNews = require("../models/user_news");
   const News = require("../models/news");
-  UserNews.find({user_id: id}).select("category").exec((err, data) => {
+  UserNews.find({user_id: id}).select(["news_id"]).exec((err, data) => {
     if (err) return callback(err);
 
     let news_id = [];
 
     data.forEach((d) => {
-      news_id.push(d.category);
+      news_id.push(d.news_id);
     });
 
-    News.withHidden()
+    News.find({})
       .where("_id")
       .in(news_id)
       .exec((err, data) => {

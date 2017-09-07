@@ -9,22 +9,25 @@ const Category = require('../../models/category');
 
 router.get("/read", (request, response) => {
   model.byUserId(request.user._id, (err, data) => {
-    if (err) response.json(helpers.api_error("An error occurred."));
-    else response.json(helpers.api_response(data));
+    if (err) response.json(helpers.api_error("An error occurred.")).end();
+    else response.json(helpers.api_response({newses: data})).end();
   });
-  response.end();
 });
 
 router.post("/read", (request, response) => {
 
   let params = request.body;
-  if (!helpers.exists(params.category)) {
-    response.json(helpers.api_error("Invalid Parameters."));
+  if (!helpers.exists(params.id)) {
+    response.json(helpers.api_error("Invalid Parameters.")).end();
     return;
   }
 
-  model.findOne({_id: params.category}, (err, news) => {
-    if (err) response.json(helpers.api_error("An Error occurred."));
+  model.findOne({_id: params.id}, (err, news) => {
+    if (err) {
+      console.log(err);
+      response.json(helpers.api_error("An Error occurred.")).end();
+      return;
+    }
     if (news) {
       const UserNews = require("../../models/user_news");
       UserNews.create({user_id: request.user._id, news_id: params.id}, (err, data) => {
