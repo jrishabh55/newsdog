@@ -17,6 +17,8 @@ export interface User {
   email: string;
   created_at: string;
   credits: number;
+  ref: string;
+  key: string;
 }
 
 export interface Category {

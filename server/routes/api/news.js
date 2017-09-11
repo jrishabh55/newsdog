@@ -4,7 +4,8 @@ const router = express.Router();
 const model = require("../../models/news");
 const helpers = require("../../helpers");
 const Category = require('../../models/category');
-
+const User = require('../../models/users');
+const UserNews = require("../../models/user_news");
 
 
 router.get("/read", (request, response) => {
@@ -22,23 +23,30 @@ router.post("/read", (request, response) => {
     return;
   }
 
-  model.findOne({_id: params.id}, (err, news) => {
-    if (err) {
-      console.log(err);
-      response.json(helpers.api_error("An Error occurred.")).end();
+  UserNews.count({user_id: request.user._id, news_id: params.id}, (err, count) => {
+    if (err) response.json(helpers.api_error("An Error occurred."));
+    else if (count > 0) {
+      response.json(helpers.api_error("News already read")).end();
       return;
     }
-    if (news) {
-      const UserNews = require("../../models/user_news");
-      UserNews.create({user_id: request.user._id, news_id: params.id}, (err, data) => {
-        if (err) response.json(helpers.api_error("An Error occurred."));
-        else response.json(helpers.api_response("Read Successful"));
-      });
-      return;
-    }
-    response.json(helpers.api_error("An Error occurred."));
-    response.end();
+    model.findOne({_id: params.id}, (err, news) => {
+      if (err) {
+        console.log(err);
+        response.json(helpers.api_error("An Error occurred.")).end();
+      } else if (news) {
+        User.byId(request.user._id, (err, user) => {
+          user.addCredits(news.credits);
+        });
 
+        UserNews.create({user_id: request.user._id, news_id: params.id}, (err, data) => {
+          if (err) response.json(helpers.api_error("An Error occurred."));
+          else response.json(helpers.api_response("Read Successful"));
+        });
+      }
+      else {
+        response.json(helpers.api_error("An Error occurred.")).end();
+      }
+    });
   });
 });
 
@@ -57,7 +65,7 @@ router.get('/categories', (request, response) => {
 
 router.get('/categories/:id', (request, response) => {
   const params = request.params;
-  if(!helpers.exists(params.id)) {
+  if (!helpers.exists(params.id)) {
     response.status(422).json(helpers.api_error("Invalid Parameters."), 422).end();
     return;
   }
@@ -82,7 +90,7 @@ router.get("/:page?", (request, response) => {
 
   const params = request.params;
   page = 1;
-  if(helpers.exists(params.page)) {
+  if (helpers.exists(params.page)) {
     page = +params.page;
   }
 
@@ -108,7 +116,7 @@ router.get("/:page?", (request, response) => {
 
       response.json(helpers.api_response(data));
     }
-  }).sort({_id: -1}).skip((page - 1)*8).limit(8);
+  }).sort({_id: -1}).skip((page - 1) * 8).limit(8);
 
 });
 

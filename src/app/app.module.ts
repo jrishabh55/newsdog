@@ -31,10 +31,10 @@ import {RequiredFileInputDirective} from './directives/required-file-input.direc
 import {AddCategoryComponent} from './components/news/add-category/add-category.component';
 import {NewsEditComponent} from './components/news/news-edit/news-edit.component';
 import {ExcerptPipe} from './pipes/excerpt.pipe';
-import {SelectModule} from 'angular2-select';
 import {TagComponent} from './components/news/tag/tag.component';
 import {environment} from '../environments/environment';
 import * as firebase from 'firebase';
+import { DecryptPipe } from './pipes/decrypt.pipe';
 
 firebase.initializeApp(environment.firebaseConfig);
 
@@ -64,6 +64,7 @@ firebase.initializeApp(environment.firebaseConfig);
     NewsEditComponent,
     ExcerptPipe,
     TagComponent,
+    DecryptPipe,
   ],
   imports: [
     BrowserModule,
@@ -71,8 +72,7 @@ firebase.initializeApp(environment.firebaseConfig);
     HttpModule,
     FormsModule,
     ReactiveFormsModule,
-    FlashMessagesModule,
-    SelectModule,
+    FlashMessagesModule
   ],
   providers: [AuthGuard, AuthService, Contract, DashboardService],
   bootstrap: [AppComponent]

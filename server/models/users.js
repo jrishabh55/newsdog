@@ -11,11 +11,12 @@ const UsersSchema = new Schema({
   email: {type: String, required: true, unique: true, lowercase: true},
   password: {type: String, required: true},
   credits: {type: Number, default: 0},
-  activated: {type: Boolean, default: false},
+  activated: {type: Boolean, default: true},
   token: {type: String, required: true, unique: true},
   created_at: {type: Date, default: Date.now()},
   reference: {type: String},
-  ip: {type: String, required: true}
+  ip: {type: String, required: true},
+  ref: {type: String, required: false}
 });
 
 UsersSchema.methods.verifyToken = function (token, callback) {
@@ -30,6 +31,12 @@ UsersSchema.methods.comparePass = function (password, callback) {
       return callback(undefined, isMatch);
     }
   );
+};
+
+UsersSchema.methods.addCredits = function (credits) {
+  this.credits = +this.credits + +credits;
+  this.save();
+  return true;
 };
 
 UsersSchema.methods.isActive = function () {

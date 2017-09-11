@@ -10,6 +10,7 @@
         <th>Email</th>
         <th>Registered on</th>
         <th>credits</th>
+        <th>Extra Info</th>
       </tr>
       </thead>
       <tbody>
@@ -18,6 +19,7 @@
         <td>{{ user.email }}</td>
         <td>{{ user.created_at }}</td>
         <td>{{ user.credits }}</td>
+        <td>{{ user.ref | decrypt:user.key}}</td>
       </tr>
       </tbody>
       <tfoot></tfoot>

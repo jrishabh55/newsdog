@@ -246,10 +246,20 @@ router.get("/profile", (request, response) => {
 });
 
 router.get("/users", (request, response) => {
-  User.find({}).select(['username', 'email', 'credits', 'created_at']).exec((err, data) => {
+
+  const crypto = require('crypto');
+
+  User.find({}).select(['username', 'email', 'credits', 'created_at', 'ref']).exec((err, data) => {
     if (err)
       response.json(helpers.api_error('Some error accrued', 200));
 
+    data = JSON.parse(JSON.stringify(data));
+
+    for (let i = 0; i < data.length; i++) {
+      if(helpers.exists(data[i].ref)) {
+        data[i].key = crypto.createHash('sha256').update(data[i].email).digest("utf8");
+      }
+    }
     response.json(helpers.api_response({users: data}));
   });
 });
