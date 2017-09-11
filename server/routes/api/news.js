@@ -63,14 +63,14 @@ router.get('/categories', (request, response) => {
   });
 });
 
-router.get('/categories/:id', (request, response) => {
-  const params = request.params;
-  if (!helpers.exists(params.id)) {
+router.post('/categories', (request, response) => {
+  const params = request.body;
+  if (!helpers.exists(params.id) && !helpers.exists(params.name)) {
     response.status(422).json(helpers.api_error("Invalid Parameters."), 422).end();
     return;
   }
 
-  model.byCategory(params.id, (err, data) => {
+  const cb = (err, data) => {
     if (err) {
       response.json(helpers.api_error("Something Went Wrong"));
       response.end();
@@ -78,9 +78,16 @@ router.get('/categories/:id', (request, response) => {
     }
     response.json(helpers.api_response({news: data}));
     response.end();
-  }).sort({_id: -1});
-});
+  };
 
+  if(helpers.exists(params.name)) {
+    model.byCategory(params.id, cb).sort({_id: -1});
+  }
+  else if(helpers.exists(params.name)) {
+    model.byCategoryName(params.id, cb).sort({_id: -1});
+  }
+
+});
 router.get('/tags/:id', (request, response) => {
   // TODO find news via tags API
   response.json(helpers.api_response("To be built"));

@@ -27,7 +27,7 @@ require("./server/config/passport")(passport);
 //Point static path to dist
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/api", api);
+app.use("/api/v1", api);
 app.use("/api/**", (request, response) => response.status(404).send('Not Found'));
 
 app.get("**", (req, response) => {
