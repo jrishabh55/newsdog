@@ -52,7 +52,8 @@
     "randomstring": "^1.1.5",
     "rxjs": "^5.4.3",
     "tinymce": "^4.6.6",
-    "zone.js": "^0.8.17"
+    "zone.js": "^0.8.17",
+    "webpack": "^3.5.6"
   },
   "devDependencies": {
     "@angular/cli": "^1.4.1",
@@ -77,8 +78,7 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.3.0",
     "tslint": "^5.7.0",
-    "typescript": "^2.4.2",
-    "webpack": "^3.5.6"
+    "typescript": "^2.4.2"
   },
   "engines": {
     "node": "8.4.0",
