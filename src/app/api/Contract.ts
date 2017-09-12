@@ -113,8 +113,8 @@ export class Contract {
 
   buildUrl(url: string): string {
     if (this.host.length <= 1) {
-      return `/api/admin/${url}`;
+      return `/api/v1/admin/${url}`;
     }
-    return `${this.protocol}://${this.host}:${this.port}/api/admin/${url}`;
+    return `${this.protocol}://${this.host}:${this.port}/api/v1/admin/${url}`;
   }
 }
