@@ -11,7 +11,10 @@ let helpers = {
   },
   encrypt: (password, text) => {
     password = crypto1.createHash('sha256').update(password).digest("hex");
-    return crypto.AES.encrypt(text, password);
+    if(typeof text !== 'string') {
+      text = JSON.stringify(text);
+    }
+    return crypto.AES.encrypt(text, password).toString();
   },
 
   decrypt: (password, text) => {

@@ -36,8 +36,13 @@ router.post('/info', (request, response) => {
     const data = params.data;
     try {
       const password = request.user.email;
-      helpers.decrypt(password, data);
+      const msg = helpers.decrypt(password, data);
+      if(!helpers.exists(msg)) {
+        response.json(helpers.api_error("Invalid Data")).end();
+        return;
+      }
     }catch(e) {
+      console.log(e);
       response.json(helpers.api_error("Invalid Data")).end();
       return;
     }
