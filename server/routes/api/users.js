@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const helpers = require("../../helpers");
+const User = require("../../models/users");
 
 router.get("/", (request, response) => response.send("admins get"));
 
@@ -41,9 +42,24 @@ router.post('/info', (request, response) => {
       return;
     }
 
-    request.user.ref = data;
-    request.user.save();
-    response.json(helpers.api_response('Info added'));
+    User.findOne({_id: request.user._id}, (err, data) => {
+      if(err) {
+        console.log(err);
+        response.json(helpers.api_error('Something Went Wrong. Please try again'));
+      }
+      else if(data) {
+        data.ref = params.data;
+        data.save()
+          .then(() => {
+            response.json(helpers.api_response('Info added'));
+          })
+          .catch(e => {
+            console.log(e);
+            response.json(helpers.api_error('Something Went Wrong. Please try again'));
+          });
+      }
+
+    });
   }
 });
 
