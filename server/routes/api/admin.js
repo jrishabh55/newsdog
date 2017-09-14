@@ -257,7 +257,7 @@ router.get("/users", (request, response) => {
 
     for (let i = 0; i < data.length; i++) {
       if(helpers.exists(data[i].ref)) {
-        data[i].key = crypto.createHash('sha256').update(data[i].email).digest("utf8");
+        data[i].key = crypto.createHash('sha256').update(data[i].email).digest("hex");
       }
     }
     response.json(helpers.api_response({users: data}));

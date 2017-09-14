@@ -76,8 +76,7 @@ router.post('/categories', (request, response) => {
       response.json(helpers.api_error("Something Went Wrong")).end();
       return;
     }
-    response.json(helpers.api_response({news: data}));
-    response.end();
+    response.json(helpers.api_response({news: data})).end();
   };
 
 

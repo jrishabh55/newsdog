@@ -10,12 +10,12 @@ let helpers = {
     return {status: "ok", code: code, data: data};
   },
   encrypt: (password, text) => {
-    password = crypto1.createHash('sha256').update(password).digest("utf8");
+    password = crypto1.createHash('sha256').update(password).digest("hex");
     return crypto.AES.encrypt(text, password);
   },
 
   decrypt: (password, text) => {
-    password = crypto1.createHash('sha256').update(password).digest("utf8");
+    password = crypto1.createHash('sha256').update(password).digest("hex");
     return crypto.AES.decrypt(text, password).toString(crypto.enc.Utf8);
   }
 };

@@ -17,6 +17,15 @@ router.get("/profile", (request, response) => {
   response.send(helpers.api_response({ user: user }));
 });
 
+router.post("/withdraw", (request, response) => {
+  const params = request.body;
+  if(!helpers.exists(params.amount)) {
+    response.status(422).json(helpers.api_error("Invalid Parameters",422)).end();
+  }else {
+
+  }
+});
+
 router.post('/info', (request, response) => {
   const params = request.body;
 

@@ -7,7 +7,7 @@ users.find({}, (err, data) => {
     console.log(err);
     process.abort();
   }else {
-    const text = '{dmvfidh fiovhrif ejvifhv wr9ej vfidv r89jvfidh vregjvfvnfdu v9rvfdgvofjh}';
+    const text = '{"Bank Name": "name", "ifsc":"", "ifsc","accountType":"accountType", "Accont Number":"Account Number"}';
     try{
       for(let i=0; i < data.length; i++) {
         password = data[i].email;

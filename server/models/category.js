@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const connection = require("../connection");
 
 const CategorySchema = new Schema({
-  name: {type: String, required: true},
+  name: {type: String, required: true, lowercase: true},
   meta: {type: String, required: false},
 });
 
