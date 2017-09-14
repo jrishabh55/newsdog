@@ -35,18 +35,18 @@ NewsSchema.statics.byAuthor = function (author, callback, withHidden = false) {
   return this.find({author: author, hidden: withHidden}, callback);
 };
 
-NewsSchema.statics.byCategory = function (category, callback, withHidden = false) {
-  return this.find({category: category, hidden: withHidden}, callback);
+NewsSchema.statics.byCategory = function (category, callback) {
+  return this.find({category: category}, callback).sort({_id: -1});
 };
-NewsSchema.statics.byCategoryName = function (category, callback, withHidden = false) {
-  const cat = require('category');
-  cat.findOne({name: category}, (err, data) => {
+NewsSchema.statics.byCategoryName = function (category, callback) {
+  const Category = require('./category');
+  Category.findOne({name: category}, (err, data) => {
     if(err) throw err;
     if(data) {
-      return this.find({category: data._id, hidden: withHidden}, callback);
+      return this.find({category: data._id}, callback).sort({_id: -1});
     }
     callback("No Category Found");
-  });
+  }).sort({_id: -1});
 };
 
 NewsSchema.statics.all = function (callback, withHidden = false) {

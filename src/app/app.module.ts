@@ -35,6 +35,7 @@ import {TagComponent} from './components/news/tag/tag.component';
 import {environment} from '../environments/environment';
 import * as firebase from 'firebase';
 import { DecryptPipe } from './pipes/decrypt.pipe';
+import { NewsFetchComponent } from './components/news/fetch/news-fetch.component';
 
 firebase.initializeApp(environment.firebaseConfig);
 
@@ -65,6 +66,7 @@ firebase.initializeApp(environment.firebaseConfig);
     ExcerptPipe,
     TagComponent,
     DecryptPipe,
+    NewsFetchComponent,
   ],
   imports: [
     BrowserModule,

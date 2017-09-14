@@ -6,7 +6,7 @@
         Create News
       </div>
       <div class="card-block">
-        <div class="alert alert-success" *ngIf="created === true">News Update Sucessful</div>
+        <div class="alert alert-success" *ngIf="created === true">News Update Successful</div>
         <div class="alert alert-danger" *ngIf="created === false">{{ error }}</div>
 
         <form id="newsForm" (submit)="updateNews(newsForm.value)" [formGroup]="newsForm">

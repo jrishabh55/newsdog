@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header"><i class="icon-note"></i> Fetch</div>
+      <div class="card-block">
+        <div class="alert alert-success" *ngIf="created === true">News Update Successful</div>
+        <div class="alert alert-danger" *ngIf="created === false">{{ error }}</div>
+
+        <form id="fetchNewsForm" (submit)="fetchNews(fetchNewsForm.value)" [formGroup]="fetchNewsForm">
+          <fieldset class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon col-sm-3">URl</span>
+              <input class="form-control" name="url" placeholder="News url" formControlName="url"/>
+              <span class="input-group-addon"><i class="fa fa-wordpress"></i> </span>
+            </div>
+          </fieldset>
+        </form>
+        <div class="card-footer">
+          <button class="btn btn-primary pull-right" form="fetchNewsForm" type="submit" [disabled]="!fetchNewsForm.valid">Add
+            News
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card" *ngIf="res !== null">
+      <div class="card-header"><i class="icon-note"></i>News Data</div>
+      <div class="card-block">
+        <table class="table table-dashed">
+          <thead>
+          <tr>
+            <th>Fields</th>
+            <th>Values</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th>Title</th>
+            <th>{{ res.title.rendered}}</th>
+          </tr>
+          <tr>
+            <td>Date</td>
+            <td>{{ res.date }}</td>
+          </tr>
+          <tr>
+            <td>Slug</td>
+            <td>{{ res.slug }}</td>
+          </tr>
+          <tr>
+            <td>Link</td>
+            <td>{{ res.link }}</td>
+          </tr>
+          <tr>
+            <td>Content</td>
+            <td>{{ res.content.rendered }}</td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <td></td>
+            <td><button class="btn btn-primary pull-right">Add</button></td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -71,20 +71,21 @@ router.post('/categories', (request, response) => {
   }
 
   const cb = (err, data) => {
+    console.log("Calling", data);
     if (err) {
-      response.json(helpers.api_error("Something Went Wrong"));
-      response.end();
+      response.json(helpers.api_error("Something Went Wrong")).end();
       return;
     }
     response.json(helpers.api_response({news: data}));
     response.end();
   };
 
-  if(helpers.exists(params.name)) {
-    model.byCategory(params.id, cb).sort({_id: -1});
-  }
-  else if(helpers.exists(params.name)) {
-    model.byCategoryName(params.id, cb).sort({_id: -1});
+
+
+  if (helpers.exists(params.id)) {
+    model.byCategory(params.id, cb);
+  } else if (helpers.exists(params.name)) {
+    model.byCategoryName(params.name, cb);
   }
 
 });

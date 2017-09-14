@@ -11,6 +11,7 @@ import {NewsListComponent} from './components/news/news-list/news-list.component
 import {AddCategoryComponent} from './components/news/add-category/add-category.component';
 import {NewsEditComponent} from './components/news/news-edit/news-edit.component';
 import {TagComponent} from './components/news/tag/tag.component';
+import {NewsFetchComponent} from './components/news/fetch/news-fetch.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
@@ -34,6 +35,7 @@ const routes: Routes = [
     path: 'news',
     children: [
       {path: '', redirectTo: 'news/add', pathMatch: 'full' },
+      { path: 'fetch', component: NewsFetchComponent, pathMatch: 'full' },
       { path: 'add', component: NewsComponent, pathMatch: 'full' },
       { path: ':id/edit', component: NewsEditComponent, pathMatch: 'full' },
       { path: 'list', component: NewsListComponent, pathMatch: 'full' },
