@@ -10,7 +10,7 @@ import {ResponseObject} from '../../api/ResponseObject';
 })
 export class UsersComponent implements OnInit, OnDestroy {
 
-  users: Array<User>;
+  users: Array<User> = [];
   result: Boolean = false;
 
   constructor(private api: API) {

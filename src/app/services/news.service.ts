@@ -10,5 +10,5 @@ export class NewsService {
 
   get(): Observable<ResponseObject> {
     return this.api.get(this.api.buildUrl('news'), '');
-  }
+  }  
 }

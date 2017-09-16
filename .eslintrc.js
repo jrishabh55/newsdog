@@ -32,6 +32,7 @@ module.exports = {
         "semi-coloun": [
           "error",
           "always"
-        ]
+        ],
+        "no-console": 0
     }
 };
