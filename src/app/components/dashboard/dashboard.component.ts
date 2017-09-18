@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
-import {Contract as API} from '../../api/Contract';
+import { Contract as API } from '../../api/Contract';
+import { Dashboard } from '../../Interfaces';
 
 @Component({
   selector: 'jnex-dashboard',
@@ -9,10 +10,13 @@ import {Contract as API} from '../../api/Contract';
 })
 export class DashboardComponent implements OnInit {
 
-  data: Object;
+  data: Dashboard = null;
   constructor(private api: API, private dashboardService: DashboardService) { }
   ngOnInit(): void {
+    this.dashboardService.getData().subscribe(response => {
+      this.data = response.data.dashboard;
+      console.log(this.data);
 
-    this.data = this.dashboardService.getData();
+    });
   }
 }

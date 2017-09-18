@@ -1,15 +1,14 @@
-<div class="animated fadeIn">
-
+<div class="animated fadeIn" *ngIf="data !== null">
   <div class="row">
     <div class="col-6 col-lg-3">
       <div class="card">
         <div class="card-block p-1 clearfix">
           <i class="fa fa-cogs bg-primary p-1 font-2xl mr-1 float-left"></i>
           <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-h">Clients</div>
-          <div class="h5 text-right">4.589</div>
+          <div class="h5 text-right">{{ data.users.count }}</div>
         </div>
         <div class="card-footer px-1 py-h">
-          <a class="font-weight-bold font-xs btn-block text-muted" href="#">View More <i class="fa fa-angle-right float-right font-lg"></i></a>
+          <a class="font-weight-bold font-xs btn-block text-muted" [routerLink]="['/users']" href="javascript:void();">View More <i class="fa fa-angle-right float-right font-lg"></i></a>
         </div>
       </div>
     </div>
@@ -19,11 +18,11 @@
       <div class="card">
         <div class="card-block p-1 clearfix">
           <i class="fa fa-laptop bg-info p-1 font-2xl mr-1 float-left"></i>
-          <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-h">Deals</div>
-          <div class="h5 text-right">789</div>
+          <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-h">News</div>
+          <div class="h5 text-right">{{ data.news.count }}</div>
         </div>
         <div class="card-footer px-1 py-h">
-          <a class="font-weight-bold font-xs btn-block text-muted" href="#">View More <i class="fa fa-angle-right float-right font-lg"></i></a>
+          <a class="font-weight-bold font-xs btn-block text-muted" [routerLink]="['/news']" href="javascript:void()">View More <i class="fa fa-angle-right float-right font-lg"></i></a>
         </div>
       </div>
     </div>
@@ -33,11 +32,11 @@
       <div class="card">
         <div class="card-block p-1 clearfix">
           <i class="fa fa-moon-o bg-warning p-1 font-2xl mr-1 float-left"></i>
-          <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-h">Income</div>
-          <div class="h5 text-right">$1.999</div>
+          <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-h">Categories</div>
+          <div class="h5 text-right">{{ data.news.categoryCount }}</div>
         </div>
         <div class="card-footer px-1 py-h">
-          <a class="font-weight-bold font-xs btn-block text-muted" href="#">View More <i class="fa fa-angle-right float-right font-lg"></i></a>
+          <a class="font-weight-bold font-xs btn-block text-muted" [routerLink]="['/news/category']" href="javascript:void()">View More <i class="fa fa-angle-right float-right font-lg"></i></a>
         </div>
       </div>
     </div>
@@ -48,10 +47,10 @@
         <div class="card-block p-1 clearfix">
           <i class="fa fa-bell bg-danger p-1 font-2xl mr-1 float-left"></i>
           <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-h">Account</div>
-          <div class="h5 text-right">$100K</div>
+          <div class="h5 text-right">{{ data.news.tagCount }}</div>
         </div>
         <div class="card-footer px-1 py-h">
-          <a class="font-weight-bold font-xs btn-block text-muted" href="#">View More <i class="fa fa-angle-right float-right font-lg"></i></a>
+          <a class="font-weight-bold font-xs btn-block text-muted" [routerLink]="['/news/tag']" href="javascript:void()">View More <i class="fa fa-angle-right float-right font-lg"></i></a>
         </div>
       </div>
     </div>

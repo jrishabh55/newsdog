@@ -20,12 +20,12 @@ router.get("/profile", (request, response) => {
 
 router.post("/withdraw/:type", (request, response) => {
 	const params = request.body;
-
 	if(!helpers.exists(params.amount)) {
 		return response.status(422).json(helpers.api_error("Invalid Parameters",422)).end();
 	}
+
 	const req = require("../../models/withdral_request");
-	if(request.params.type === "recharge") {
+	if (request.params.type === "recharge") {
 		req.create({
 			type: "recharge",
 			amount: params.amount,
@@ -35,18 +35,16 @@ router.post("/withdraw/:type", (request, response) => {
 				response.json(helpers.api_error("Something went wrong."));
 				console.log(err);
 			});
-	}
-	else if(request.params.type === "bank") {
+	} else if(request.params.type === "bank") {
 		req.create({
-			type: "recharge",
+			type: "bank",
 			amount: params.amount
 		}).then(() => response.json(helpers.api_response({data: "Recharge requested."})))
 			.catch(err => {
 				response.json(helpers.api_error("Something went wrong."));
 				console.log(err);
 			});
-	}
-	else {
+	} else {
 		response.status(404).end("Not Found");
 	}
 });
@@ -65,18 +63,17 @@ router.post("/info", (request, response) => {
 				response.json(helpers.api_error("Invalid Data")).end();
 				return;
 			}
-		}catch(e) {
+		} catch(e) {
 			console.log(e);
 			response.json(helpers.api_error("Invalid Data")).end();
 			return;
 		}
 
 		User.findOne({_id: request.user._id}, (err, data) => {
-			if(err) {
+			if (err) {
 				console.log(err);
-				response.json(helpers.api_error("Something Went Wrong. Please try again"));
-			}
-			else if(data) {
+				response.json(helpers.api_error("Something Went Wrong. Please try again."));
+			} else if(data) {
 				data.ref = params.data;
 				data.save()
 					.then(() => {
@@ -84,10 +81,9 @@ router.post("/info", (request, response) => {
 					})
 					.catch(e => {
 						console.log(e);
-						response.json(helpers.api_error("Something Went Wrong. Please try again"));
+						response.json(helpers.api_error("Something Went Wrong. Please try again."));
 					});
 			}
-
 		});
 	}
 });

@@ -13,6 +13,10 @@ const WithdrawalRequest = new Schema({
 	paid_date: { type: Date }
 });
 
+WithdrawalRequest.pre('save', function (next) {
+	next();
+});
+
 
 WithdrawalRequest.statics.byId = function (id, callback) {
 	this.findOne({_id: id}).exec(callback);

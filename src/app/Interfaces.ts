@@ -32,3 +32,8 @@ export interface Tag {
   _id: number;
   meta?: Object;
 }
+
+export interface Dashboard {
+  news: {count: number, readCount: number, categoryCount: number, tagCount: number},
+  users: {count: number}
+}

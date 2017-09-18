@@ -1,19 +1,19 @@
-#Jnegular 
+#Jnegular
 
 ##APIs
-####Base URL: 
+####Base URL:
 /api/v1/
 
-####Auth Headers
+####Authentication Headers
 jnex-username\
 jnex-token
 
 ###API Routes
-#### Auth not required
+#### Authentication not required
 POST /login\
 POST /register
 
-#### Auth required
+#### Authentication required
 GET /users/profile\
 POST /users/info\
 GET /users/news/{page} {page} //Optional parameter\
@@ -21,3 +21,6 @@ POST /users/news/read {id}\
 GET /users/news/read\
 GET /users/news/categories\
 POST /users/news/categories {id?, name?} Require One of given
+POST /users/withdraw/{type} {'recharge' or 'bank'}
+  Type = recharge {amount, number, operator}
+  Type = bank {amount}

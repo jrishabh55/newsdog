@@ -19,17 +19,23 @@ export class NewsListComponent implements OnInit, OnDestroy {
     const url = this.api.buildUrl('news');
     this.api.get(url).subscribe((response) => {
       this.newses = response.data.newses.reverse();
-      this.result = true;
     });
   }
 
   deleteNews(id: number) {
-    // TODO build delete api
-    console.log('to be built');
+    const url = this.api.buildUrl(`news/${id}`);
+    //NOTE Not Tested
+    this.api.del(url).subscribe((response) => {
+      if (response.status === 'ok') {
+        this.result = true;
+      } else {
+        this.result = false;
+      }
+    });
   }
 
   ngOnDestroy() {
-    this.result = false;
+    this.result = null;
   }
 
 }
