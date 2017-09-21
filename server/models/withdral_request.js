@@ -5,8 +5,8 @@ const connection = require("../connection");
 
 const WithdrawalRequest = new Schema({
 	type: { type: String, required: true },
-	paid: { type: Boolean, required: true },
-	data: { type: String, required: true },
+	paid: { type: Boolean, required: true, default: false },
+	data: { type: String, required: false },
 	amount: { type: Number, required: true },
 	created_at: { type: Date, default: Date.now() },
 	updated_at: { type: Date },

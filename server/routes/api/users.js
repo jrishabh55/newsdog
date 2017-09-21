@@ -29,7 +29,7 @@ router.post("/withdraw/:type", (request, response) => {
 		req.create({
 			type: "recharge",
 			amount: params.amount,
-			data: { number: params.number, operator: params.operator }
+			data: JSON.stringify({ number: params.number, operator: params.operator })
 		}).then(() => response.json(helpers.api_response({data: "Recharge requested."})))
 			.catch(err => {
 				response.json(helpers.api_error("Something went wrong."));
