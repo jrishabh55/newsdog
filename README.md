@@ -1,3 +1,5 @@
+[![Known Vulnerabilities](https://snyk.io/test/github/jrishabh55/newsdog/badge.svg)](https://snyk.io/test/github/jrishabh55/newsdog)
+
 #Jnegular
 
 ##APIs
@@ -13,9 +15,9 @@ jnex-token
 POST /login\
 POST /register
 
-#### Authentication required
+#### Authentication required (Updated)
 GET /users/profile\
-POST /users/info\
+POST /users/info {data, name, email, password} Required any one\
 GET /users/news/{page} {page} //Optional parameter\
 POST /users/news/read {id}\
 GET /users/news/read\

@@ -17,13 +17,12 @@
             <th>Time</th>
             <th>(Favs, Votes)</th>
             <th>Meta</th>
-            <th>Buttons</th>
           </tr>
           </thead>
           <tbody class="animated fadeIn" *ngIf="newses && newses.length > 0; else noItems">
           <tr *ngFor="let news of newses">
             <td>
-              <img class="avatar" src="{{ news.thumbnail.url1 }}" />
+              <img class="avatar" *ngIf="news.thumbnail.url1" src="{{ news.thumbnail.url1 }}" />
               <img class="avatar" *ngIf="news.thumbnail.url2" src="{{ news.thumbnail.url2 }}" />
               <img class="avatar" *ngIf="news.thumbnail.url3" src="{{ news.thumbnail.url3 }}" />
             </td>
@@ -35,10 +34,10 @@
             <td>{{ news.time }}</td>
             <td>{{ news.meta.favs }}, {{ news.meta.votes }}</td>
             <td>
-              <a [routerLink]="['/news',news._id,'edit']" class="btn btn-primary">
+              <a [routerLink]="['/news',news._id,'edit']">
                 <i class="fa fa-edit"></i>
               </a>
-              <a (click)="deleteNews(news._id)" class="btn btn-danger">
+              <a (click)="deleteNews(news._id)" href="javascript:void()" style="color: red;">
                 <i class="fa fa-remove"></i>
               </a>
             </td>

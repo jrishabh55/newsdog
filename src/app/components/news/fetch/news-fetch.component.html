@@ -14,9 +14,21 @@
               <span class="input-group-addon"><i class="fa fa-wordpress"></i> </span>
             </div>
           </fieldset>
+          <fieldset class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon col-sm-3">Type</span>
+              <label class="radio-inline"> ID
+                <input type="radio" name="typ" value="id" formControlName="type" />
+              </label>
+              <label class="radio-inline"> Slug
+                <input type="radio" name="typ" value="slug" formControlName="type" />
+              </label>
+              <span class="input-group-addon"><i class="fa fa-wordpress"></i> </span>
+            </div>
+          </fieldset>
         </form>
         <div class="card-footer">
-          <button class="btn btn-primary pull-right" form="fetchNewsForm" type="submit" [disabled]="!fetchNewsForm.valid">Add
+          <button class="btn btn-primary btn-sm pull-right" form="fetchNewsForm" type="submit" [disabled]="!fetchNewsForm.valid">Add
             News
           </button>
         </div>
@@ -54,13 +66,10 @@
             <td>{{ res.content.rendered }}</td>
           </tr>
           </tbody>
-          <tfoot>
-          <tr>
-            <td></td>
-            <td><button class="btn btn-primary pull-right">Add</button></td>
-          </tr>
-          </tfoot>
         </table>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-primary btn-sm pull-right">Add</button>
       </div>
     </div>
   </div>

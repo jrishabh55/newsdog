@@ -10,16 +10,39 @@ import 'rxjs/add/operator/map';
 })
 export class NewsFetchComponent implements OnInit {
 
-  created: Boolean;
+  created: boolean;
   error: string;
 
   fetchNewsForm: FormGroup;
+  type = null;
   res = null;
 
-  constructor(private http: Http) {
+  constructor(private http: Http) {}
+
+  exploadUri (url: string, type: string): Object {
+    let part;
+    if(url.substr(0,7)) {
+      part = url.substr(8);
+    } else if(url.substr(0,8)) {
+      part = url.substr(8);
+    } else {
+      part = url;
+    }
+    console.log(part);
+    return {};
   }
 
-  fetchNews(data) {
+  convertUri (url: string, type: string = 'id'): string {
+    this.exploadUri(url, type);
+    return url;
+  }
+
+  fetchNews(data: {type: string, url: string}): void {
+    if(this.type !== null) {
+      console.log('Not Selected');
+      return;
+    }
+    this.convertUri(data.url, data.type);
     const url = data.url;
     this.res = null;
     this.http.get(url)

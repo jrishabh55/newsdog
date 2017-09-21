@@ -198,7 +198,7 @@ router.post("/news/:id/view", (request, response) => {
     const time = readTime(params.desc);
   }
 
-  //TODO Check Working
+  //NOTE Check Working
   News.findOne({_id: news_id}, (err, d) => {
     if (err) {
       console.log(err,d);

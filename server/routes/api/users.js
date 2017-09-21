@@ -52,40 +52,37 @@ router.post("/withdraw/:type", (request, response) => {
 router.post("/info", (request, response) => {
 	const params = request.body;
 
-	if(!helpers.exists(params.data)) {
-		response.status(422).json(helpers.api_error("Invalid Parameters",422)).end();
-	}else {
-		const data = params.data;
-		try {
-			const password = request.user.email;
-			const msg = helpers.decrypt(password, data);
-			if(!helpers.exists(msg)) {
-				response.json(helpers.api_error("Invalid Data")).end();
-				return;
-			}
-		} catch(e) {
-			console.log(e);
-			response.json(helpers.api_error("Invalid Data")).end();
-			return;
-		}
-
-		User.findOne({_id: request.user._id}, (err, data) => {
-			if (err) {
-				console.log(err);
-				response.json(helpers.api_error("Something Went Wrong. Please try again."));
-			} else if(data) {
-				data.ref = params.data;
-				data.save()
-					.then(() => {
-						response.json(helpers.api_response("Info added"));
-					})
-					.catch(e => {
-						console.log(e);
-						response.json(helpers.api_error("Something Went Wrong. Please try again."));
-					});
-			}
-		});
+	if(!helpers.exists(params.data) && !helpers.exists(params.name) && !helpers.exists(params.email) && !helpers.exists(params.password)) {
+		return response.status(422).json(helpers.api_error("Invalid Parameters",422)).end();
 	}
+
+	User.findOne({_id: request.user._id}, (err, data) => {
+		if (err) {
+			console.log(err);
+			response.json(helpers.api_error("Something Went Wrong. Please try again."));
+		} else if(data) {
+			if(helpers.exists(params.data)) {
+				data.ref = helpers.encrypt(this.email, params.data);
+			}
+			if(helpers.exists(params.name)) {
+				data.name = params.name;
+			}
+			if(helpers.exists(params.email)) {
+				data.email = params.email;
+			}
+			if(helpers.exists(params.password)) {
+				data.password = params.password;
+			}
+			data.save()
+			.then(() => {
+				response.json(helpers.api_response("Info added"));
+			})
+			.catch(e => {
+				console.log(e);
+				response.json(helpers.api_error("Something Went Wrong. Please try again."));
+			});
+		}
+	});
 });
 
 router.use("/news", require("./news"));

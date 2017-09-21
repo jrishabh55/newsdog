@@ -113,10 +113,6 @@ export class NewsComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(1),
       ])),
-      time: new FormControl('5000', Validators.compose([
-        Validators.required,
-        Validators.pattern('[0-9]+')
-      ])),
       thumb1: new FormControl('', Validators.compose([
         // Validators.pattern('https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)'),
       ])),
@@ -164,4 +160,3 @@ export class NewsComponent implements OnInit, OnDestroy {
   }
 
 }
-

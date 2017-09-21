@@ -10,7 +10,17 @@ UsersNewsSchema.statics.add = function (user_id, news_id, callback) {
 	this.create({user_id: user_id, news_id: news_id}, function (err, data) {
 		if (err) return callback(err);
 		const User = require("./users");
-		User.findAndUpdate({});
+		User.byId(user_id, (err, user) => {
+			if (err) return callback(err);
+			const News = require('./news');
+			News.byId(news_id, (err, news) => {
+				if (err) return callback(err);
+				user.credits -= news.credits;
+				user.save().then(() => {
+					callback(undefined);
+				}).catch(err => callback(err));
+			});
+		});
 	});
 };
 
