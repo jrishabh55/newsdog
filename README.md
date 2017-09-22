@@ -1,16 +1,16 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/jrishabh55/newsdog/badge.svg)](https://snyk.io/test/github/jrishabh55/newsdog)
 
-#Jnegular
+# Jnegular
 
-##APIs
-####Base URL:
+## APIs\
+#### Base URL:
 /api/v1/
 
-####Authentication Headers
+#### Authentication Headers
 jnex-username\
 jnex-token
 
-###API Routes
+### API Routes
 #### Authentication not required
 POST /login\
 POST /register

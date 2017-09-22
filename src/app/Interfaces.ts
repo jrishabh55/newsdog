@@ -34,6 +34,11 @@ export interface Tag {
 }
 
 export interface Dashboard {
-  news: {count: number, readCount: number, categoryCount: number, tagCount: number},
-  users: {count: number}
+  news: {count: number, readCount: number, categoryCount: number, tagCount: number};
+  users: {count: number};
+}
+
+export interface WithdrawalRequest {
+  paid: boolean;
+  paid_date: string;
 }

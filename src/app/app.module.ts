@@ -36,6 +36,7 @@ import {environment} from '../environments/environment';
 import * as firebase from 'firebase';
 import { DecryptPipe } from './pipes/decrypt.pipe';
 import { NewsFetchComponent } from './components/news/fetch/news-fetch.component';
+import { WithdrawalRequestComponent } from './components/withdrawal-request/withdrawal-request.component';
 
 firebase.initializeApp(environment.firebaseConfig);
 
@@ -67,6 +68,7 @@ firebase.initializeApp(environment.firebaseConfig);
     TagComponent,
     DecryptPipe,
     NewsFetchComponent,
+    WithdrawalRequestComponent,
   ],
   imports: [
     BrowserModule,

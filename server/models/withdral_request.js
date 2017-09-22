@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const connection = require("../connection");
 
 const WithdrawalRequest = new Schema({
+	user_id: { type: Number, required: true },
 	type: { type: String, required: true },
 	paid: { type: Boolean, required: true, default: false },
 	data: { type: String, required: false },
@@ -13,7 +14,7 @@ const WithdrawalRequest = new Schema({
 	paid_date: { type: Date }
 });
 
-WithdrawalRequest.pre('save', function (next) {
+WithdrawalRequest.pre("save", function (next) {
 	next();
 });
 
@@ -37,8 +38,14 @@ WithdrawalRequest.methods.pay = function () {
 		this.paid = true;
 		this.paid_date = Date.now();
 		return this.save()
-			.then(s => true)
-			.catch(err => false);
+			.then(s => {
+				console.log(s);
+				return true;
+			})
+			.catch(err => {
+				console.log(err);
+				return false;
+			});
 	}
 };
 

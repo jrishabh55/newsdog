@@ -12,7 +12,7 @@ UsersNewsSchema.statics.add = function (user_id, news_id, callback) {
 		const User = require("./users");
 		User.byId(user_id, (err, user) => {
 			if (err) return callback(err);
-			const News = require('./news');
+			const News = require("./news");
 			News.byId(news_id, (err, news) => {
 				if (err) return callback(err);
 				user.credits -= news.credits;
