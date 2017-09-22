@@ -13,7 +13,7 @@ router.get("/profile", (request, response) => {
 		credits: request.user.credits,
 		reference: request.user.reference,
 		registered: request.created_at,
-		info: request.user.ref,
+		info: helpers.decrypt(request.user.ref),
 	};
 	response.send(helpers.api_response({
 		user: user
