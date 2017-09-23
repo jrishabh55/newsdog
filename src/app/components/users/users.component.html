@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card animated fadeIn" *ngIf="users !== undefined">
   <div class="card-header">
     <i class="icon-note"></i> List Users
   </div>
@@ -19,12 +19,14 @@
         <td>{{ user.email }}</td>
         <td>{{ user.created_at }}</td>
         <td>{{ user.credits }}</td>
-        <td>{{ user.ref | decrypt:user.key}}</td>
+        <td [innerHTML]="user.ref | decrypt:user.key | parseObject"></td>
       </tr>
       </tbody>
       <tfoot></tfoot>
     </table>
-    <ul class="pagination pull-right">
+  </div>
+  <div class="card-footer">
+    <!-- <ul class="pagination pull-right">
       <li class="page-item">
         <a class="page-link" href="#">Prev</a>
       </li>
@@ -43,9 +45,7 @@
       <li class="page-item">
         <a class="page-link" href="javascript:void(0)">Next</a>
       </li>
-    </ul>
-  </div>
-  <div class="card-footer">
+    </ul> -->
 
   </div>
 </div>

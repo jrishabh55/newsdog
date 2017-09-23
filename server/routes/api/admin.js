@@ -6,6 +6,7 @@ const User = require("../../models/users");
 const UserNews = require("../../models/user_news");
 const Category = require("../../models/category");
 const Tag = require("../../models/tag");
+const withdrawRequest = require("../../models/withdrawl_request");
 const helpers = require("../../helpers");
 const passport = require("passport");
 const readTime = require("reading-time");
@@ -24,6 +25,14 @@ router.get("", (request, response) => {
 			return response.json(helpers.api_error("Something Went wrong"));
 		}
 		data.dashboard.users.count = count;
+	});
+
+	User.find({}).sort({created_at: -1}).limit(10).exec((err, users) => {
+		if (err) {
+			console.log(err);
+			return response.json(helpers.api_error("Something Went wrong"));
+		}
+		data.dashboard.users.list = users;
 	});
 
 	News.count({}).exec((err, count) => {
@@ -84,9 +93,9 @@ router.post("/register", passport.authenticate("jwt", {session: false}), (reques
 	});
 
 	if (admin.save()) {
-		response.json(helpers.api_response(admin));
+		return response.json(helpers.api_response(admin));
 	} else {
-		response.json(helpers.api_error("Invalid Error", 200));
+		return response.json(helpers.api_error("Invalid Error", 200));
 	}
 });
 
@@ -102,13 +111,13 @@ router.post("/news/add", (request, response) => {
 
 	if (
 		!helpers.exists(params.title) ||
-								!helpers.exists(params.desc) ||
-								!helpers.exists(params.author) ||
-								!helpers.exists(params.credits) ||
-								!helpers.exists(params.category) ||
-								!helpers.exists(params.tags)
+		!helpers.exists(params.desc) ||
+		!helpers.exists(params.author) ||
+		!helpers.exists(params.credits) ||
+		!helpers.exists(params.category) ||
+		!helpers.exists(params.tags)
 	) {
-		response.status(422).json(helpers.api_error("Invalid parameters", 422));
+		return response.status(422).json(helpers.api_error("Invalid parameters", 422));
 	}
 
 	let time;
@@ -165,10 +174,9 @@ router.get("/news/:id/view", (request, response) => {
 			return response.status(417).json(helpers.api_error("Something Went wrong. Please try again"), 471).end();
 		}
 		if (news) {
-			response.json(helpers.api_response({news: news})).end();
+			return response.json(helpers.api_response({news: news})).end();
 		} else {
-			response.status(404).json(helpers.api_error("Item not found", 404));
-			response.end();
+			return response.status(404).json(helpers.api_error("Item not found", 404)).end();
 		}
 	});
 });
@@ -176,7 +184,6 @@ router.get("/news/:id/view", (request, response) => {
 router.post("/news/:id/view", (request, response) => {
 	const params = request.body;
 	const news_id = request.params;
-
 	if (
 		!helpers.exists(params.title) ||
 		!helpers.exists(params.desc) ||
@@ -267,15 +274,14 @@ router.post("/news/tag/delete", (request, response) => {
 			return response.json(helpers.api_response("Deleted")).end();
 		}
 	});
-
 });
 
 router.get("/news/categories", (request, response) => {
 	Category.all((err, data) => {
 		if (err) {
-			response.json(helpers.api_error(err));
+			return response.json(helpers.api_error(err));
 		} else {
-			response.json(helpers.api_response({categories: data}));
+			return response.json(helpers.api_response({categories: data}));
 		}
 	});
 });
@@ -293,7 +299,6 @@ router.post("/news/category/delete", (request, response) => {
 		}
 		response.json(helpers.api_response("Deleted")).end();
 	});
-
 });
 
 router.post("/news/category/add", (request, response) => {
@@ -317,16 +322,14 @@ router.get("/news/:category", (request, response) => {
 });
 
 router.get("/profile", (request, response) => {
-	response.json(helpers.api_response(request.user));
+	response.json(helpers.api_response({admin: request.user}));
 });
 
 router.get("/users", (request, response) => {
-
 	const crypto = require("crypto");
-
 	User.find({}).select(["username", "email", "credits", "created_at", "ref"]).exec((err, data) => {
 		if (err)
-			response.json(helpers.api_error("Some error accrued", 200));
+			return response.json(helpers.api_error("Some error accrued", 200)).end();
 
 		data = JSON.parse(JSON.stringify(data));
 
@@ -335,7 +338,39 @@ router.get("/users", (request, response) => {
 				data[i].key = crypto.createHash("sha256").update(data[i].email).digest("hex");
 			}
 		}
-		response.json(helpers.api_response({users: data}));
+		return response.json(helpers.api_response({users: data})).end();
+	});
+});
+
+router.get("/withdraw", (request, response) => {
+	withdrawRequest.find({paid: false}, (err, data) => {
+		if(err) {
+			console.log(err);
+			response.json(helpers.api_error("Something went wrong."));
+		}
+		return response.json(helpers.api_response({withdrawRequests: data})).end();
+	});
+});
+
+router.post("/withdraw/:id", (request, response) => {
+	const params = request.params;
+	console.log("Called");
+	withdrawRequest.findOne({_id: params.id}, (err, data) => {
+		if(err) {
+			console.log(err);
+			return response.json(helpers.api_error("Something went wrong.")).end();
+		}
+		if (data.paid === true) {
+			return response.json(helpers.api_error("Request is already paid.", 422));
+		} else {
+			data.paid = true;
+			data.save()
+				.then(() => response.json(helpers.api_response("Saved")))
+				.catch(e => {
+					console.log(e);
+					return response.json(helpers.api_error("Request is already paid.", 422));
+				});
+		}
 	});
 });
 

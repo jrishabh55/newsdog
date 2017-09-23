@@ -1,8 +1,8 @@
-import {Category, News, Tag, User, Dashboard} from '../Interfaces';
+import {Category, News, Tag, User, Dashboard, WithdrawalRequest} from '../Interfaces';
 
 interface Data {
   users?: Array<User>;
-  user?: Array<User>;
+  user?: User;
   newses?: Array<News>;
   news?: News;
   categories?: Array<Category>;
@@ -10,6 +10,7 @@ interface Data {
   tags?: Array<Tag>;
   tag?: Tag;
   dashboard?: Dashboard;
+  withdrawRequests?: Array<WithdrawalRequest>;
 }
 
 export interface ResponseObject {

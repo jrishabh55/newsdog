@@ -29,13 +29,20 @@ router.post("/withdraw/:type", (request, response) => {
 	try {
 		const amount = parseInt(params.amount);
 		if (isNaN(amount) || amount < 100 || amount > request.user.credits) {
-			return response.status(422).json(helpers.api_error("Invalid Parameters", 422)).end();
+			let error = "Invalid Parameters";
+			if (amount < 100) {
+				error = "The amount should be more then 100";
+			}
+			if (amount > request.user.credits) {
+				error = "The amount is more then credits.";
+			}
+			return response.status(422).json(helpers.api_error(error, 422)).end();
 		}
 	} catch(e) {
 		return response.status(422).json(helpers.api_error("Invalid Parameters", 422)).end();
 	}
 
-	const req = require("../../models/withdral_request");
+	const req = require("../../models/withdrawl_request");
 	if (request.params.type === "recharge") {
 		req.create({
 			type: "recharge",
@@ -45,9 +52,17 @@ router.post("/withdraw/:type", (request, response) => {
 				number: params.number,
 				operator: params.operator
 			})
-		}).then(() => response.json(helpers.api_response({
-			data: "Recharge requested."
-		})))
+		}).then(() => {
+
+			User.byId(request.user._id, (err, us) => {
+				console.log("called");
+				us.credits -= params.amount;
+				us.save();
+			});
+			response.json(helpers.api_response({
+				data: "Recharge requested."
+			}));
+		})
 			.catch(err => {
 				response.json(helpers.api_error("Something went wrong."));
 				console.log(err);
@@ -57,13 +72,18 @@ router.post("/withdraw/:type", (request, response) => {
 			type: "bank",
 			user_id: request.user._id,
 			amount: params.amount
-		}).then(() => response.json(helpers.api_response({
-			data: "Recharge requested."
-		})))
-			.catch(err => {
-				response.json(helpers.api_error("Something went wrong."));
-				console.log(err);
+		}).then(() => {
+			User.byId(request.user._id, (err, us) => {
+				us.credits -= params.amount;
+				us.save();
 			});
+			response.json(helpers.api_response({
+				data: "Bank transfer requested."
+			}));
+		}).catch(err => {
+			response.json(helpers.api_error("Something went wrong."));
+			console.log(err);
+		});
 	} else {
 		response.status(404).end("Not Found");
 	}

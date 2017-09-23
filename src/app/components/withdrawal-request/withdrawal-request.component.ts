@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Contract as API } from '../../api/Contract';
+import { WithdrawalRequest } from '../../Interfaces';
 
 @Component({
   selector: 'jnex-withdrawal-request',
@@ -9,14 +10,22 @@ import { Contract as API } from '../../api/Contract';
 export class WithdrawalRequestComponent implements OnInit {
 
   result: boolean;
-  withdraw;
+  withdrawRequests: Array<WithdrawalRequest>;
+  error: string;
 
-  constructor(private api: API) { }
+  constructor(private api: API) {}
 
-  delete(data: {id: number}) {
-    const url = this.api.buildUrl('news/withdraw/' + data.id);
-    this.api.del(url).subscribe(response => {
+  pay(id: number) {
+    const url = this.api.buildUrl(`withdraw/${id}`);
+    this.api.post(url).subscribe(response => {
       if (response.status === 'ok') {
+        this.withdrawRequests.every((val, index): boolean => {
+          if (val._id === id) {
+            this.withdrawRequests.splice(index, 1);
+            return false;
+          }
+          return true;
+        });
         this.result = true;
       } else {
         this.result = false;
@@ -27,10 +36,12 @@ export class WithdrawalRequestComponent implements OnInit {
   ngOnInit() {
     const url = this.api.buildUrl('withdraw');
     this.api.get(url).subscribe(response => {
+      console.log(response);
       if (response.status === 'ok') {
-        this.withdraw = response.data;
+        this.withdrawRequests = response.data.withdrawRequests;
       } else {
-        this.withdraw = null;
+        this.withdrawRequests = null;
+        this.error = response.error;
       }
     });
   }

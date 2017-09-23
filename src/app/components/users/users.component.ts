@@ -10,7 +10,7 @@ import {ResponseObject} from '../../api/ResponseObject';
 })
 export class UsersComponent implements OnInit, OnDestroy {
 
-  users: Array<User> = [];
+  users: Array<User>;
   result: Boolean = false;
 
   constructor(private api: API) {
@@ -20,7 +20,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     const url = this.api.buildUrl('users');
     this.api.get(url).subscribe((response: ResponseObject) => {
-      if (response.error) {
+      if (response.status !== 'ok') {
         console.log(response.error);
       } else {
         this.users = response.data.users;

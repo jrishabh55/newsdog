@@ -1,3 +1,35 @@
-<p>
-  withdrawal-request works!
-</p>
+<div class="row">
+  <div class="col-md-11">
+    <div class="card animated fadeIn" *ngIf="withdrawRequests !== undefined">
+      <div class="card-header"><i class="icon-note"></i>Withdrawal Requests</div>
+      <div class="card-block">
+        <table class="table table-dashed table-bordered">
+          <thead>
+            <tr>
+              <td>User</td>
+              <td>Amount</td>
+              <td>Type</td>
+              <td>Requested at</td>
+              <td>Data</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let req of withdrawRequests">
+              <td>{{ req.user_id }}</td>
+              <td>{{ req.amount }}</td>
+              <td>{{ req.type }}</td>
+              <td>{{ req.created_at }}</td>
+              <td [innerHTML]="req.data | parseObject"></td>
+              <td>
+                <a (click)="pay(req._id)" style="color: green;" href="javascript:void()">
+                  <i class="fa fa-exchange"></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

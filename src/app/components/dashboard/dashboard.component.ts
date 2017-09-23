@@ -11,12 +11,15 @@ import { Dashboard } from '../../Interfaces';
 export class DashboardComponent implements OnInit {
 
   data: Dashboard = null;
+  date: string;
+
   constructor(private api: API, private dashboardService: DashboardService) { }
+
   ngOnInit(): void {
+    this.date = new Date(Date.now()).toLocaleString();
+
     this.dashboardService.getData().subscribe(response => {
       this.data = response.data.dashboard;
-      console.log(this.data);
-
     });
   }
 }

@@ -7,16 +7,16 @@ const WithdrawalRequest = new Schema({
 	user_id: { type: Number, required: true },
 	type: { type: String, required: true },
 	paid: { type: Boolean, required: true, default: false },
+	paid_date: { type: Date },
 	data: { type: String, required: false },
 	amount: { type: Number, required: true },
 	created_at: { type: Date, default: Date.now() },
-	updated_at: { type: Date },
-	paid_date: { type: Date }
+	updated_at: { type: Date }
 });
 
-WithdrawalRequest.pre("save", function (next) {
-	next();
-});
+// WithdrawalRequest.pre("save", function (next) {
+// 	next();
+// });
 
 
 WithdrawalRequest.statics.byId = function (id, callback) {
@@ -27,7 +27,7 @@ WithdrawalRequest.statics.all = function (callback) {
 	this.find({}).exec(callback);
 };
 
-WithdrawalRequest.statics.byType= function (type, callback) {
+WithdrawalRequest.statics.byType = function (type, callback) {
 	this.find({type: type}).exec(callback);
 };
 

@@ -39,6 +39,13 @@ export interface Dashboard {
 }
 
 export interface WithdrawalRequest {
+  _id: number;
+  type: 'recharge' | 'bank';
+  user_id: number;
   paid: boolean;
   paid_date: string;
+  amount: number;
+  created_at: string;
+  updated_at: string;
+  data?: {operator: string, number: number};
 }

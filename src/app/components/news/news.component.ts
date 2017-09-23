@@ -28,7 +28,6 @@ export class NewsComponent implements OnInit, OnDestroy {
   selectTags(options: Event) {
     let tags = Array.apply(null, options).filter(option => option.selected);
     tags = tags.map(tag => tag.value);
-    console.log(tags);
     this.newsForm.patchValue({tags: tags});
   }
 

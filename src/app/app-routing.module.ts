@@ -12,29 +12,27 @@ import {AddCategoryComponent} from './components/news/add-category/add-category.
 import {NewsEditComponent} from './components/news/news-edit/news-edit.component';
 import {TagComponent} from './components/news/tag/tag.component';
 import {NewsFetchComponent} from './components/news/fetch/news-fetch.component';
+import {WithdrawalRequestComponent} from './components/withdrawal-request/withdrawal-request.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-  {path: 'admin/login', component: LoginComponent, pathMatch: 'full'},
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: 'admin/login', component: LoginComponent, pathMatch: 'full' },
+  { path: 'users', component: UsersComponent, canActivate: [AuthGuard], pathMatch: 'full' },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], pathMatch: 'full' },
+  { path: 'withdraw', component: WithdrawalRequestComponent, canActivate: [AuthGuard], pathMatch: 'full' },
   {
     path: 'admin',
     children: [
-      {path: '', redirectTo: 'admin/login', pathMatch: 'full'},
-      {path: 'register', component: RegistrationComponent, pathMatch: 'full'},
-      {path: 'profile', component: ProfileComponent, pathMatch: 'full'}
+      { path: '', redirectTo: 'admin/login', pathMatch: 'full' },
+      { path: 'register', component: RegistrationComponent, pathMatch: 'full' },
+      { path: 'profile', component: ProfileComponent, pathMatch: 'full' }
     ],
     canActivate: [AuthGuard]
   },
   {
-    path: 'dashboard',
-    component: DashboardComponent,
-    canActivate: [AuthGuard],
-    pathMatch: 'full'
-  },
-  {
     path: 'news',
     children: [
-      {path: '', redirectTo: 'news/add', pathMatch: 'full' },
+      { path: '', redirectTo: 'news/add', pathMatch: 'full' },
       { path: 'fetch', component: NewsFetchComponent, pathMatch: 'full' },
       { path: 'add', component: NewsComponent, pathMatch: 'full' },
       { path: ':id/edit', component: NewsEditComponent, pathMatch: 'full' },
@@ -43,13 +41,6 @@ const routes: Routes = [
       { path: 'tag', component: TagComponent, pathMatch: 'full' }
     ],
     canActivate: [AuthGuard]
-  },
-  {
-    path: 'users',
-    component: UsersComponent,
-    canActivate: [AuthGuard],
-    pathMatch: 'full'
-
   }
 ];
 
