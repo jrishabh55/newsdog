@@ -10,7 +10,7 @@ export class DashboardService {
   constructor(private api: API) {}
 
   getData(): Observable<ResponseObject> {
-    const url = this.api.buildUrl("");
+    const url = this.api.buildUrl('');
     return this.api.get(url);
   }
 }

@@ -34,7 +34,7 @@
             <td>{{ news.time }}</td>
             <td>{{ news.meta.favs }}, {{ news.meta.votes }}</td>
             <td>
-              <a [routerLink]="['/news',news._id,'edit']">
+              <a [href]="'/news/'+news._id+'/edit'">
                 <i class="fa fa-edit"></i>
               </a>
               <a (click)="deleteNews(news._id)" href="javascript:void()" style="color: red;">
