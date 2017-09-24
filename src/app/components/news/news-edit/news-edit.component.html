@@ -1,4 +1,4 @@
-<div class="row animated fadeIn">
+<div class="row animated fadeIn" *ngIf="news">
   <div class="col-sm-12">
     <div class="card">
       <div class="card-header">
@@ -71,7 +71,7 @@
               <input type="file" name="thumb1" class="form-control" formControlName="thumb1"
                      accept="image/png, image/jpg, image/jpeg, image/gif"/>
               <span class="input-group-addon col-sm-2">
-                <img [src]="news ? news.thumbnail.url1 : ''" width="100%" height="100%"  />
+                <img [src]="news.thumbnail.url1" *ngIf="news && news.thumbnail && news.thumbnail.url1" width="100%" height="100%"  />
               </span>
             </div>
           </fieldset>
@@ -82,7 +82,7 @@
               <input type="file" name="thumb2" class="form-control" formControlName="thumb2"
                      accept="image/png, image/jpg, image/jpeg, image/gif"/>
               <span class="input-group-addon col-sm-2">
-                <img [src]="news ? news.thumbnail.url2 : ''" width="100%" height="100%"  />
+                <img [src]="news.thumbnail.url2" *ngIf="news && news.thumbnail && news.thumbnail.url2" width="100%" height="100%"  />
               </span>
             </div>
           </fieldset>
@@ -93,7 +93,7 @@
               <input type="file" name="thumb3" class="form-control" formControlName="thumb3"
                      accept="image/png, image/jpg, image/jpeg, image/gif"/>
               <span class="input-group-addon col-sm-2">
-                <img [src]="news ? news.thumbnail.url3 : ''" width="100%" height="100%" />
+                <img [src]="news.thumbnail.url3" *ngIf="news && news.thumbnail && news.thumbnail.url3" width="100%" height="100%" />
               </span>
             </div>
           </fieldset>

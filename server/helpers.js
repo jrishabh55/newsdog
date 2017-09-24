@@ -23,11 +23,14 @@ let helpers = {
 		return crypto.AES.decrypt(text, password).toString(crypto.enc.Utf8);
 	},
 
-	notification: (contents) => {
+	notification: (title, contents, url = null) => {
 		return new Promise((resolve, reject) => {
 			let message = {};
-			message.headings = {en: contents.title};
-			message.contents = { en: contents.body };
+			message.headings = {en: title};
+			message.contents = { en: contents };
+			if (helpers.exists(url)) {
+				message.url = url;
+			}
 			message.app_id = process.env.onesignalAppId;
 
 			if(message.included_segments === undefined || message.included_segments === null) {

@@ -22,9 +22,9 @@
           <tbody class="animated fadeIn" *ngIf="newses && newses.length > 0; else noItems">
           <tr *ngFor="let news of newses">
             <td>
-              <img class="avatar" *ngIf="news.thumbnail.url1" src="{{ news.thumbnail.url1 }}" />
-              <img class="avatar" *ngIf="news.thumbnail.url2" src="{{ news.thumbnail.url2 }}" />
-              <img class="avatar" *ngIf="news.thumbnail.url3" src="{{ news.thumbnail.url3 }}" />
+              <img class="avatar" *ngIf="news.thumbnail && news.thumbnail.url1" src="{{ news.thumbnail.url1 }}" />
+              <img class="avatar" *ngIf="news.thumbnail && news.thumbnail.url2" src="{{ news.thumbnail.url2 }}" />
+              <img class="avatar" *ngIf="news.thumbnail && news.thumbnail.url3" src="{{ news.thumbnail.url3 }}" />
             </td>
             <td>{{ news.title }}</td>
             <td>{{ news.category }}</td>

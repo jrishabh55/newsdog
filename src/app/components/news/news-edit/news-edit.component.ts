@@ -165,13 +165,18 @@ export class NewsEditComponent implements OnInit, OnDestroy {
         if (response.status = 'ok') {
           this.news = response.data.news;
           this.category = this.news.category;
+          if (this.news.thumbnail !== undefined || this.news.thumbnail !== null) {
+            this.news.thumbnail = {
+              url1 :  ''
+            };
+          }
+
           this.newsForm.setValue({
             title: this.news.title,
             desc: this.news.desc,
             author: this.news.author,
             category: this.news.category,
             tags: this.news.tags,
-            time: this.news.time,
             credits: this.news.credits,
             thumb1: this.news.thumbnail.url1 || '',
             thumb2: this.news.thumbnail.url2 || '',

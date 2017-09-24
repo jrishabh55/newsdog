@@ -36,7 +36,6 @@ export class WithdrawalRequestComponent implements OnInit {
   ngOnInit() {
     const url = this.api.buildUrl('withdraw');
     this.api.get(url).subscribe(response => {
-      console.log(response);
       if (response.status === 'ok') {
         this.withdrawRequests = response.data.withdrawRequests;
       } else {

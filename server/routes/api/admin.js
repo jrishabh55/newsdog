@@ -19,52 +19,81 @@ router.get("", (request, response) => {
 		}
 	};
 
-	User.count({}).exec((err, count) => {
-		if(err) {
-			console.log(err);
-			return response.json(helpers.api_error("Something Went wrong"));
-		}
-		data.dashboard.users.count = count;
-	});
+	let prom = [];
 
-	User.find({}).sort({created_at: -1}).limit(10).exec((err, users) => {
-		if (err) {
-			console.log(err);
-			return response.json(helpers.api_error("Something Went wrong"));
-		}
-		data.dashboard.users.list = users;
+	const prom1 = new Promise((resolve, reject) => {
+		User.count({}).exec((err, count) => {
+			if(err) {
+				console.log(err);
+				reject(err);
+			}
+			data.dashboard.users.count = count;
+			resolve();
+		});
 	});
+	prom.push(prom1);
 
-	News.count({}).exec((err, count) => {
-		if(err) {
-			console.log(err);
-			return response.json(helpers.api_error("Something Went wrong"));
-		}
-		data.dashboard.news.count = count;
+	const prom2 = new Promise((resolve, reject) => {
+		User.find({}).sort({created_at: -1}).limit(10).exec((err, users) => {
+			if (err) {
+				console.log(err);
+				reject(err);
+			}
+			data.dashboard.users.list = users;
+			resolve();
+		});
 	});
+	prom.push(prom2);
 
-	UserNews.count({}).exec((err, count) => {
-		if(err) {
-			console.log(err);
-			return response.json(helpers.api_error("Something Went wrong"));
-		}
-		data.dashboard.news.readCount = count;
+	const prom3 = new Promise((resolve, reject) => {
+		News.count({}).exec((err, count) => {
+			if(err) {
+				console.log(err);
+				reject(err);
+			}
+			data.dashboard.news.count = count;
+			resolve();
+		});
 	});
+	prom.push(prom3);
 
-	Category.count({}).exec((err, count) => {
-		if(err) {
-			console.log(err);
-			return response.json(helpers.api_error("Something Went wrong"));
-		}
-		data.dashboard.news.categoryCount = count;
+	const prom4 = new Promise((resolve, reject) => {
+		UserNews.count({}).exec((err, count) => {
+			if(err) {
+				console.log(err);
+				reject(err);
+			}
+			data.dashboard.news.readCount = count;
+			resolve();
+		});
 	});
+	prom.push(prom4);
 
-	Tag.count({}).exec((err, count) => {
-		if(err) {
-			console.log(err);
-			return response.json(helpers.api_error("Something Went wrong"));
-		}
-		data.dashboard.news.tagCount = count;
+	const prom5 = new Promise((resolve, reject) => {
+		Category.count({}).exec((err, count) => {
+			if(err) {
+				console.log(err);
+				reject(err);
+			}
+			data.dashboard.news.categoryCount = count;
+			resolve();
+		});
+	});
+	prom.push(prom5);
+
+	const prom6 = new Promise((resolve, reject) => {
+		Tag.count({}).exec((err, count) => {
+			if(err) {
+				console.log(err);
+				reject(err);
+			}
+			data.dashboard.news.tagCount = count;
+			resolve();
+		});
+	});
+	prom.push(prom6);
+
+	Promise.all(prom).then(() => {
 		return response.json(helpers.api_response(data)).end();
 	});
 
@@ -75,7 +104,7 @@ router.put("/notification", (request, response) => {
 	if(!helpers.exists(params.title) || !helpers.exists(params.content)) {
 		return response.status(422).json(helpers.api_error("Invalid parameters", 422)).end();
 	}
-	helpers.notification({title: params.title, body: params.content})
+	helpers.notification(params.title, params.content, params.url)
 		.then(data => {
 			response.json(helpers.api_response({notification: data}));
 		})
@@ -118,7 +147,7 @@ router.get("/news", (request, response) => {
 	News.all((err, data) => {
 		if (err) response.json(helpers.api_error(err));
 		else response.json(helpers.api_response({newses: data}));
-	});
+	}).sort({_id: -1});
 });
 
 router.post("/news/add", (request, response) => {
@@ -149,9 +178,11 @@ router.post("/news/add", (request, response) => {
 		category: params.category,
 		tags: params.tags,
 		desc: params.desc,
-		time: time,
-		"thumbnail.url1": params.thumb1
+		time: Math.round(time.time)
 	};
+	if (params.thumb1 !== "") {
+		data["thumbnail.url1"] = params.thumb1;
+	}
 	if (params.thumb2 !== "") {
 		data["thumbnail.url2"] = params.thumb2;
 	}
@@ -160,8 +191,17 @@ router.post("/news/add", (request, response) => {
 	}
 
 	News.create(data, (err, data) => {
-		if (err) response.json(helpers.api_error(err));
-		else response.json(helpers.api_response({news: data}));
+		console.log(data);
+		if (err) {
+			console.log(err);
+			return response.json(helpers.api_error(err));
+		}
+		else {
+			if(helpers.exists(data._message)) {
+				return response.json(helpers.api_error(data._message));
+			}
+			return response.json(helpers.api_response({news: data}));
+		}
 	});
 });
 

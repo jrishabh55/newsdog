@@ -33,6 +33,9 @@ export class NotificationComponent implements OnInit {
         Validators.required,
         Validators.minLength(10)
       ])),
+      'url': new FormControl('', Validators.compose([
+        Validators.pattern('https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)'),
+      ])),
       'content': new FormControl('', Validators.compose([
         Validators.required,
         Validators.minLength(20)
