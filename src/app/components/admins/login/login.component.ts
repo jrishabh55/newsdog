@@ -20,8 +20,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private flash: FlashMessagesService,
               private authService: AuthService,
-              private router: Router) {
-  }
+              private router: Router) {}
 
   loginFormSubmit(user) {
     this.authService.loginUser(user).subscribe(data => {

@@ -13,13 +13,11 @@ import {NewsEditComponent} from './components/news/news-edit/news-edit.component
 import {TagComponent} from './components/news/tag/tag.component';
 import {NewsFetchComponent} from './components/news/fetch/news-fetch.component';
 import {WithdrawalRequestComponent} from './components/withdrawal-request/withdrawal-request.component';
+import {NotificationComponent} from './components/notification/notification.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'admin/login', component: LoginComponent, pathMatch: 'full' },
-  { path: 'users', component: UsersComponent, canActivate: [AuthGuard], pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], pathMatch: 'full' },
-  { path: 'withdraw', component: WithdrawalRequestComponent, canActivate: [AuthGuard], pathMatch: 'full' },
   {
     path: 'admin',
     children: [
@@ -29,6 +27,10 @@ const routes: Routes = [
     ],
     canActivate: [AuthGuard]
   },
+  { path: 'notification', component: NotificationComponent, canActivate: [AuthGuard], pathMatch: 'full' },
+  { path: 'users', component: UsersComponent, canActivate: [AuthGuard], pathMatch: 'full' },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], pathMatch: 'full' },
+  { path: 'withdraw', component: WithdrawalRequestComponent, canActivate: [AuthGuard], pathMatch: 'full' },
   {
     path: 'news',
     children: [

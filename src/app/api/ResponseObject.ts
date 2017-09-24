@@ -11,6 +11,7 @@ interface Data {
   tag?: Tag;
   dashboard?: Dashboard;
   withdrawRequests?: Array<WithdrawalRequest>;
+  notification: {id: string, recipients: number};
 }
 
 export interface ResponseObject {

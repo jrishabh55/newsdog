@@ -70,6 +70,21 @@ router.get("", (request, response) => {
 
 });
 
+router.put("/notification", (request, response) => {
+	const params = request.body;
+	if(!helpers.exists(params.title) || !helpers.exists(params.content)) {
+		return response.status(422).json(helpers.api_error("Invalid parameters", 422)).end();
+	}
+	helpers.notification({title: params.title, body: params.content})
+		.then(data => {
+			response.json(helpers.api_response({notification: data}));
+		})
+		.catch(err => {
+			console.log(err);
+			response.json(helpers.api_error("Something went wrong. Please tru again."));
+		});
+});
+
 router.post("/register", passport.authenticate("jwt", {session: false}), (request, response) => {
 
 	let params = request.body;
