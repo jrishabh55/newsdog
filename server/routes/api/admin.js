@@ -178,7 +178,12 @@ router.post("/news/add", (request, response) => {
 		category: params.category,
 		tags: params.tags,
 		desc: params.desc,
-		time: Math.round(time.time)
+		time: Math.round(time.time),
+		thumbnail: {
+			url1: "",
+			url2: "",
+			url3: ""
+		}
 	};
 	if (params.thumb1 !== "") {
 		data["thumbnail.url1"] = params.thumb1;
