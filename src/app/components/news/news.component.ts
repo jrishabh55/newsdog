@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Contract as API} from '../../api/Contract';
 import {Category, Tag} from '../../Interfaces';
@@ -10,6 +10,8 @@ import * as firebase from 'firebase';
   styleUrls: ['./news.component.css']
 })
 export class NewsComponent implements OnInit, OnDestroy {
+
+  @Input('news') news: {title: string, desc: string, date: string};
 
   result: Boolean = false;
   newsForm: FormGroup;
@@ -146,6 +148,12 @@ export class NewsComponent implements OnInit, OnDestroy {
     });
 
     this.validation();
+    if (this.news !== null) {
+      this.newsForm.patchValue({
+        title: this.news.title,
+        desc: this.news.desc
+      });
+    }
   }
 
   ngOnDestroy() {

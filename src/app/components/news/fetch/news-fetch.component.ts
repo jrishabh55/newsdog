@@ -10,31 +10,41 @@ import 'rxjs/add/operator/map';
 })
 export class NewsFetchComponent implements OnInit {
 
-  created: boolean;
   error: string;
 
   fetchNewsForm: FormGroup;
+
+  created: boolean;
+  added: boolean = false;
   type = null;
   res = null;
+  news: {title: string, desc: string, date: string};
 
   constructor(private http: Http) {}
 
-  exploadUri (url: string, type: string): Object {
-    let part;
-    if (url.substr(0, 7)) {
+  convertUri (url: string, type: string): string {
+    let part: string;
+    let protocol: string;
+    if (url.substr(0, 7) === 'http://') {
+      part = url.substr(7);
+      protocol = 'http://';
+    } else if (url.substr(0, 8) === 'https://') {
       part = url.substr(8);
-    } else if (url.substr(0, 8)) {
-      part = url.substr(8);
+      protocol = 'https://';
     } else {
+      protocol = 'http://';
       part = url;
     }
-    console.log(part);
-    return {};
-  }
-
-  convertUri (url: string, type: string = 'id'): string {
-    this.exploadUri(url, type);
-    return url;
+    const parts: Array<string> = part.split('/');
+    const domain: string = parts[0];
+    const slug: string = parts[parts.length - 1] === '' ? parts[parts.length - 2] : parts[parts.length - 1];
+    let apiUrl = '';
+    if (type === 'slug') {
+      apiUrl = `${protocol}${domain}/wp-json/wp/v2/posts?slug=${slug}`;
+    } else {
+      apiUrl = '';
+    }
+    return apiUrl;
   }
 
   fetchNews(data: {type: string, url: string}): void {
@@ -42,14 +52,19 @@ export class NewsFetchComponent implements OnInit {
       console.log('Not Selected');
       return;
     }
-    this.convertUri(data.url, data.type);
-    const url = data.url;
+    const url = this.convertUri(data.url, data.type);
     this.res = null;
+    this.added = false;
     this.http.get(url)
       .map(res => res.json())
       .subscribe(res => {
-        this.res = res;
+        this.res = res[0];
       });
+  }
+
+  addNews (): void {
+    this.news = {title: this.res.title.rendered, desc: this.res.content.rendered, date: this.res.date};
+    this.added = true;
   }
 
   ngOnInit() {
@@ -57,8 +72,8 @@ export class NewsFetchComponent implements OnInit {
       url: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)'),
-      ]))
+      ])),
+      type: new FormControl('', Validators.required)
     });
   }
-
 }

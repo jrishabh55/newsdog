@@ -57,7 +57,7 @@
           <fieldset class="form-group">
             <div class="input-group">
               <span class="input-group-addon col-sm-3">News Data</span>
-              <jnex-tinymce [elementId]="'desc'" (onEditorKeyUp)="content($event)"></jnex-tinymce>
+              <jnex-tinymce [elementId]="'desc'" [data]="news !== null ? news.desc : ''" (onEditorKeyUp)="content($event)"></jnex-tinymce>
             </div>
           </fieldset>
 
