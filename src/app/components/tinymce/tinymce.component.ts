@@ -8,7 +8,7 @@ declare var tinymce: any;
 export class TinymceComponent implements AfterViewInit, OnDestroy, AfterViewChecked {
 
   @Input() elementId: String;
-  @Input() data: string;
+  @Input() data: string = '';
   @Output() onEditorKeyUp = new EventEmitter<any>();
 
 

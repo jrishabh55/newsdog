@@ -57,7 +57,7 @@
           <fieldset class="form-group">
             <div class="input-group">
               <span class="input-group-addon col-sm-3">News Data</span>
-              <jnex-tinymce [elementId]="'desc'" [data]="news !== null ? news.desc : ''" (onEditorKeyUp)="content($event)"></jnex-tinymce>
+              <jnex-tinymce [elementId]="'desc'" [data]="news ? news.desc : ''" (onEditorKeyUp)="content($event)"></jnex-tinymce>
             </div>
           </fieldset>
 
@@ -85,11 +85,13 @@
           <fieldset class="form-group">
             <div class="input-group">
               <span class="input-group-addon col-sm-3">Send notifications</span>
-              <label class="switch switch-3d switch-primary pull-right">
-                <input type="checkbox" class="switch-input" [checked]="notification">
-                <span class="switch-label"></span>
-                <span class="switch-handle"></span>
-              </label>
+              <div class="form-control">                
+                <label class="switch switch-3d switch-primary pull-right">
+                  <input type="checkbox" class="switch-input" [checked]="notification">
+                  <span class="switch-label"></span>
+                  <span class="switch-handle"></span>
+                </label>
+              </div>
             </div>
           </fieldset>
 
