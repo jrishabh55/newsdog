@@ -16,7 +16,6 @@ export class NewsFetchComponent implements OnInit {
 
   created: boolean;
   added: boolean = false;
-  type = null;
   res = null;
   news: {title: string, desc: string, date: string};
 
@@ -38,6 +37,7 @@ export class NewsFetchComponent implements OnInit {
     const parts: Array<string> = part.split('/');
     const domain: string = parts[0];
     const slug: string = parts[parts.length - 1] === '' ? parts[parts.length - 2] : parts[parts.length - 1];
+
     let apiUrl = '';
     if (type === 'slug') {
       apiUrl = `${protocol}${domain}/wp-json/wp/v2/posts?slug=${slug}`;
@@ -48,7 +48,7 @@ export class NewsFetchComponent implements OnInit {
   }
 
   fetchNews(data: {type: string, url: string}): void {
-    if (this.type !== null) {
+    if (data.type === null) {
       console.log('Not Selected');
       return;
     }

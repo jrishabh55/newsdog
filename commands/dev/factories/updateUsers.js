@@ -7,7 +7,8 @@ users.find({}, (err, data) => {
 		process.abort();
 	}else {
 		const text = JSON.stringify({
-			"bank": "place holder",
+			"bank_name": "place holder",
+			"username": "Place Holder",
 			"number": "place holder",
 			"type": "place holder",
 			"ifsc": "place holder"
