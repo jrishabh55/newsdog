@@ -14,6 +14,7 @@ export class NewsComponent implements OnInit, OnDestroy {
   @Input('news') news: {title: string, desc: string, date: string};
 
   result: Boolean = false;
+  working: boolean = false;
   newsForm: FormGroup;
   categories: Array<Category>;
   tags: Array<Tag> = [];
@@ -63,21 +64,16 @@ export class NewsComponent implements OnInit, OnDestroy {
         return;
       }
     }
+    this.working = true;
 
     const upload = new Promise((resolve, reject) => {
       if (news.thumb1 !== '') {
-        console.log('upload 1');
         this.uploadImage(news.thumb1[0], (snap1) => {
-          console.log('upload complete');
           news.thumb1 = snap1.downloadURL;
           if (news.thumb2 !== '') {
-            console.log('upload 2');
             this.uploadImage(news.thumb2[0], snap2 => {
-              console.log('upload complete');
               news.thumb2 = snap2.downloadURL;
-              console.log('upload 3');
               this.uploadImage(news.thumb3[0], snap3 => {
-                console.log('upload complete');
                 news.thumb3 = snap3.downloadURL;
                 resolve();
               });
@@ -101,6 +97,7 @@ export class NewsComponent implements OnInit, OnDestroy {
           this.created = false;
           this.error = response.error;
         }
+        this.working = false;
         window.scrollTo(0, 0);
       });
     });

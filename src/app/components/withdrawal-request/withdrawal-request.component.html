@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-11">
-    <div class="card animated fadeIn" *ngIf="withdrawRequests !== undefined">
+    <div class="card animated fadeIn" *ngIf="withdrawRequests !== undefined;else loading">
       <div class="card-header"><i class="icon-note"></i>Withdrawal Requests</div>
       <div class="card-block">
         <table class="table table-dashed table-bordered">
@@ -14,7 +14,10 @@
               <td></td>
             </tr>
           </thead>
-          <tbody>
+          <caption *ngIf="withdrawRequests.length === 0">
+            No requests found.  
+          </caption>
+          <tbody *ngIf="error !== null || error !== undefined; else error">
             <tr *ngFor="let req of withdrawRequests">
               <td>{{ req.user_id }}</td>
               <td>{{ req.amount }}</td>
@@ -33,3 +36,5 @@
     </div>
   </div>
 </div>
+<ng-template #loading><div class="sk-rotating-plane"></div></ng-template>
+<ng-template #error><caption>{{ error }}</caption></ng-template>

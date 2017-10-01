@@ -1,4 +1,4 @@
-<div class="animated fadeIn" *ngIf="data !== null">
+<div class="animated fadeIn" *ngIf="data !== null; else template">
   <div class="row">
     <div class="col-6 col-lg-3">
       <div class="card">
@@ -188,3 +188,4 @@
   </div>
   <!--/.row-->
 </div>
+<ng-template #template><div class="sk-rotating-plane"></div></ng-template>

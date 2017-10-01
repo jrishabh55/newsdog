@@ -9,7 +9,7 @@
         <div class="alert alert-success" *ngIf="created === true">News Added</div>
         <div class="alert alert-danger" *ngIf="created === false">{{ error }}</div>
 
-        <form id="newsForm" (submit)="createNews(newsForm.value)" [formGroup]="newsForm">
+        <form id="newsForm" (submit)="createNews(newsForm.value)" [formGroup]="newsForm" *ngIf="!working; else loading">
           <fieldset class="form-group">
             <div class="input-group">
               <span class="input-group-addon col-sm-3">Title</span>
@@ -85,7 +85,7 @@
           <fieldset class="form-group">
             <div class="input-group">
               <span class="input-group-addon col-sm-3">Send notifications</span>
-              <div class="form-control">                
+              <div class="form-control">
                 <label class="switch switch-3d switch-primary pull-right">
                   <input type="checkbox" class="switch-input" [checked]="notification">
                   <span class="switch-label"></span>
@@ -97,7 +97,7 @@
 
         </form>
         <div class="card-footer">
-          <button class="btn btn-primary pull-right" form="newsForm" type="submit">Add
+          <button class="btn btn-primary pull-right" form="newsForm" [disabled]="!newsForm.valid" type="submit">Add
             News
           </button>
         </div>
@@ -105,3 +105,5 @@
     </div>
   </div>
 </div>
+
+<ng-template #loading><div class="sk-rotating-plane"></div></ng-template>

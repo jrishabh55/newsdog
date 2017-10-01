@@ -14,7 +14,7 @@ export class NewsFetchComponent implements OnInit {
 
   fetchNewsForm: FormGroup;
 
-  created: boolean;
+  working: boolean = false;
   added: boolean = false;
   res = null;
   news: {title: string, desc: string, date: string};
@@ -52,6 +52,7 @@ export class NewsFetchComponent implements OnInit {
       console.log('Not Selected');
       return;
     }
+    this.working = true;
     const url = this.convertUri(data.url, data.type);
     this.res = null;
     this.added = false;
@@ -59,6 +60,7 @@ export class NewsFetchComponent implements OnInit {
       .map(res => res.json())
       .subscribe(res => {
         this.res = res[0];
+        this.working = false;
       });
   }
 

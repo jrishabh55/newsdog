@@ -102,7 +102,7 @@ router.get("", (request, response) => {
 router.put("/notification", (request, response) => {
 	const params = request.body;
 	if(!helpers.exists(params.title) || !helpers.exists(params.content)) {
-		return response.status(422).json(helpers.api_error("Invalid parameters", 422)).end();
+		return response.json(helpers.api_error("Invalid parameters", 422)).end();
 	}
 	helpers.notification(params.title, params.content, params.url)
 		.then(data => {
@@ -124,7 +124,7 @@ router.post("/register", passport.authenticate("jwt", {session: false}), (reques
 		!helpers.exists(params.name) &&
 		!helpers.exists(params.email)
 	) {
-		return response.status(422).json(helpers.api_error("Invalid parameters", 422)).end();
+		return response.json(helpers.api_error("Invalid parameters", 422)).end();
 	}
 
 	let admin = new model({
@@ -161,7 +161,7 @@ router.post("/news/add", (request, response) => {
 		!helpers.exists(params.category) ||
 		!helpers.exists(params.tags)
 	) {
-		return response.status(422).json(helpers.api_error("Invalid parameters", 422));
+		return response.json(helpers.api_error("Invalid parameters", 422));
 	}
 
 	let time;
@@ -196,7 +196,6 @@ router.post("/news/add", (request, response) => {
 	}
 
 	News.create(data, (err, data) => {
-		console.log(data);
 		if (err) {
 			console.log(err);
 			return response.json(helpers.api_error(err));
@@ -257,7 +256,7 @@ router.post("/news/:id/view", (request, response) => {
 		!helpers.exists(params.category) ||
 		!helpers.exists(params.tags)
 	) {
-		response.status(422).json(helpers.api_error("Invalid parameters", 422));
+		response.json(helpers.api_error("Invalid parameters", 422));
 	}
 	let time;
 	if (helpers.exists(params.time) || parseInt(params.time) === 0) {
@@ -319,7 +318,7 @@ router.post("/news/tag/add", (request, response) => {
 	Tag.create({name: params.name}, (err, tag) => {
 		if (err) {
 			console.log(err);
-			return response.status(422).json(helpers.api_error("Invalid parameters", 422));
+			return response.json(helpers.api_error("Invalid parameters", 422));
 		}
 		response.json(helpers.api_response({tag: tag}));
 	});
@@ -329,7 +328,7 @@ router.post("/news/tag/delete", (request, response) => {
 	const params = request.body;
 
 	if (!helpers.exists(params.id)) {
-		return response.status(422).json(helpers.api_error("Invalid parameters", 422));
+		return response.json(helpers.api_error("Invalid parameters", 422));
 	}
 
 	Tag.deleteOne({_id: params.id}, (err) => {
@@ -419,7 +418,6 @@ router.get("/withdraw", (request, response) => {
 
 router.post("/withdraw/:id", (request, response) => {
 	const params = request.params;
-	console.log("Called");
 	withdrawRequest.findOne({_id: params.id}, (err, data) => {
 		if(err) {
 			console.log(err);

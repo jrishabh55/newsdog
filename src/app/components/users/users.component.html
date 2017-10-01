@@ -1,4 +1,4 @@
-<div class="card animated fadeIn" *ngIf="users !== undefined">
+<div class="card animated fadeIn" *ngIf="users !== undefined; else template">
   <div class="card-header">
     <i class="icon-note"></i> List Users
   </div>
@@ -14,7 +14,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let user of users">
+      <tr *ngFor="let user of visibleUsers">
         <td>{{ user.username }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.created_at }}</td>
@@ -22,30 +22,20 @@
         <td [innerHTML]="user.ref | decrypt:user.key | parseObject"></td>
       </tr>
       </tbody>
-      <tfoot></tfoot>
     </table>
   </div>
   <div class="card-footer">
-    <!-- <ul class="pagination pull-right">
-      <li class="page-item">
-        <a class="page-link" href="#">Prev</a>
+  </div>
+  <div class="col-md-2 col-md-offset-5">
+    <ul class="pagination">
+      <li class="page-item" *ngFor="let page of pages">
+        <a class="page-link" href="javascript:void()" (click)="setPage(page)">
+          {{ page }}
+        </a>
       </li>
-      <li class="page-item active">
-        <a class="page-link" href="javascript:void(0)">1</a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" href="javascript:void(0)">2</a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" href="javascript:void(0)">3</a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" href="javascript:void(0)">4</a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" href="javascript:void(0)">Next</a>
-      </li>
-    </ul> -->
-
+    </ul>
   </div>
 </div>
+<ng-template #template>
+<div class="sk-rotating-plane"></div>
+</ng-template>
