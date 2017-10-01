@@ -200,11 +200,16 @@ router.post("/news/add", (request, response) => {
 		if (err) {
 			console.log(err);
 			return response.json(helpers.api_error(err));
-		}
-		else {
+		} else {
 			if(helpers.exists(data._message)) {
 				return response.json(helpers.api_error(data._message));
 			}
+
+			if (helpers.exists(params.notification) && params.notification === true) {
+				const thumb = helpers.exists(data.thumbnail) ? data.thumbnail.url1 : null;
+				helpers.notification(data.title, data.desc, thumb);
+			}
+
 			return response.json(helpers.api_response({news: data}));
 		}
 	});

@@ -23,7 +23,7 @@ let helpers = {
 		return crypto.AES.decrypt(text, password).toString(crypto.enc.Utf8);
 	},
 
-	notification: (title, contents, url = null) => {
+	notification: (title, contents, url = null, included_segments = null) => {
 		return new Promise((resolve, reject) => {
 			let message = {};
 			message.headings = {en: title};
@@ -33,8 +33,10 @@ let helpers = {
 			}
 			message.app_id = process.env.onesignalAppId;
 
-			if(message.included_segments === undefined || message.included_segments === null) {
+			if(included_segments === undefined || included_segments === null) {
 				message.included_segments =  ["All"];
+			} else {
+				message.included_segments =  included_segments;
 			}
 			const options = {
 				method: "POST",
@@ -54,6 +56,15 @@ let helpers = {
 				}
 			});
 		});
+	},
+	excerpt: (value, length) => {
+		if (!value || !length) {
+			return value;
+		}
+		if (value.length > length) {
+			return value.substr(0, length) + "...";
+		}
+		return value;
 	}
 };
 

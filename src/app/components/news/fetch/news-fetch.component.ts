@@ -21,9 +21,9 @@ export class NewsFetchComponent implements OnInit {
 
   exploadUri (url: string, type: string): Object {
     let part;
-    if(url.substr(0,7)) {
+    if (url.substr(0, 7)) {
       part = url.substr(8);
-    } else if(url.substr(0,8)) {
+    } else if (url.substr(0, 8)) {
       part = url.substr(8);
     } else {
       part = url;
@@ -38,7 +38,7 @@ export class NewsFetchComponent implements OnInit {
   }
 
   fetchNews(data: {type: string, url: string}): void {
-    if(this.type !== null) {
+    if (this.type !== null) {
       console.log('Not Selected');
       return;
     }

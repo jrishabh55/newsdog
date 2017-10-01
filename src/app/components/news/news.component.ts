@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Contract as API} from '../../api/Contract';
-import {Category, Tag} from '../../interfaces';
+import {Category, Tag} from '../../Interfaces';
 import * as firebase from 'firebase';
 
 @Component({
@@ -17,6 +17,7 @@ export class NewsComponent implements OnInit, OnDestroy {
   tags: Array<Tag> = [];
   created: Boolean = null;
   error: string;
+  notification: boolean = true;
 
   constructor(private api: API) {
   }
@@ -90,6 +91,7 @@ export class NewsComponent implements OnInit, OnDestroy {
 
     upload.then(() => {
       const url: string = this.api.buildUrl('news/add');
+      news.notification = this.notification;
       this.api.post(url, news).subscribe((response) => {
         if (response.status === 'ok') {
           this.created = true;
@@ -131,7 +133,6 @@ export class NewsComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-
     const url1 = this.api.buildUrl('/news/categories');
 
     this.api.get(url1).subscribe(response => {
@@ -151,5 +152,4 @@ export class NewsComponent implements OnInit, OnDestroy {
     this.result = false;
     this.created = null;
   }
-
 }
