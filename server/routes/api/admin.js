@@ -186,13 +186,13 @@ router.post("/news/add", (request, response) => {
 		}
 	};
 	if (params.thumb1 !== "") {
-		data["thumbnail.url1"] = params.thumb1;
+		data.thumbnail.url1 = params.thumb1;
 	}
 	if (params.thumb2 !== "") {
-		data["thumbnail.url2"] = params.thumb2;
+		data.thumbnail.url2 = params.thumb2;
 	}
 	if (params.thumb3 !== "") {
-		data["thumbnail.url3"] = params.thumb3;
+		data.thumbnail.url3 = params.thumb3;
 	}
 
 	News.create(data, (err, data) => {
