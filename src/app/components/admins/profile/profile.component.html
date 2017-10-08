@@ -1,7 +1,50 @@
-<div *ngIf="user">
-  <div class="page-header"><h2>{{ user.name }}</h2></div>
-  <ul class="list-group">
-    <li class="list-group-item">Username: {{ user.username}}</li>
-    <li class="list-group-item">Email: {{ user.email}}</li>
-  </ul>
+<div *ngIf="admin; else template" class="row animated fadeIn">
+  <div class="col-md-6 col-sm-11">
+    <div class="card">
+      <div class="card-header">
+        <i class="icon-note"></i> Admin Profile
+      </div>
+      <div class="card-block">
+        <div>
+          <div class="page-header"><h2 class="text-capitalize">{{ admin.name}}</h2></div>
+          <ul class="list-group">
+            <li class="list-group-item">Username: {{ admin.username}}</li>
+            <li class="list-group-item">Email: {{ admin.email }}</li>
+          </ul>
+        </div>
+        <hr />
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-sm-11">
+    <div class="card">
+      <div class="card-header">
+        <i class="icon-note"></i> Admin Profile
+      </div>
+      <div class="card-block">
+        <div class="alert alert-success" *ngIf="result === true">Password Changed</div>
+        <div class="alert alert-danger" *ngIf="result === false">{{ error }}</div>
+
+        <form (submit)="updateFormSubmit(form.value)" [formGroup]="form">
+          <fieldset class="form-group">
+            <label>Password: </label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                      <i class="fa fa-male"></i>
+                    </span>
+              <input class="form-control" type="text" name="password" placeholder="password" formControlName="password" />
+            </div>
+            <small class="text-danger pull-right" *ngIf="loginError.password">{{ loginError.password}}</small>
+          </fieldset>
+
+          <div class="form-group">
+            <button class="btn btn-primary pull-right" name="submit" [disabled]="!form.valid">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
+<ng-template #template>
+<div class="sk-rotating-plane"></div>
+</ng-template>

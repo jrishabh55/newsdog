@@ -1,4 +1,4 @@
-import {Category, News, Tag, User, Dashboard, WithdrawalRequest} from '../Interfaces';
+import {Category, News, Tag, User, Dashboard, WithdrawalRequest, Domain, Admin} from '../Interfaces';
 
 interface Data {
   users?: Array<User>;
@@ -11,7 +11,10 @@ interface Data {
   tag?: Tag;
   dashboard?: Dashboard;
   withdrawRequests?: Array<WithdrawalRequest>;
-  notification: {id: string, recipients: number};
+  domains?: Array<Domain>;
+  domain: Domain;
+  notification?: {id: string, recipients: number};
+  admin?: Admin;
 }
 
 export interface ResponseObject {

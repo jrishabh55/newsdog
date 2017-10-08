@@ -17,7 +17,7 @@ TagSchema.statics.all = function (callback) {
 };
 
 TagSchema.statics.byName = function (name, callback) {
-	return this.findOne({username: name}).select(["name", "meta"]).exec(callback);
+	return this.findOne({name: name}).select(["name", "meta"]).exec(callback);
 };
 
 autoIncrement.initialize(connection);

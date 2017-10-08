@@ -12,35 +12,34 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
+  message: string;
+  result: boolean;
+  working: boolean = false;
 
   loginError = {
     username: false,
     password: false
   };
 
-  constructor(private flash: FlashMessagesService,
-              private authService: AuthService,
+  constructor(private authService: AuthService,
               private router: Router) {}
 
   loginFormSubmit(user) {
+    this.working = true;
     this.authService.loginUser(user).subscribe(data => {
-
       if (data.status === 'ok') {
-
         this.authService.storeUserData(data.data);
-        this.flash.show('Logged In, Redirecting ', {
-          classes: ['alert', 'alert-success'],
-          timeout: 5000
-        });
-
+        this.message = 'Logged In, Redirecting ';
+        this.result = true;
         this.router.navigate(['/dashboard']);
-
       } else {
-        this.flash.show(data.error, {
-          classes: ['alert', 'alert-danger'],
-          timeout: 5000
-        });
+        if (data.error === 'No User') {
+          this.loginError.username = true;
+        } else {
+          this.loginError.password = true;
+        }
       }
+      this.working = false;
 
     });
   }

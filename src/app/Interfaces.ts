@@ -13,12 +13,19 @@ export interface News {
 }
 
 export interface User {
+  _id: number;
   username: string;
   email: string;
   created_at: string;
   credits: number;
   ref: string;
   key: string;
+}
+
+export interface Admin {
+  name: string;
+  username: string;
+  email: string;
 }
 
 export interface Category {
@@ -48,4 +55,9 @@ export interface WithdrawalRequest {
   created_at: string;
   updated_at: string;
   data?: {operator: string, number: number};
+}
+
+export interface Domain {
+  _id: number;
+  domain: string;
 }

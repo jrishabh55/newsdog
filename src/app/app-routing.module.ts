@@ -14,6 +14,7 @@ import {TagComponent} from './components/news/tag/tag.component';
 import {NewsFetchComponent} from './components/news/fetch/news-fetch.component';
 import {WithdrawalRequestComponent} from './components/withdrawal-request/withdrawal-request.component';
 import {NotificationComponent} from './components/notification/notification.component';
+import {AddDomainsComponent} from './components/add-domains/add-domains.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -27,6 +28,7 @@ const routes: Routes = [
     ],
     canActivate: [AuthGuard]
   },
+  { path: 'domain', component: AddDomainsComponent, canActivate: [AuthGuard], pathMatch: 'full' },
   { path: 'notification', component: NotificationComponent, canActivate: [AuthGuard], pathMatch: 'full' },
   { path: 'users', component: UsersComponent, canActivate: [AuthGuard], pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], pathMatch: 'full' },

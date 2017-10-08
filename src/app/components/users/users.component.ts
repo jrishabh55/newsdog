@@ -15,16 +15,51 @@ export class UsersComponent implements OnInit, OnDestroy {
   visibleUsers: Array<User> = [];
   noOfResults: number = 10;
   pages: Array<number> = [1];
-
-  constructor(private api: API) {
-  }
+  changeUserid: number = null;
+  constructor(private api: API) { }
 
   setPage(value) {
     if (value >= 0 && value < this.users.length / this.noOfResults) {
-      const first = value * this.noOfResults;
+      const first: number = value * this.noOfResults;
       this.visibleUsers = [];
       this.visibleUsers = this.users.slice(first, first + this.noOfResults);
     }
+  }
+
+  enter (id: number, e: KeyboardEvent, value: string): void {
+    if (e.key === 'Enter') {
+
+      const element: HTMLInputElement = <HTMLInputElement> document.getElementById(`cr-${id}`);
+      element.setAttribute('disabled', 'true');
+
+      const credits: number = parseInt(element.value, 10);
+
+      if (credits < 1 || credits >= 100000) {
+        this.changeUserid = null;
+        element.removeAttribute('disabled');
+        return;
+      }
+
+      const url = this.api.buildUrl(`user-${id}`);
+      this.api.patch(url, {credits: credits}).subscribe(response => {
+        console.log(response);
+        this.users.every(user => {
+          if (response.data.user._id === user._id) {
+            user.credits = response.data.user.credits;
+            return false;
+          }
+          return true;
+        });
+        this.setUsersInLS();
+        this.changeUserid = null;
+        element.removeAttribute('disabled');
+      });
+
+    }
+  }
+
+  changeCredits (id: number): void {
+    this.changeUserid = id;
   }
 
   range (end: number, start: number = 0) {
@@ -43,15 +78,26 @@ export class UsersComponent implements OnInit, OnDestroy {
           this.visibleUsers = this.users.slice(0, this.noOfResults);
           this.pages = this.range(this.users.length / this.noOfResults);
           this.result = true;
-          localStorage.setItem('users', JSON.stringify(this.users));
+          this.setUsersInLS();
         }
       });
     } else {
-      this.users = JSON.parse(localStorage.getItem('users'));
+      this.users = this.getUsersInLS();
       this.visibleUsers = this.users.slice(0, this.noOfResults);
       this.pages = this.range(Math.ceil(this.users.length / this.noOfResults));
       this.result = true;
     }
+  }
+
+  public setUsersInLS (users: Array<User> = null): void {
+    if (users === null) {
+      users = this.users;
+    }
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+
+  public getUsersInLS (): Array<User> {
+    return JSON.parse(localStorage.getItem('users'));
   }
 
   ngOnDestroy() {

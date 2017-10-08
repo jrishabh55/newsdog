@@ -39,6 +39,7 @@ import { NewsFetchComponent } from './components/news/fetch/news-fetch.component
 import { WithdrawalRequestComponent } from './components/withdrawal-request/withdrawal-request.component';
 import { ParseObjectPipe } from './pipes/parse-object.pipe';
 import { NotificationComponent } from './components/notification/notification.component';
+import { AddDomainsComponent } from './components/add-domains/add-domains.component';
 
 firebase.initializeApp(environment.firebaseConfig);
 
@@ -73,6 +74,7 @@ firebase.initializeApp(environment.firebaseConfig);
     WithdrawalRequestComponent,
     ParseObjectPipe,
     NotificationComponent,
+    AddDomainsComponent,
   ],
   imports: [
     BrowserModule,

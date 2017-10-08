@@ -6,6 +6,7 @@ const User = require("../../models/users");
 const UserNews = require("../../models/user_news");
 const Category = require("../../models/category");
 const Tag = require("../../models/tag");
+const Domain = require("../../models/domain");
 const withdrawRequest = require("../../models/withdrawl_request");
 const helpers = require("../../helpers");
 const passport = require("passport");
@@ -97,6 +98,38 @@ router.get("", (request, response) => {
 		return response.json(helpers.api_response(data)).end();
 	});
 
+});
+
+router.get("/domains", (request, response) => {
+	Domain.all((err, domains) => {
+		if (err) {
+			console.log(err);
+			return response.json(helpers.api_error("Something went wrong. Please try again."));
+		}
+		return response.json(helpers.api_response({domains: domains}));
+	});
+});
+
+router.post("/domains", (request, response) => {
+	const params = request.body;
+	Domain.create({domain: params.name},(err, domain) => {
+		if (err) {
+			console.log(err);
+			return response.json(helpers.api_error("Something went wrong. Please try again."));
+		}
+		return response.json(helpers.api_response({domain: domain}));
+	});
+});
+
+router.delete("/domain-:id", (request, response) => {
+	const params = request.params;
+	Domain.delete(params.id, (err) => {
+		if (err) {
+			console.log(err);
+			return response.json(helpers.api_error("Something went wrong. Please try again."));
+		}
+		return response.json(helpers.api_response("Deleted"));
+	});
 });
 
 router.put("/notification", (request, response) => {
@@ -265,7 +298,6 @@ router.post("/news/:id/view", (request, response) => {
 		time = readTime(params.desc);
 	}
 
-	//NOTE Check Working
 	News.findOne({_id: news_id}, (err, d) => {
 		if (err) {
 			console.log(err,d);
@@ -386,7 +418,30 @@ router.get("/news/:category", (request, response) => {
 });
 
 router.get("/profile", (request, response) => {
+	delete request.user.password;
 	response.json(helpers.api_response({admin: request.user}));
+});
+
+router.patch("/profile", (request, response) => {
+	const params = request.body;
+	model.byId(request.user._id, (err, admin) => {
+		if (err) {
+			console.log(err);
+			return response.json(helpers.api_error("Something went wrong. Please try again."));
+		}
+		admin.password = params.password;
+		admin.save().then(() => {
+			const data = {
+				name: admin.name,
+				username: admin.username,
+				email: admin.email,
+				access_level: admin.access_level,
+				activated: admin.activated,
+				created_at: admin.created_at
+			};
+			return response.json(helpers.api_response({admin: data}));
+		});
+	});
 });
 
 router.get("/users", (request, response) => {
@@ -403,6 +458,33 @@ router.get("/users", (request, response) => {
 			}
 		}
 		return response.json(helpers.api_response({users: data})).end();
+	});
+});
+
+router.patch("/user-:id", (request, response) => {
+	const params = request.body;
+	if (!helpers.exists(params.credits)) {
+		return response.json(helpers.api_error("Invalid Parameters"));
+	}
+
+	const credits = +params.credits;
+
+	if (credits < 0 || credits >= 100000) {
+		return response.json(helpers.api_error("Invalid Credits"));
+	}
+
+	User.byId(request.params.id, (err, user) => {
+		if (err) {
+			console.log(err);
+			return response.json(helpers.api_error("Something went wrong. Please try again."));
+		}
+		user.credits = +params.credits;
+		user.save().then(() => {
+			return response.json(helpers.api_response({user: user}));
+		}).catch(err => {
+			console.log(err);
+			return response.json(helpers.api_error("Update Error."));
+		});
 	});
 });
 
