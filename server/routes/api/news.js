@@ -71,11 +71,11 @@ router.post("/categories", (request, response) => {
 	}
 
 	const cb = (err, data) => {
-		console.log("Calling", data);
 		if (err) {
 			response.json(helpers.api_error("Something Went Wrong")).end();
 			return;
 		}
+		data = parseNews(data);
 		response.json(helpers.api_response({news: data})).end();
 	};
 
@@ -106,22 +106,7 @@ router.get("/:page?", (request, response) => {
 		if (err) response.json(helpers.api_error(err));
 		else {
 
-			data = JSON.parse(JSON.stringify(data));
-
-			for (let i = 0; i < data.length; i++) {
-				data[i].style = 0;
-				if(helpers.exists(data[i].thumbnail)) {          
-					if (helpers.exists(data[i].thumbnail.url1)) {
-						data[i].style++;
-					}
-					if (helpers.exists(data[i].thumbnail.url2)) {
-						data[i].style++;
-					}
-					if (helpers.exists(data[i].thumbnail.url3)) {
-						data[i].style++;
-					}
-				}
-			}
+			data = parseNews(data);
 
 			response.json(helpers.api_response(data));
 		}
@@ -129,5 +114,25 @@ router.get("/:page?", (request, response) => {
 
 });
 
+const parseNews = (data) => {
+	
+	data = JSON.parse(JSON.stringify(data));
+	
+	for (let i = 0; i < data.length; i++) {
+		data[i].style = 0;
+		if(helpers.exists(data[i].thumbnail)) {          
+			if (helpers.exists(data[i].thumbnail.url1)) {
+				data[i].style++;
+			}
+			if (helpers.exists(data[i].thumbnail.url2)) {
+				data[i].style++;
+			}
+			if (helpers.exists(data[i].thumbnail.url3)) {
+				data[i].style++;
+			}
+		}
+	}
+	return data;
+};
 
 module.exports = router;
