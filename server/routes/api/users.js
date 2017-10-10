@@ -43,6 +43,7 @@ router.post("/withdraw/:type", (request, response) => {
 	}
 
 	const req = require("../../models/withdrawl_request");
+	let credits;
 	if (request.params.type === "recharge") {
 		req.create({
 			type: "recharge",
@@ -55,16 +56,18 @@ router.post("/withdraw/:type", (request, response) => {
 		}).then(() => {
 
 			User.byId(request.user._id, (err, us) => {
-				us.credits -= params.amount;
+				credits = us.credits -= params.amount;
 				us.save();
 			});
 			response.json(helpers.api_response({
-				data: "Recharge requested."
+				data: {
+					"credits": credits
+				}
 			}));
 		})
 			.catch(err => {
-				response.json(helpers.api_error("Something went wrong."));
 				console.log(err);
+				return response.json(helpers.api_error("Something went wrong."));
 			});
 	} else if (request.params.type === "bank") {
 		req.create({
@@ -73,18 +76,20 @@ router.post("/withdraw/:type", (request, response) => {
 			amount: params.amount
 		}).then(() => {
 			User.byId(request.user._id, (err, us) => {
-				us.credits -= params.amount;
+				credits = us.credits -= params.amount;
 				us.save();
 			});
-			response.json(helpers.api_response({
-				data: "Bank transfer requested."
+			return response.json(helpers.api_response({
+				data: {
+					credits: credits
+				}
 			}));
 		}).catch(err => {
-			response.json(helpers.api_error("Something went wrong."));
 			console.log(err);
+			return response.json(helpers.api_error("Something went wrong."));
 		});
 	} else {
-		response.status(404).end("Not Found");
+		return response.status(404).end("Not Found");
 	}
 });
 
