@@ -13,7 +13,7 @@ export class TagComponent implements OnInit {
 
   public form: FormGroup;
 
-  public tags: Array<Tag> = [];
+  public tags: Array<Tag>;
   public result: Boolean = null;
   public created: Boolean = null;
 

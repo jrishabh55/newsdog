@@ -55,7 +55,6 @@ router.post("/withdraw/:type", (request, response) => {
 		}).then(() => {
 
 			User.byId(request.user._id, (err, us) => {
-				console.log("called");
 				us.credits -= params.amount;
 				us.save();
 			});

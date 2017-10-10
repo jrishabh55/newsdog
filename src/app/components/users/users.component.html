@@ -3,7 +3,7 @@
     <i class="icon-note"></i> List Users
   </div>
   <div class="card-block">
-    <table class="table table-bordered">
+    <table class="table table-bordered" *ngIf="users; else template">
       <thead>
       <tr>
         <th>Username</th>

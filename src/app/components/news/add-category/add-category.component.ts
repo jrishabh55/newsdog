@@ -12,7 +12,7 @@ export class AddCategoryComponent implements OnInit {
 
   form: FormGroup;
 
-  categories: Array<Category> = [];
+  categories: Array<Category>;
   result: Boolean = null;
   created: Boolean = null;
 

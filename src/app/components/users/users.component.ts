@@ -10,9 +10,9 @@ import {ResponseObject} from '../../api/ResponseObject';
 })
 export class UsersComponent implements OnInit, OnDestroy {
 
-  users: Array<User> = [];
+  users: Array<User>;
   result: Boolean = false;
-  visibleUsers: Array<User> = [];
+  visibleUsers: Array<User>;
   noOfResults: number = 10;
   pages: Array<number> = [1];
   changeUserid: number = null;
@@ -21,7 +21,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   setPage(value) {
     if (value >= 0 && value < this.users.length / this.noOfResults) {
       const first: number = value * this.noOfResults;
-      this.visibleUsers = [];
+      this.visibleUsers = null;
       this.visibleUsers = this.users.slice(first, first + this.noOfResults);
     }
   }
@@ -78,7 +78,7 @@ export class UsersComponent implements OnInit, OnDestroy {
           this.visibleUsers = this.users.slice(0, this.noOfResults);
           this.pages = this.range(this.users.length / this.noOfResults);
           this.result = true;
-          this.setUsersInLS();
+          // this.setUsersInLS();
         }
       });
     } else {
