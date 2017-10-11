@@ -40,7 +40,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let domain of domains">
+          <tr *ngFor="let domain of domains" [class]="delId === domain._id ? 'text-muted' : ''">
             <td>{{ domain._id }}</td>
             <td>{{ domain.domain }}</td>
             <td><a href="javascript:void(0)" (click)="deleteDomain(domain._id)"><i class="icon fa fa-remove"></i></a></td>

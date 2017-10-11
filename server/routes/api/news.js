@@ -134,6 +134,7 @@ const parseNews = (data, cb) => {
 					}
 				}
 				data[i].domain = result.domain;
+				data[i].url = `${result.domain}/api/v1/news/${data[i]._id}/view`;
 			}
 			return cb(data);
 		});

@@ -123,7 +123,7 @@ router.post("/domains", (request, response) => {
 
 router.delete("/domain-:id", (request, response) => {
 	const params = request.params;
-	Domain.delete(params.id, (err) => {
+	Domain.del(params.id, (err) => {
 		if (err) {
 			console.log(err);
 			return response.json(helpers.api_error("Something went wrong. Please try again."));

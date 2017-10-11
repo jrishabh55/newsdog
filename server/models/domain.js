@@ -17,7 +17,7 @@ DomainSchema.statics.all = function (callback) {
 };
 
 DomainSchema.statics.del = function (id, callback) {
-	return this.findOne({_id: id}).remove().exec(callback);
+	return this.deleteOne({_id: id}).exec(callback);
 };
 
 
