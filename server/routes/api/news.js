@@ -75,11 +75,8 @@ router.post("/categories", (request, response) => {
 			response.json(helpers.api_error("Something Went Wrong")).end();
 			return;
 		}
-		data = parseNews(data);
-		response.json(helpers.api_response({news: data})).end();
+		parseNews(data, news =>  response.json(helpers.api_response({news: news})).end());
 	};
-
-
 
 	if (helpers.exists(params.id)) {
 		model.byCategory(params.id, cb);
@@ -96,43 +93,51 @@ router.get("/tags/:id", (request, response) => {
 router.get("/:page?", (request, response) => {
 
 	const params = request.params;
+	let results = 8;
+	if (helpers.exists(request.query.results)) {
+		results = parseInt(request.query.results);
+		if (results === null || isNaN(results)) {
+			results = 8;
+		}
+	}
 	let page = 1;
 	if (helpers.exists(params.page)) {
 		page = +params.page;
 	}
-
-
 	model.all((err, data) => {
 		if (err) response.json(helpers.api_error(err));
 		else {
-
-			data = parseNews(data);
-
-			response.json(helpers.api_response(data));
+			parseNews(data, news => response.json(helpers.api_response(news)));
 		}
-	}).sort({_id: -1}).skip((page - 1) * 8).limit(8);
+	}).sort({_id: -1}).skip((page - 1) * results).limit(results);
 
 });
 
-const parseNews = (data) => {
-	
-	data = JSON.parse(JSON.stringify(data));
-	
-	for (let i = 0; i < data.length; i++) {
-		data[i].style = 0;
-		if(helpers.exists(data[i].thumbnail)) {          
-			if (helpers.exists(data[i].thumbnail.url1)) {
-				data[i].style++;
+const parseNews = (data, cb) => {
+	const Domain = require("../../models/domain");
+	Domain.count().exec(function (err, count) {
+		var random = Math.floor(Math.random() * count);
+		// Again query all users but only fetch one offset by our random #
+		Domain.findOne().select(["domain"]).skip(random).exec((err, result) => {
+			data = JSON.parse(JSON.stringify(data));
+			for (let i = 0; i < data.length; i++) {
+				data[i].style = 0;
+				if(helpers.exists(data[i].thumbnail)) {
+					if (helpers.exists(data[i].thumbnail.url1)) {
+						data[i].style++;
+					}
+					if (helpers.exists(data[i].thumbnail.url2)) {
+						data[i].style++;
+					}
+					if (helpers.exists(data[i].thumbnail.url3)) {
+						data[i].style++;
+					}
+				}
+				data[i].domain = result.domain;
 			}
-			if (helpers.exists(data[i].thumbnail.url2)) {
-				data[i].style++;
-			}
-			if (helpers.exists(data[i].thumbnail.url3)) {
-				data[i].style++;
-			}
-		}
-	}
-	return data;
+			return cb(data);
+		});
+	});
 };
 
 module.exports = router;
