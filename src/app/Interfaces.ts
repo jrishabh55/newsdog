@@ -2,6 +2,7 @@ export interface News {
   _id?: number;
   title: string;
   desc: string;
+  desc_hn: string;
   author: string;
   created_at?: number;
   credits: number;

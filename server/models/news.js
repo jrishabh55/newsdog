@@ -6,6 +6,7 @@ const connection = require("../connection");
 const NewsSchema = new Schema({
 	title: {type: String, required: true, lowercase: true},
 	desc: {type: String, required: true},
+	desc_hn: {type: String, requires: true},
 	author: {type: String, required: true, lowercase: true},
 	hidden: {type: Boolean, default: false},
 	thumbnail: {
@@ -28,7 +29,7 @@ autoIncrement.initialize(connection);
 NewsSchema.plugin(autoIncrement.plugin, "News");
 
 NewsSchema.statics.byId = function (id, callback) {
-	this.findOne({_id: id}, callback);
+	return this.findOne({_id: id}, callback);
 };
 
 NewsSchema.statics.byAuthor = function (author, callback, withHidden = false) {
@@ -64,7 +65,7 @@ NewsSchema.statics.byUserId = function (id, callback) {
 			news_id.push(d.news_id);
 		});
 
-		this.find({})
+		return this.find({})
 			.where("_id")
 			.in(news_id)
 			.exec((err, data) => {

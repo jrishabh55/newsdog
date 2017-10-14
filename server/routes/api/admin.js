@@ -204,6 +204,11 @@ router.post("/news/add", (request, response) => {
 		time = readTime(params.desc);
 	}
 
+	let hindi = null;
+	if (helpers.exists(params.hindi) || parseInt(params.hindi) === 0) {
+		hindi = params.hindi;
+	}
+
 	let data = {
 		title: params.title,
 		author: params.author,
@@ -211,6 +216,7 @@ router.post("/news/add", (request, response) => {
 		category: params.category,
 		tags: params.tags,
 		desc: params.desc,
+		desc_hn: hindi,
 		time: Math.round(time.time),
 		thumbnail: {
 			url1: "",

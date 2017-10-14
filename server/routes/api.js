@@ -10,20 +10,20 @@ const config = require("../config/config");
 //Admin login
 router.post("/admin/login", (request, response) => {
 	let params = request.body;
+
 	if (!helpers.exists(params.username) || !helpers.exists(params.password)) {
-		response.status(401).json(helpers.api_error("Invalid parameters"));
 		console.log("Invalid Parameters");
-		return;
+		return response.status(401).json(helpers.api_error("Invalid parameters"));
 	}
+
 	Admin.byUsername(params.username, (err, user) => {
 		if (err) {
-			response.json(helpers.api_error(err, 200));
+			console.log (err);
+			return response.json(helpers.api_error(err, 200));
 		} else if (!user) {
-			response.json(helpers.api_error("No User", 401));
+			return response.json(helpers.api_error("No User", 401));
 		} else {
 			user.comparePass(params.password, (err, isMatch) => {
-				if (err)
-					throw err;
 				if (isMatch) {
 					const token = jwt.sign(user, config.secret, {expiresIn: 3600});
 					const u = {
@@ -34,9 +34,9 @@ router.post("/admin/login", (request, response) => {
 						created_at: user.created_at
 					};
 
-					response.json(helpers.api_response({token: `Bearer ${token}`, user: u}));
+					return response.json(helpers.api_response({token: `Bearer ${token}`, user: u}));
 				} else {
-					response.json(helpers.api_error("Incorrect Password", 401));
+					return response.json(helpers.api_error("Incorrect Password", 401));
 				}
 			});
 		}
@@ -49,36 +49,26 @@ router.use("/admin", passport.authenticate("jwt", {session: false}), require("./
 router.post("/login", (request, response) => {
 	const params = request.body;
 	if ((!helpers.exists(params.username) && !helpers.exists(params.email)) || !helpers.exists(params.password)) {
-		response.json(helpers.api_error("Invalid Parameters"));
-		response.end();
-		return;
+		return response.json(helpers.api_error("Invalid Parameters")).end();
 	}
 
 	const findBy = (err, user) => {
 		if (err) {
 			console.log(err);
-			response.json(helpers.api_error("Something Went Wrong."));
-			response.end();
-			return;
+			return response.json(helpers.api_error("Something Went Wrong.")).end();
 		}
 		if (!user) {
-			response.json(helpers.api_error("No User find"));
-			response.end();
-			return;
+			return response.json(helpers.api_error("No User find")).end();
 		}
 
 		if (!user.isActive()) {
-			response.json(helpers.api_error("User is not active"));
-			response.end();
-			return;
+			return response.json(helpers.api_error("User is not active")).end();
 		}
 
 		user.comparePass(params.password, (err, isMatch) => {
 			if (err) {
 				console.error(err);
-				response.json(helpers.api_error("Something bad happened"));
-				response.end();
-				return;
+				return response.json(helpers.api_error("Something bad happened")).end();
 			}
 			if (isMatch) {
 
@@ -91,11 +81,9 @@ router.post("/login", (request, response) => {
 					credits: user.credits
 				};
 
-				response.json(helpers.api_response({user: u}));
-				response.end();
+				return response.json(helpers.api_response({user: u})).end();
 			} else {
-				response.json(helpers.api_error("Invalid Password"));
-				response.end();
+				return response.json(helpers.api_error("Invalid Password")).end();
 			}
 		});
 
@@ -136,17 +124,16 @@ router.post("/register", (request, response) => {
 	}
 
 	if (e.length > 0) {
-		response.json(helpers.api_error(e));
-		return;
+		return response.json(helpers.api_error(e));
 	}
 
 	params.ip = request.ip;
 
 	User.add(params, (err, user) => {
 		if (err) {
-			response.json(helpers.api_error(err.message));
+			return response.json(helpers.api_error(err.message));
 		} else {
-			response.json(helpers.api_response(user));
+			return response.json(helpers.api_response(user));
 		}
 	});
 });
@@ -154,21 +141,19 @@ router.post("/register", (request, response) => {
 router.get("/news/:id/view", (request, response) => {
 	const params = request.params;
 	if (!helpers.exists(params.id)) {
-		response.status(422).json(helpers.api_error("Invalid Parameters."), 422).end();
-		return;
+		return response.status(422).json(helpers.api_error("Invalid Parameters."), 422).end();
 	}
 
 	const News = require("../models/news");
 
 	News.byId(params.id, (err, news) => {
 		if (err) {
-			response.status(422).json(helpers.api_error("Invalid Parameters."), 422).end();
-			return;
+			return response.status(422).json(helpers.api_error("Invalid Parameters."), 422).end();
 		}
 		if(news)
-			response.json(helpers.api_response({ news: news })).end();
+			return response.json(helpers.api_response({ news: news })).end();
 		else
-			response.json(helpers.api_error("News not found")).end();
+			return response.json(helpers.api_error("News not found")).end();
 	});
 
 });

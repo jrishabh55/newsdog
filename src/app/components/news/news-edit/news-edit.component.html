@@ -60,7 +60,15 @@
           <fieldset class="form-group">
             <div class="input-group">
               <span class="input-group-addon col-sm-3">News Data</span>
-              <jnex-tinymce [elementId]="'desc'" [data]="news === null ? '' : news.desc"
+              <jnex-tinymce [elementId]="'desc'" [data]="news ? news.desc : ''"
+                            (onEditorKeyUp)="content($event)"></jnex-tinymce>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon col-sm-3">News Data Hindi</span>
+              <jnex-tinymce [elementId]="'desc_hn'" [data]="news ? news.desc_hn : ''"
                             (onEditorKeyUp)="content($event)"></jnex-tinymce>
             </div>
           </fieldset>

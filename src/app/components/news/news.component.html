@@ -63,6 +63,13 @@
 
           <fieldset class="form-group">
             <div class="input-group">
+              <span class="input-group-addon col-sm-3">News Data Hindi</span>
+              <jnex-tinymce [elementId]="'desc_hn'" [data]="news ? news.desc_hn : ''" (onEditorKeyUp)="content_hn($event)"></jnex-tinymce>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <div class="input-group">
               <span class="input-group-addon col-sm-3">Thumbnail 3</span>
               <input type="file" name="thumb1" class="form-control" formControlName="thumb1" accept="image/png, image/jpg, image/jpeg, image/gif"/>
             </div>

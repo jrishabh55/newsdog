@@ -78,13 +78,19 @@ router.post("/categories", (request, response) => {
 		parseNews(data, news =>  response.json(helpers.api_response({news: news})).end());
 	};
 
+	let ne = true;
+	if (helpers.exists(request.query.lang) && request.query.lang === "hindi") {
+		ne = null;
+	}
+
 	if (helpers.exists(params.id)) {
-		model.byCategory(params.id, cb);
+		return model.byCategory(params.id, cb).where({desc_hn: {$ne: ne}});
 	} else if (helpers.exists(params.name)) {
-		model.byCategoryName(params.name, cb);
+		return model.byCategoryName(params.name, cb).where({desc_hn: {$ne: ne}});
 	}
 
 });
+
 router.get("/tags/:id", (request, response) => {
 	// TODO find news via tags API
 	response.json(helpers.api_response("To be built"));
@@ -104,10 +110,20 @@ router.get("/:page?", (request, response) => {
 	if (helpers.exists(params.page)) {
 		page = +params.page;
 	}
+
+	if (helpers.exists(request.query.lang) && request.query.lang === "hindi") {
+		return model.find({desc_hn: {$ne: null}}, (err, data) => {
+			if (err) response.json(helpers.api_error(err));
+			else {
+				parseNews(data, news => response.json(helpers.api_response(news)));
+			}
+		}).sort({_id: -1}).skip((page - 1) * results).limit(results);
+	}
+
 	model.all((err, data) => {
-		if (err) response.json(helpers.api_error(err));
+		if (err) return response.json(helpers.api_error(err));
 		else {
-			parseNews(data, news => response.json(helpers.api_response(news)));
+			return parseNews(data, news => response.json(helpers.api_response(news)));
 		}
 	}).sort({_id: -1}).skip((page - 1) * results).limit(results);
 

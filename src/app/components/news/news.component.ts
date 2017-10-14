@@ -39,6 +39,10 @@ export class NewsComponent implements OnInit, OnDestroy {
     this.newsForm.patchValue({'desc': e});
   }
 
+  content_hn (e: string): void {
+    this.newsForm.patchValue({'desc_hn': e});
+  }
+
   uploadImage (file, callback) {
     const fileRef = firebase.storage().ref().child('/test/' + file.name);
     fileRef.put(file)
@@ -111,7 +115,10 @@ export class NewsComponent implements OnInit, OnDestroy {
       ])),
       desc: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.minLength(1),
+        Validators.minLength(100),
+      ])),
+      desc_hn: new FormControl('', Validators.compose([
+        Validators.minLength(100),
       ])),
       thumb1: new FormControl('', Validators.compose([])),
       thumb2: new FormControl('', Validators.compose([])),

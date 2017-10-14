@@ -51,6 +51,9 @@ export class NewsEditComponent implements OnInit, OnDestroy {
     this.newsForm.patchValue({'desc': e});
   }
 
+  content_hn(e: Event): void {
+    this.newsForm.patchValue({'desc_hn': e});
+  }
 
   uploadImage(file, callback) {
     const fileRef = firebase.storage().ref().child('/test/' + file.name);
@@ -129,7 +132,10 @@ export class NewsEditComponent implements OnInit, OnDestroy {
       ])),
       desc: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.minLength(1),
+        Validators.minLength(100),
+      ])),
+      desc_hn: new FormControl('', Validators.compose([
+        Validators.minLength(1)
       ])),
       thumb1: new FormControl('', Validators.compose([
         // Validators.pattern('https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)'),
@@ -174,6 +180,7 @@ export class NewsEditComponent implements OnInit, OnDestroy {
           this.newsForm.setValue({
             title: this.news.title,
             desc: this.news.desc,
+            desc_hn: this.news.desc_hn,
             author: this.news.author,
             category: this.news.category,
             tags: this.news.tags,
