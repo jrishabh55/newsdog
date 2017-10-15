@@ -39,12 +39,12 @@ NewsSchema.statics.byAuthor = function (author, callback, withHidden = false) {
 NewsSchema.statics.byCategory = function (category, callback) {
 	return this.find({category: category}, callback).sort({_id: -1});
 };
-NewsSchema.statics.byCategoryName = function (category, callback) {
+NewsSchema.statics.byCategoryName = function (category, callback, where) {
 	const Category = require("./category");
 	Category.findOne({name: category}, (err, data) => {
 		if(err) throw err;
 		if(data) {
-			return this.find({category: data._id}, callback).sort({_id: -1});
+			return this.find({category: data._id}, callback).sort({_id: -1}).where(where);
 		}
 		callback("No Category Found");
 	}).sort({_id: -1});

@@ -66,14 +66,13 @@ router.get("/categories", (request, response) => {
 router.post("/categories", (request, response) => {
 	const params = request.body;
 	if (!helpers.exists(params.id) && !helpers.exists(params.name)) {
-		response.status(422).json(helpers.api_error("Invalid Parameters."), 422).end();
+		response.json(helpers.api_error("Invalid Parameters."), 422).end();
 		return;
 	}
 
 	const cb = (err, data) => {
 		if (err) {
-			response.json(helpers.api_error("Something Went Wrong")).end();
-			return;
+			return response.json(helpers.api_error("Something Went Wrong")).end();
 		}
 		parseNews(data, news =>  response.json(helpers.api_response({news: news})).end());
 	};
@@ -86,7 +85,7 @@ router.post("/categories", (request, response) => {
 	if (helpers.exists(params.id)) {
 		return model.byCategory(params.id, cb).where({desc_hn: {$ne: ne}});
 	} else if (helpers.exists(params.name)) {
-		return model.byCategoryName(params.name, cb).where({desc_hn: {$ne: ne}});
+		return model.byCategoryName(params.name, cb, {desc_hn: {$ne: ne}});
 	}
 
 });
