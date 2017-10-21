@@ -6,18 +6,25 @@ const User = require("../../models/users");
 router.get("/", (request, response) => response.send("admins get"));
 
 router.get("/profile", (request, response) => {
-	const user = {
-		name: request.user.name,
-		username: request.user.username,
-		email: request.user.email,
-		credits: request.user.credits,
-		reference: request.user.reference,
-		registered: request.created_at,
-		info: helpers.decrypt(request.user.email, request.user.ref),
-	};
-	response.send(helpers.api_response({
-		user: user
-	}));
+	const UserNews = require("../../models/user_news");
+
+	UserNews.count({user_id: request.user._id}, (err, newsCount) => {
+		const user = {
+			name: request.user.name,
+			username: request.user.username,
+			email: request.user.email,
+			credits: request.user.credits,
+			reference: request.user.reference,
+			registered: request.created_at,
+			info: helpers.decrypt(request.user.email, request.user.ref),
+			news_count: newsCount
+		};
+		response.send(helpers.api_response({
+			user: user
+		}));
+	});
+	// console.log(newsCount);
+
 });
 
 router.post("/withdraw/:type", (request, response) => {
