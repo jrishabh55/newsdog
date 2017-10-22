@@ -62,12 +62,12 @@ export class NewsFetchComponent implements OnInit {
     this.http.get(url)
       .map(res => res.json())
       .subscribe(res => {
-        this.res = res.map((ar => {
-            if (ar.slug == this.slug) {
-              console.log(ar);
-              return ar;
+        res.foreach (r => {
+            if (r === this.slug) {
+                this.res = r;
+                console.log(r);
             }
-        }));
+        });
         console.log(this.res);
         this.working = false;
       });
