@@ -18,6 +18,7 @@ export class NewsFetchComponent implements OnInit {
   added: boolean = false;
   res = null;
   news: {title: string, desc: string, date: string};
+  slug: string;
 
   constructor(private http: Http) {}
 
@@ -41,9 +42,11 @@ export class NewsFetchComponent implements OnInit {
     let apiUrl = '';
     if (type === 'slug') {
       apiUrl = `${protocol}${domain}/wp-json/wp/v2/posts?slug=${slug}`;
+      this.slug = slug;
     } else {
       apiUrl = '';
     }
+    console.log(apiUrl);
     return apiUrl;
   }
 
@@ -59,7 +62,12 @@ export class NewsFetchComponent implements OnInit {
     this.http.get(url)
       .map(res => res.json())
       .subscribe(res => {
-        this.res = res[0];
+        this.res = res.map((ar => {
+            if (ar.slug == this.slug) {
+              console.log(ar);
+              return ar;
+            }
+        }));
         this.working = false;
       });
   }
