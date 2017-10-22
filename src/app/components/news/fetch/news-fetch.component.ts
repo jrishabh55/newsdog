@@ -62,7 +62,7 @@ export class NewsFetchComponent implements OnInit {
     this.http.get(url)
       .map(res => res.json())
       .subscribe(res => {
-        console.log(res);
+        console.log(typeof res);
         res.foreach (r => {
             if (r === this.slug) {
                 this.res = r;
