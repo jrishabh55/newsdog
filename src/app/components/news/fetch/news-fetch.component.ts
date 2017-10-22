@@ -64,13 +64,11 @@ export class NewsFetchComponent implements OnInit {
       .subscribe(res => {
         this.res = res.map((ar => {
             if (ar.slug == this.slug) {
-<<<<<<< HEAD
               console.log(ar);
-=======
->>>>>>> 15d0da920a31fb96005e7be868acf7134b3a5c6a
               return ar;
             }
         }));
+        console.log(this.res);
         this.working = false;
       });
   }
