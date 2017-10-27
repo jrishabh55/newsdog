@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const connection = require("../connection");
 const bcrypt = require("bcrypt");
 const randomString = require("randomstring");
-const WRLogs = require("./withdrawl_logs");
+const WRLogs = require("./withdrawal_logs");
 
 const UsersSchema = new Schema({
 	name: {type: String, required: true, lowercase: true},
