@@ -52,6 +52,9 @@ router.post("/withdraw/:type", (request, response) => {
 	const req = require("../../models/withdrawl_request");
 	let credits;
 	if (request.params.type === "recharge") {
+		if (!helpers.exists(params.number)) {
+			return response.status(422).json(helpers.api_error("Invalid Parameters", 422)).end();
+		}
 		req.create({
 			type: "recharge",
 			user_id: request.user._id,
