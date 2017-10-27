@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const connection = require("../connection");
 const bcrypt = require("bcrypt");
 const randomString = require("randomstring");
+const WRLogs = require("./withdrawl_logs");
 
 const UsersSchema = new Schema({
 	name: {type: String, required: true, lowercase: true},
@@ -41,6 +42,10 @@ UsersSchema.methods.addCredits = function (credits) {
 
 UsersSchema.methods.isActive = function () {
 	return this.activated === true;
+};
+
+UsersSchema.methods.logs = function (cb) {
+	return WRLogs.byUId(this._id, cb);
 };
 
 UsersSchema.statics.byId = function (id, callback) {

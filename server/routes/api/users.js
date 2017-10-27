@@ -138,5 +138,13 @@ router.post("/info", (request, response) => {
 	});
 });
 
+router.get("/logs", (request, response) => {
+	User.byId(request.user._id, (err, user) => {
+		user.logs((err, logs) => {
+			return response.json(helpers.api_response({logs: logs}));
+		});
+	});
+});
+
 router.use("/news", require("./news"));
 module.exports = router;

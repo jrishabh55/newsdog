@@ -15,7 +15,7 @@
             </tr>
           </thead>
           <caption *ngIf="withdrawRequests.length === 0">
-            No requests found.  
+            No requests found.
           </caption>
           <tbody *ngIf="error !== null || error !== undefined; else error">
             <tr *ngFor="let req of withdrawRequests">
@@ -25,9 +25,12 @@
               <td>{{ req.created_at }}</td>
               <td [innerHTML]="req.data | parseObject"></td>
               <td>
-                <a (click)="pay(req._id)" style="color: green;" href="javascript:void()">
-                  <i class="fa fa-exchange"></i>
-                </a>
+                    <button (click)="pay(req._id)" style="color: green;" href="javascript:void()">
+                        <i class="fa fa-exchange"></i>
+                    </button>
+                    <button (click)="cancel(req._id)" style="color: red;" href="javascript:void()">
+                        <i class="fa fa-times"></i>
+                    </button>
               </td>
             </tr>
           </tbody>
@@ -36,5 +39,9 @@
     </div>
   </div>
 </div>
-<ng-template #loading><div class="sk-rotating-plane"></div></ng-template>
-<ng-template #error><caption>{{ error }}</caption></ng-template>
+<ng-template #loading>
+  <div class="sk-rotating-plane"></div>
+</ng-template>
+<ng-template #error>
+  <caption>{{ error }}</caption>
+</ng-template>

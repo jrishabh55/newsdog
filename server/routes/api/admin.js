@@ -515,12 +515,43 @@ router.post("/withdraw/:id", (request, response) => {
 			return response.json(helpers.api_error("Request is already paid.", 422));
 		} else {
 			data.paid = true;
+			data.log(false, `Paid ${data.amount} to user ${data.user_id}`);
 			data.save()
 				.then(() => response.json(helpers.api_response("Saved")))
 				.catch(e => {
 					console.log(e);
 					return response.json(helpers.api_error("Request is already paid.", 422));
 				});
+		}
+	});
+});
+
+router.delete("/withdraw/:id", (request, response) => {
+	const params = request.params;
+	const query = request.query;
+	const info = decodeURIComponent(query.reason);
+	withdrawRequest.findOne({_id: params.id}, (err, data) => {
+		if(err) {
+			console.log(err);
+			return response.json(helpers.api_error("Something went wrong."));
+		}
+		if (data.paid === true) {
+			return response.json(helpers.api_error("Request is already paid.", 422));
+		} else {
+			data.log(false, info);
+			return User.byId(data.user_id, (err, user) => {
+				user.addCredits(data.amount);
+				return user.save().then(() => {
+					withdrawRequest.findOneAndRemove({_id: data._id}, (err) => {
+						if (err) {
+							console.log(err);
+							return response.json(helpers.api_error("Something went wrong."));
+						}
+						// console.log("deleted");
+						response.json(helpers.api_response("Deleted"));
+					});
+				});
+			});
 		}
 	});
 });

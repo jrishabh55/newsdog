@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const autoIncrement = require("mongoose-auto-increment");
 const Schema = mongoose.Schema;
 const connection = require("../connection");
+const log = require("./withdrawal_logs");
 
 const WithdrawalRequest = new Schema({
 	user_id: { type: Number, required: true },
@@ -14,21 +15,31 @@ const WithdrawalRequest = new Schema({
 	updated_at: { type: Date }
 });
 
-// WithdrawalRequest.pre("save", function (next) {
-// 	next();
-// });
-
-
 WithdrawalRequest.statics.byId = function (id, callback) {
-	this.findOne({_id: id}).exec(callback);
+	return this.findOne({_id: id}).exec(callback);
 };
 
 WithdrawalRequest.statics.all = function (callback) {
-	this.find({}).exec(callback);
+	return this.find({}).exec(callback);
 };
 
 WithdrawalRequest.statics.byType = function (type, callback) {
-	this.find({type: type}).exec(callback);
+	return this.find({type: type}).exec(callback);
+};
+
+WithdrawalRequest.methods.log = function (accepted, info) {
+	const data = {
+		withdraw_request_id: this._id,
+		user_id: this.user_id,
+		accepted: accepted,
+		info: info
+	};
+
+	return log.create(data);
+};
+
+WithdrawalRequest.methods.logs = function (cb) {
+	return log.byWRId(this._id, cb);
 };
 
 WithdrawalRequest.methods.pay = function () {

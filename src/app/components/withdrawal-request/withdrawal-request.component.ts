@@ -13,13 +13,34 @@ export class WithdrawalRequestComponent implements OnInit {
   withdrawRequests: Array<WithdrawalRequest>;
   error: string;
 
-  constructor(private api: API) {}
+  constructor(private api: API) { }
 
   pay(id: number) {
     const url = this.api.buildUrl(`withdraw/${id}`);
     this.api.post(url).subscribe(response => {
       if (response.status === 'ok') {
         this.withdrawRequests.every((val, index): boolean => {
+          if (val._id === id) {
+            this.withdrawRequests.splice(index, 1);
+            return false;
+          }
+          return true;
+        });
+        this.result = true;
+      } else {
+        this.result = false;
+      }
+    });
+  }
+
+  cancel(id: number) {
+    let prom = prompt("Reason ?");
+    prom = encodeURIComponent(prom);
+    console.log(prom);
+    const url = this.api.buildUrl(`withdraw/${id}?reason=${prom}`);
+    this.api.del(url).subscribe(response => {
+      if (response.status === 'ok') {
+        this.withdrawRequests.every((val: WithdrawalRequest, index: number): boolean => {
           if (val._id === id) {
             this.withdrawRequests.splice(index, 1);
             return false;

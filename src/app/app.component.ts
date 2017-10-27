@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
    if (this.auth.loggedIn()) {
-     var OneSignal = window['OneSignal'] || [];
+     const OneSignal = window['OneSignal'] || [];
      OneSignal.push(['init', {
        appId: '22015133-3cd8-4c27-b374-f5b7f6e35c6b',
        autoRegister: false,
