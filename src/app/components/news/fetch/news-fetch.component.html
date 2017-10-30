@@ -44,7 +44,7 @@
           <tbody>
           <tr>
             <th>Title</th>
-            <th>{{ res.title.rendered}}</th>
+            <th>{{ res.title}}</th>
           </tr>
           <tr>
             <td>Date</td>
@@ -55,12 +55,8 @@
             <td>{{ res.slug }}</td>
           </tr>
           <tr>
-            <td>Link</td>
-            <td>{{ res.link }}</td>
-          </tr>
-          <tr>
             <td>Content</td>
-            <td innerHTML="{{ res.content.rendered }}"></td>
+            <td innerHTML="{{ res.content }}"></td>
           </tr>
           </tbody>
         </table>

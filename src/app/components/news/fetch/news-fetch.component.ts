@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Http} from '@angular/http';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 @Component({
@@ -17,12 +17,12 @@ export class NewsFetchComponent implements OnInit {
   working: boolean = false;
   added: boolean = false;
   res = null;
-  news: {title: string, desc: string, date: string};
+  news: { title: string, desc: string, date: string };
   slug: string;
 
-  constructor(private http: Http) {}
+  constructor(private http: Http) { }
 
-  convertUri (url: string, type: string): string {
+  convertUri(url: string, type: string): string {
     let part: string;
     let protocol: string;
     if (url.substr(0, 7) === 'http://') {
@@ -50,33 +50,32 @@ export class NewsFetchComponent implements OnInit {
     return apiUrl;
   }
 
-  fetchNews(data: {type: string, url: string}): void {
+  fetchNews(data: { type: string, url: string }): void {
     if (data.type === null) {
       console.log('Not Selected');
       return;
     }
     this.working = true;
-    const url = this.convertUri(data.url, data.type);
+    const url = "https://www.bollywoodpapa.com/api/get_post/";
     this.res = null;
     this.added = false;
-    this.http.get(url)
+    const options = {
+      headers: new Headers()
+    };
+    options.headers.append('Content-Type', "application/x-www-form-urlencoded");
+
+    this.http.post(url, `slug=${data.url}`, options)
       .map(res => res.json())
       .subscribe(res => {
-        // console.log(typeof res);
-        res.forEach (r => {
-        console.log(r.slug, this.slug);
-            if (r === this.slug) {
-                this.res = r;
-                console.log(r);
-            }
-        });
-        console.log(this.res);
+        this.res = res.post;
         this.working = false;
+      }, error => {
+        console.log(JSON.stringify(error.json()));
       });
   }
 
-  addNews (): void {
-    this.news = {title: this.res.title.rendered, desc: this.res.content.rendered, date: this.res.date};
+  addNews(): void {
+    this.news = { title: this.res.title, desc: this.res.content, date: this.res.date };
     this.added = true;
   }
 
@@ -84,7 +83,8 @@ export class NewsFetchComponent implements OnInit {
     this.fetchNewsForm = new FormGroup({
       url: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)'),
+        // Validators.pattern('[-a-zA-Z0-9@:%._\\+~#=]'),
+        // Validators.pattern('https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)'),
       ])),
       type: new FormControl('', Validators.required)
     });
