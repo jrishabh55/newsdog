@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Http, Headers } from '@angular/http';
+import { Contract as API } from '../../../api/Contract';
 import 'rxjs/add/operator/map';
 
 @Component({
@@ -20,7 +20,7 @@ export class NewsFetchComponent implements OnInit {
   news: { title: string, desc: string, date: string };
   slug: string;
 
-  constructor(private http: Http) { }
+  constructor(private api: API) { }
 
   convertUri(url: string, type: string): string {
     let part: string;
@@ -56,21 +56,17 @@ export class NewsFetchComponent implements OnInit {
       return;
     }
     this.working = true;
-    const url = "https://www.bollywoodpapa.com/api/get_post/";
+    // const url = "https://www.bollywoodpapa.com/api/get_post/";
     this.res = null;
     this.added = false;
-    const options = {
-      headers: new Headers()
-    };
-    options.headers.append('Content-Type', "application/x-www-form-urlencoded");
-
-    this.http.post(url, `slug=${data.url}`, options)
-      .map(res => res.json())
+    this.api.post(this.api.buildUrl("fetch"), { slug: data.url })
       .subscribe(res => {
-        this.res = res.post;
         this.working = false;
-      }, error => {
-        console.log(JSON.stringify(error.json()));
+        if (res.status !== "ok") {
+          this.error = res.error;
+          return;
+        }
+        this.res = res.data.post;
       });
   }
 

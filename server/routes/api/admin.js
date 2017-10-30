@@ -556,4 +556,26 @@ router.delete("/withdraw/:id", (request, response) => {
 	});
 });
 
+
+router.post("/fetch", (request, response) => {
+	const params = request.body;
+
+	const axios = require("axios");
+	const url = "https://www.bollywoodpapa.com/api/get_post/";
+	console.log("Called");
+
+	axios({
+		method: "post",
+		url: url,
+		data: "slug="+params.slug,
+		headers: {
+			"Content-type": "application/x-www-form-urlencoded"
+		}
+	}).then(res => {
+		response.json(helpers.api_response(res.data));
+	}).catch(() => {
+		response.json(helpers.api_error("Something Went wrong"));
+	});
+});
+
 module.exports = router;

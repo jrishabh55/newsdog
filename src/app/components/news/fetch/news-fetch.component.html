@@ -3,11 +3,14 @@
     <div class="card">
       <div class="card-header"><i class="icon-note"></i> Fetch</div>
       <div class="card-block">
+          <div class="alert alert-danger" *ngIf="error">
+              {{ error }}
+          </div>
         <form id="fetchNewsForm" (submit)="fetchNews(fetchNewsForm.value)" [formGroup]="fetchNewsForm">
           <fieldset class="form-group">
             <div class="input-group">
-              <span class="input-group-addon col-sm-3">URL</span>
-              <input class="form-control" name="url" placeholder="News url" formControlName="url"/>
+              <span class="input-group-addon col-sm-3">SLUG</span>
+              <input class="form-control" name="url" placeholder="Bollywood papa slug" formControlName="url"/>
               <span class="input-group-addon"><i class="fa fa-wordpress"></i> </span>
             </div>
           </fieldset>
