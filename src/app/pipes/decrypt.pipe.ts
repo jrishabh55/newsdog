@@ -1,4 +1,4 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import * as crypto from 'crypto-js';
 
 @Pipe({
@@ -10,9 +10,13 @@ export class DecryptPipe implements PipeTransform {
     return DecryptPipe.decrypt(key, value);
   }
 
-  private static decrypt (key, text) {
-    const decipher = crypto.AES.decrypt(text, key);
-    return decipher.toString(crypto.enc.Utf8);
+  private static decrypt(key, text) {
+    try {
+      const decipher = crypto.AES.decrypt(text, key);
+      return decipher.toString(crypto.enc.Utf8);
+    } catch (e) {
+      return text;
+    }
   }
 
 

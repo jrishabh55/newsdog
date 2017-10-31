@@ -1,10 +1,12 @@
 const express = require("express");
 const passport = require("passport");
+const path = require("path");
+
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 const helpers = require("../helpers");
 const Admin = require("../models/admins");
 const User = require("../models/users");
-const jwt = require("jsonwebtoken");
 const config = require("../config/config");
 
 //Admin login
@@ -139,6 +141,10 @@ router.post("/register", (request, response) => {
 });
 
 router.get("/news/:id/view", (request, response) => {
+	response.sendFile(path.resolve(__dirname, "..", "news.html"));
+});
+
+router.post("/news/:id/view", (request, response) => {
 	const params = request.params;
 	if (!helpers.exists(params.id)) {
 		return response.status(422).json(helpers.api_error("Invalid Parameters."), 422).end();
@@ -150,8 +156,9 @@ router.get("/news/:id/view", (request, response) => {
 		if (err) {
 			return response.status(422).json(helpers.api_error("Invalid Parameters."), 422).end();
 		}
-		if(news)
+		if(news) {
 			return response.json(helpers.api_response({ news: news })).end();
+		}
 		else
 			return response.json(helpers.api_error("News not found")).end();
 	});

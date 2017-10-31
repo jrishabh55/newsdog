@@ -3,7 +3,7 @@
     <i class="icon-note"></i> List Users
   </div>
   <div class="card-block">
-    <table class="table table-bordered" *ngIf="users; else template">
+    <table class="table table-bordered" *ngIf="visibleUsers; else template">
       <thead>
       <tr>
         <th>Username</th>
@@ -15,9 +15,9 @@
       </thead>
       <tbody>
       <tr *ngFor="let user of visibleUsers">
-        <td>{{ user.username }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.created_at }}</td>
+        <td> {{ user.username }} </td>
+        <td> {{ user.email }} </td>
+        <td> {{ user.created_at }} </td>
         <td>
           <input type="number" id="cr-{{ user._id }}" *ngIf="changeUserid === user._id" [value]="user.credits" (keyup)="enter(user._id, $event)" />
           <a href="javascript:void(0)" *ngIf="changeUserid !== user._id" (click)="changeCredits(user._id)">{{ user.credits }}</a>
