@@ -137,6 +137,7 @@ router.post("/register", (request, response) => {
 		User.byUsername(params.reference, (err, u) => {
 			// TODO Implement reference interface
 			if (err) {
+				console.log(err);
 				return response.json(helpers.api_error(err.message));
 			}
 
@@ -148,20 +149,37 @@ router.post("/register", (request, response) => {
 
 			helpers.getSetting("credits", (err, st) => {
 				if (err) {
+					console.log(err);
 					return response.json(helpers.api_error(err.message));
 				}
 
-				let credits = st.value;
-				if (!st.value) {
-					credits = 50;
+				let credits;
+				if (params.reference) {
+					if (!st) {
+						credits = 50;
+					} else {
+						credits  = st.value;
+					}
+					u.addCredits(credits);
+				} else {
+					credits = 0;
 				}
-				u.addCredits(credits);
 				params.credits = credits;
 				User.add(params, (err, user) => {
 					if (err) {
+						console.log(err);
 						return response.json(helpers.api_error(err.message));
 					} else {
-						return response.json(helpers.api_response(user));
+						let us = {
+							name: user.name,
+							username: user.username,
+							email: user.email,
+							token: user.token,
+							activated: user.activated,
+							credits: user.credits,
+							reference: u.username
+						};
+						return response.json(helpers.api_response(us));
 					}
 				});
 			});
