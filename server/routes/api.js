@@ -131,15 +131,44 @@ router.post("/register", (request, response) => {
 
 	params.ip = request.ip;
 	params.credits = params.reference ? 50 : 0;
-	// TODO Implement reference interface  
 
-	User.add(params, (err, user) => {
-		if (err) {
-			return response.json(helpers.api_error(err.message));
-		} else {
-			return response.json(helpers.api_response(user));
-		}
-	});
+	if (helpers.exists(params.reference)) {
+
+		User.byUsername(params.reference, (err, u) => {
+			// TODO Implement reference interface
+			if (err) {
+				return response.json(helpers.api_error(err.message));
+			}
+
+			if (!u) {
+				params.reference = null;
+			} else {
+				params.reference = u._id;
+			}
+
+			helpers.getSetting("credits", (err, st) => {
+				if (err) {
+					return response.json(helpers.api_error(err.message));
+				}
+
+				let credits = st.value;
+				if (!st.value) {
+					credits = 50;
+				}
+				u.addCredits(credits);
+				params.credits = credits;
+				User.add(params, (err, user) => {
+					if (err) {
+						return response.json(helpers.api_error(err.message));
+					} else {
+						return response.json(helpers.api_response(user));
+					}
+				});
+			});
+
+		});
+
+	}
 });
 
 router.get("/news/:id/view", (request, response) => {

@@ -65,6 +65,11 @@ let helpers = {
 			return value.substr(0, length) + "...";
 		}
 		return value;
+	},
+
+	getSetting: (name, cb) => {
+		const st = require("./models/settings");
+		return st.get(name, cb);
 	}
 };
 

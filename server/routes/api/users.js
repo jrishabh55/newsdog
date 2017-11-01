@@ -3,6 +3,7 @@ const router = express.Router();
 const helpers = require("../../helpers");
 const User = require("../../models/users");
 
+
 router.get("/", (request, response) => response.send("admins get"));
 
 router.get("/profile", (request, response) => {
