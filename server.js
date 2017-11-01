@@ -27,6 +27,10 @@ require("./server/config/passport")(passport);
 //Point static path to dist
 app.use(express.static(path.join(__dirname, "public")));
 
+app.get("/ref/:username", (request, response) => {
+	return response.redirect(`https://play.google.com/store/apps/details?id=com.thestorytab.thestorytab&referrer=utm_source%3Dreferral%26utm_content%3${request.params.username}`);
+});
+
 app.use("/api/v1", api);
 app.use("/api/**", (request, response) => response.status(404).send("Not Found"));
 

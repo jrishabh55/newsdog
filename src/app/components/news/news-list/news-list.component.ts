@@ -1,6 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {News} from '../../../Interfaces';
-import {Contract as API} from '../../../api/Contract';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { News } from '../../../Interfaces';
+import { Contract as API } from '../../../api/Contract';
 
 @Component({
   selector: 'jnex-news-list',
@@ -26,7 +26,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   deleteNews(id: number) {
     const url = this.api.buildUrl(`news/${id}`);
-    //NOTE Not Tested
+
     this.api.del(url).subscribe((response) => {
       if (response.status === 'ok') {
         this.newses.every((val, index): boolean => {

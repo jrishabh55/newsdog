@@ -7,7 +7,8 @@ const WithdrawalLogs = new Schema({
 	withdraw_request_id: { type: Number, required: true, unique: true },
 	user_id: { type: Number, required: true },
 	accepted: { type: Boolean, required: true, default: true },
-	info: { type: String, required: false },
+	info: { type: String, required: true },
+	amount: { type: Number, required: true },
 	created_at: { type: Date, default: Date.now() },
 	updated_at: { type: Date, default: Date.now() }
 });

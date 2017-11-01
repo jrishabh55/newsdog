@@ -515,12 +515,12 @@ router.post("/withdraw/:id", (request, response) => {
 			return response.json(helpers.api_error("Request is already paid.", 422));
 		} else {
 			data.paid = true;
-			data.log(false, `Paid ${data.amount} to user ${data.user_id}`);
+			data.log(true, data.amount, data.type);
 			data.save()
 				.then(() => response.json(helpers.api_response("Saved")))
 				.catch(e => {
 					console.log(e);
-					return response.json(helpers.api_error("Request is already paid.", 422));
+					return response.json(helpers.api_error("Something went wrong. Please hold on.", 422));
 				});
 		}
 	});
@@ -538,7 +538,7 @@ router.delete("/withdraw/:id", (request, response) => {
 		if (data.paid === true) {
 			return response.json(helpers.api_error("Request is already paid.", 422));
 		} else {
-			data.log(false, info);
+			data.log(false, data.amount, info);
 			return User.byId(data.user_id, (err, user) => {
 				user.addCredits(data.amount);
 				return user.save().then(() => {
@@ -547,7 +547,7 @@ router.delete("/withdraw/:id", (request, response) => {
 							console.log(err);
 							return response.json(helpers.api_error("Something went wrong."));
 						}
-						// console.log("deleted");
+						
 						response.json(helpers.api_response("Deleted"));
 					});
 				});

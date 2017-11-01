@@ -130,6 +130,8 @@ router.post("/register", (request, response) => {
 	}
 
 	params.ip = request.ip;
+	params.credits = params.reference ? 50 : 0;
+	// TODO Implement reference interface  
 
 	User.add(params, (err, user) => {
 		if (err) {

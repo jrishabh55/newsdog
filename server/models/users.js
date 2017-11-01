@@ -110,7 +110,7 @@ module.exports.add = function (params, callback) {
 		reference: params.reference ? params.reference : null,
 		token: randomString.generate(64),
 		ip: params.ip,
-		credits: 0,
+		credits: params.credits,
 		activated: true
 	});
 	user.save()

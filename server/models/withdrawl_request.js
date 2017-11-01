@@ -27,12 +27,13 @@ WithdrawalRequest.statics.byType = function (type, callback) {
 	return this.find({type: type}).exec(callback);
 };
 
-WithdrawalRequest.methods.log = function (accepted, info) {
+WithdrawalRequest.methods.log = function (accepted, amount, info) {
 	const data = {
 		withdraw_request_id: this._id,
 		user_id: this.user_id,
 		accepted: accepted,
-		info: info
+		info: info,
+		amount: amount
 	};
 
 	return log.create(data);

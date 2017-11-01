@@ -9,8 +9,8 @@
 </head>
 <body>
     <div class="container">
-        <div class="card bg-primary text-white" id="news">
-            <div class="card-header">
+        <div class="card bg-default text-dark hidden" id="news">
+            <div class="card-header bg-dark text-white">
                 Bollywood Papa News Feed
             </div>
             <div class="card-body">
@@ -20,25 +20,28 @@
 
             </div>
             <div class="card-footer">
-                <a class="btn btn-success ml-auto" id="applink" href="#">Read more</a>
+                <a class="btn btn-success ml-auto" id="applink" href="https://play.google.com/store/apps/details?id=com.thestorytab.thestorytab">Read more</a>
             </div>
         </div>
     </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script>
         const url = $(location).attr("href").split('/');
         const id = url[url.length - 2]
+        String.prototype.removeHtml=function(){
+          return this.replace(/(<([^>]+)>)/ig,"");
+        }
         $.post( "/api/v1/news/"+id+"/view", (response) => {
             if (response.status === 'ok') {
                 console.log(response.data.news);
                 $('#news > .card-body > .card-title').html(response.data.news.title);
-                $('#news > .card-body').append(response.data.news.desc);
-
+                let desc = response.data.news.desc.removeHtml().split(" ").slice(0,30).join(" ");
+                $('#news > .card-body').append( desc+ '...');
             } else {
-
             }
+            $("#news").toggleClass("hidden");
         } );
     </script>
 </body>
