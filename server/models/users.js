@@ -94,7 +94,7 @@ UsersSchema.post("save", function (error, doc, next) {
 		return next(error);
 	}
 });
-User.statics.add = function (params, callback) {
+UsersSchema.statics.add = function (params, callback) {
 
 	this.create({
 		name: params.name,
@@ -117,4 +117,4 @@ User.statics.add = function (params, callback) {
 autoIncrement.initialize(connection);
 UsersSchema.plugin(autoIncrement.plugin, "User");
 
-const User = module.exports = mongoose.model("User", UsersSchema);
+module.exports = mongoose.model("User", UsersSchema);
