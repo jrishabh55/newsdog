@@ -20,12 +20,12 @@ export class ParseObjectPipe implements PipeTransform {
     }
   }
 
-  parse (ret: Object) {
+  parse(ret: Object) {
     let data = '';
     for (let val in ret) {
       if (ret.hasOwnProperty(val)) {
-        val = val.replace('_', ' ');
-        data += `<strong class="text-capitalize">${val}:</strong> ${ret[val]}<br />`;
+        const name = val.replace('_', ' ');
+        data += `<strong class="text-capitalize">${name}:</strong> ${ret[val]}<br />`;
       }
     }
     return data;

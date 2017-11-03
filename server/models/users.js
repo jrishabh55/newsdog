@@ -35,7 +35,7 @@ UsersSchema.methods.comparePass = function (password, callback) {
 };
 
 UsersSchema.methods.addCredits = function (credits) {
-	this.credits += +credits;
+	this.credits += credits;
 	this.save();
 	return true;
 };

@@ -452,7 +452,7 @@ router.patch("/profile", (request, response) => {
 
 router.get("/users", (request, response) => {
 	const crypto = require("crypto");
-	User.find({}).select(["username", "email", "credits", "created_at", "ref"]).exec((err, data) => {
+	User.find({}).select(["username", "email", "credits", "created_at", "ref"]).sort({_id: -1}).exec((err, data) => {
 		if (err)
 			return response.json(helpers.api_error("Some error accrued", 200)).end();
 
@@ -547,7 +547,7 @@ router.delete("/withdraw/:id", (request, response) => {
 							console.log(err);
 							return response.json(helpers.api_error("Something went wrong."));
 						}
-						
+
 						response.json(helpers.api_response("Deleted"));
 					});
 				});
