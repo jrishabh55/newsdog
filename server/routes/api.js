@@ -156,7 +156,7 @@ router.post("/register", (request, response) => {
 				let credits;
 				if (params.reference) {
 					if (!st) {
-						credits = 50;
+						credits = 100;
 					} else {
 						credits  = st.value;
 					}

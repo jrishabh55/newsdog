@@ -94,30 +94,27 @@ UsersSchema.post("save", function (error, doc, next) {
 		return next(error);
 	}
 });
+User.statics.add = function (params, callback) {
+
+	this.create({
+		name: params.name,
+		username: params.username,
+		password: params.password,
+		email: params.email,
+		reference: params.reference || null,
+		token: randomString.generate(64),
+		ip: params.ip,
+		credits: params.credits,
+		activated: true
+	}).then((data) => {
+		callback(undefined, data);
+	}).catch((err) => {
+		callback(err);
+	});
+};
 
 
 autoIncrement.initialize(connection);
 UsersSchema.plugin(autoIncrement.plugin, "User");
 
 const User = module.exports = mongoose.model("User", UsersSchema);
-
-module.exports.add = function (params, callback) {
-	let user = new User({
-		name: params.name,
-		username: params.username,
-		password: params.password,
-		email: params.email,
-		reference: params.reference ? params.reference : null,
-		token: randomString.generate(64),
-		ip: params.ip,
-		credits: params.credits,
-		activated: true
-	});
-	user.save()
-		.then((data) => {
-			callback(undefined, data);
-		})
-		.catch((err) => {
-			callback(err);
-		});
-};
