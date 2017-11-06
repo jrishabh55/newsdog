@@ -141,11 +141,16 @@ router.post("/register", (request, response) => {
 				return response.json(helpers.api_error(err.message));
 			}
 
+			if (helpers.exists(params.username) && !u) {
+				return response.json(helpers.api_error("Reference not found."));
+			}
+
 			if (!u) {
 				params.reference = null;
 			} else {
 				params.reference = u._id;
 			}
+
 
 			helpers.getSetting("credits", (err, st) => {
 				if (err) {

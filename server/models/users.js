@@ -15,7 +15,7 @@ const UsersSchema = new Schema({
 	activated: {type: Boolean, default: true},
 	token: {type: String, required: true, unique: true},
 	created_at: {type: Date, default: Date.now()},
-	reference: {type: String},
+	reference: {type: String, required: false},
 	ip: {type: String, required: true},
 	ref: {type: String, required: false}
 });
