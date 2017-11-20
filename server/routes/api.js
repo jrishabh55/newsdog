@@ -131,67 +131,62 @@ router.post("/register", (request, response) => {
 
 	params.ip = request.ip;
 	params.credits = params.reference ? 50 : 0;
+	User.byUsername(params.reference, (err, u) => {
+		// TODO Implement reference interface
+		if (err) {
+			console.log(err);
+			return response.json(helpers.api_error(err.message));
+		}
 
-	if (helpers.exists(params.reference)) {
+		if (helpers.exists(params.username) && !u) {
+			return response.json(helpers.api_error("Reference not found."));
+		}
 
-		User.byUsername(params.reference, (err, u) => {
-			// TODO Implement reference interface
+		if (!u) {
+			params.reference = null;
+		} else {
+			params.reference = u._id;
+		}
+
+
+		helpers.getSetting("credits", (err, st) => {
 			if (err) {
 				console.log(err);
 				return response.json(helpers.api_error(err.message));
 			}
 
-			if (helpers.exists(params.username) && !u) {
-				return response.json(helpers.api_error("Reference not found."));
-			}
-
-			if (!u) {
-				params.reference = null;
+			let credits;
+			if (params.reference) {
+				if (!st) {
+					credits = 100;
+				} else {
+					credits  = st.value;
+				}
+				u.addCredits(credits);
 			} else {
-				params.reference = u._id;
+				credits = 0;
 			}
-
-
-			helpers.getSetting("credits", (err, st) => {
+			params.credits = credits;
+			User.add(params, (err, user) => {
 				if (err) {
 					console.log(err);
 					return response.json(helpers.api_error(err.message));
-				}
-
-				let credits;
-				if (params.reference) {
-					if (!st) {
-						credits = 100;
-					} else {
-						credits  = st.value;
-					}
-					u.addCredits(credits);
 				} else {
-					credits = 0;
+					let us = {
+						name: user.name,
+						username: user.username,
+						email: user.email,
+						token: user.token,
+						activated: user.activated,
+						credits: user.credits,
+						reference: u.username
+					};
+					return response.json(helpers.api_response(us));
 				}
-				params.credits = credits;
-				User.add(params, (err, user) => {
-					if (err) {
-						console.log(err);
-						return response.json(helpers.api_error(err.message));
-					} else {
-						let us = {
-							name: user.name,
-							username: user.username,
-							email: user.email,
-							token: user.token,
-							activated: user.activated,
-							credits: user.credits,
-							reference: u.username
-						};
-						return response.json(helpers.api_response(us));
-					}
-				});
 			});
-
 		});
 
-	}
+	});
 });
 
 router.get("/news/:id/view", (request, response) => {
