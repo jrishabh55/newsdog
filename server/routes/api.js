@@ -131,7 +131,7 @@ router.post("/register", (request, response) => {
 
 	params.ip = request.ip;
 	params.credits = params.reference ? 50 : 0;
-	
+
 	User.byUsername(params.reference, (err, u) => {
 		// TODO Implement reference interface
 		if (err) {
@@ -179,9 +179,11 @@ router.post("/register", (request, response) => {
 						email: user.email,
 						token: user.token,
 						activated: user.activated,
-						credits: user.credits,
-						reference: u.username
+						credits: user.credits
 					};
+					if (helpers.exists(u)) {
+						us.reference = u.username;
+					}
 					return response.json(helpers.api_response(us));
 				}
 			});
