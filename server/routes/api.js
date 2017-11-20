@@ -131,6 +131,7 @@ router.post("/register", (request, response) => {
 
 	params.ip = request.ip;
 	params.credits = params.reference ? 50 : 0;
+	
 	User.byUsername(params.reference, (err, u) => {
 		// TODO Implement reference interface
 		if (err) {
@@ -138,7 +139,7 @@ router.post("/register", (request, response) => {
 			return response.json(helpers.api_error(err.message));
 		}
 
-		if (helpers.exists(params.username) && !u) {
+		if (helpers.exists(params.reference) && !u) {
 			return response.json(helpers.api_error("Reference not found."));
 		}
 
@@ -187,6 +188,8 @@ router.post("/register", (request, response) => {
 		});
 
 	});
+
+
 });
 
 router.get("/news/:id/view", (request, response) => {
