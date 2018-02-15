@@ -38,7 +38,7 @@
     "express": "^4.16.1",
     "express-session": "^1.15.6",
     "firebase": "^4.3.0",
-    "jsonwebtoken": "^7.4.3",
+    "jsonwebtoken": "^8.0.0",
     "moment": "^2.18.1",
     "mongoose": "^4.11.13",
     "mongoose-auto-increment": "^5.0.1",
