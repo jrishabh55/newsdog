@@ -39,7 +39,7 @@
     "express-session": "^1.15.6",
     "firebase": "^4.3.0",
     "jsonwebtoken": "^7.4.3",
-    "moment": "^2.18.1",
+    "moment": "^2.19.3",
     "mongoose": "^4.11.13",
     "mongoose-auto-increment": "^5.0.1",
     "ng2-charts": "^1.6.0",
