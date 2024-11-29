@@ -54,7 +54,7 @@
     "reading-time": "^1.1.0",
     "rxjs": "^5.4.3",
     "tinymce": "^4.6.7",
-    "webpack": "^3.6.0",
+    "webpack": "^4.0.0",
     "zone.js": "^0.8.18"
   },
   "devDependencies": {
